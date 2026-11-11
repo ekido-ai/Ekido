@@ -1,0 +1,10 @@
+[Unit]
+Description=GPUChain auto-deploy: deploy main when its CI is green
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flock -n /run/gpuchain-autodeploy.lock /opt/gpuchain-ops/gpuchain-autodeploy.sh
+TimeoutStartSec=45min
+Nice=5
