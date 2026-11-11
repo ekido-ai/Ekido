@@ -24,10 +24,15 @@ class ArtifactStore:
         self.root.mkdir(parents=True, exist_ok=True)
 
     def path_for(self, digest: str) -> Path:
-        # The pattern check also blocks path traversal: only hex digits ever reach the filesystem.
-        if not SHA256_PATTERN.match(digest):
+        # fullmatch, not match: with match, "$" also accepts a trailing newline. Only 64 hex digits reach the
+        # filesystem, and the containment check below holds even if that ever changes.
+        if not SHA256_PATTERN.fullmatch(digest):
             raise ArtifactError("not a lowercase SHA-256")
-        return self.root / digest[:2] / digest
+        root = self.root.resolve()
+        path = (root / digest[:2] / digest).resolve()
+        if not path.is_relative_to(root):
+            raise ArtifactError("artifact path escapes the store")
+        return path
 
     def exists(self, digest: str) -> bool:
         return self.path_for(digest).is_file()

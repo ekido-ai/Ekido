@@ -75,6 +75,11 @@ const checkpointStateByType = {
  * Pure reducer. Events with seq <= state.seq are dropped (duplicates or replays),
  * matching the agent-envelope rule in plan.md section E.
  */
+/** Ids from events become object keys; refuse the few that would reach the prototype instead. */
+function safeKey(id: string): boolean {
+  return id !== "__proto__" && id !== "constructor" && id !== "prototype";
+}
+
 export function reduce(state: DashboardState, ev: AnyGpuEvent): DashboardState {
   if (ev.seq <= state.seq) return state;
 
@@ -88,10 +93,12 @@ export function reduce(state: DashboardState, ev: AnyGpuEvent): DashboardState {
 
   switch (ev.type) {
     case "provider.updated":
+      if (!safeKey(ev.payload.provider_id)) break;
       s.providers = { ...s.providers, [ev.payload.provider_id]: ev.payload };
       break;
 
     case "telemetry.sample":
+      if (!safeKey(ev.payload.provider_id)) break;
       s.telemetry = {
         ...s.telemetry,
         [ev.payload.provider_id]: { ...ev.payload, ts: ev.ts },

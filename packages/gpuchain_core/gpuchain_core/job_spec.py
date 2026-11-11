@@ -51,7 +51,7 @@ def spec_problems(spec: dict) -> list[str]:
         try:
             validate_spec_identity(spec)
         except (KeyError, TypeError, ValueError) as exc:
-            problems.append(f"invalid data identity: {exc}")
+            problems.append(f"invalid data identity ({type(exc).__name__})")
     from .protocol_fee import fee_problems
 
     problems.extend(fee_problems(spec))
