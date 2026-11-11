@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/agent_envelope/v1",
+  "title": "AgentEnvelope",
+  "description": "Every agent <-> coordinator WebSocket message. Agent messages are signed by the enrolled worker key. seq must increase per direction and connection; duplicates are dropped. Job-scoped messages with a stale fencing_token get STALE_FENCING_TOKEN and the agent must kill its runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "seq", "ts", "type", "payload"],
+  "properties": {
+    "v": { "const": 1 },
+    "seq": { "type": "integer", "minimum": 0 },
+    "ts": { "type": "string", "format": "date-time" },
+    "worker_id": { "type": "string", "format": "uuid" },
+    "job_id": { "type": ["string", "null"], "format": "uuid" },
+    "attempt": { "type": ["integer", "null"], "minimum": 1 },
+    "fencing_token": { "type": ["integer", "null"], "minimum": 1 },
+    "type": {
+      "enum": [
+        "agent.hello",
+        "agent.heartbeat",
+        "agent.telemetry",
+        "agent.benchmark_result",
+        "run.started",
+        "run.progress",
+        "run.exited",
+        "run.warning",
+        "checkpoint.uploaded",
+        "probe.result",
+        "fault.applied",
+        "cmd.benchmark",
+        "cmd.probe",
+        "cmd.start_run",
+        "cmd.stop_run",
+        "cmd.checkpoint_now",
+        "cmd.inject_fault",
+        "cmd.renew_lease",
+        "error"
+      ],
+      "description": "agent.*, run.*, checkpoint.*, probe.*, fault.* travel agent to coordinator; cmd.* travel coordinator to agent."
+    },
+    "payload": { "type": "object" },
+    "sig": { "type": ["string", "null"], "pattern": "^0x[0-9a-fA-F]{130}$", "description": "Over canonical JSON without `sig`. Required on agent messages." }
+  }
+}

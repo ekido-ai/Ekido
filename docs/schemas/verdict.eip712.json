@@ -1,0 +1,30 @@
+{
+  "description": "EIP-712 typed data for the settlement verdict. Python and Solidity must produce the same digest; shared test vectors will enforce this. sum(amounts) + refund must equal the job budget. amounts are USDC base units. Verifier signatures are submitted with signers in strictly ascending address order.",
+  "domain": {
+    "name": "GPUChainEscrow",
+    "version": "1",
+    "chainId": "<84532 on Base Sepolia, 31337 on Anvil>",
+    "verifyingContract": "<escrow address>"
+  },
+  "primaryType": "Verdict",
+  "types": {
+    "EIP712Domain": [
+      { "name": "name", "type": "string" },
+      { "name": "version", "type": "string" },
+      { "name": "chainId", "type": "uint256" },
+      { "name": "verifyingContract", "type": "address" }
+    ],
+    "Verdict": [
+      { "name": "jobId", "type": "bytes32" },
+      { "name": "passed", "type": "bool" },
+      { "name": "finalCheckpoint", "type": "bytes32" },
+      { "name": "lineageRoot", "type": "bytes32" },
+      { "name": "qualityReport", "type": "bytes32" },
+      { "name": "payees", "type": "address[]" },
+      { "name": "amounts", "type": "uint256[]" },
+      { "name": "refund", "type": "uint256" },
+      { "name": "expiry", "type": "uint64" }
+    ]
+  },
+  "limits": { "maxPayees": 8 }
+}

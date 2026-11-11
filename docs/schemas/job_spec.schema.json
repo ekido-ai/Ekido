@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/job_spec/v1",
+  "title": "JobSpec",
+  "description": "The workload. Immutable for the whole job; its canonical hash is committed on-chain as specHash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "template", "model", "dataset", "lora", "optimizer", "lr_schedule", "logical_batch_size", "total_logical_steps", "max_seq_length", "seed"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "template": { "enum": ["distilbert-lora-agnews/v1", "synthetic-linear/v1"], "description": "Allowlisted workloads only. User code is not accepted." },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "revision"],
+      "properties": {
+        "id": { "type": "string" },
+        "revision": { "type": "string", "description": "Pinned commit, never a branch name." },
+        "base_sha256": { "$ref": "#/$defs/sha256" },
+        "tokenizer_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "split", "fingerprint"],
+      "dependentRequired": {
+        "revision": ["content_sha256", "test_content_sha256"],
+        "content_sha256": ["revision", "test_content_sha256"],
+        "test_content_sha256": ["revision", "content_sha256"]
+      },
+      "properties": {
+        "id": { "type": "string" },
+        "split": { "type": "string" },
+        "fingerprint": { "$ref": "#/$defs/sha256" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "content_sha256": { "$ref": "#/$defs/sha256" },
+        "test_content_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "lora": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["r", "alpha", "dropout", "target_modules"],
+      "properties": {
+        "r": { "type": "integer", "minimum": 1 },
+        "alpha": { "type": "number", "exclusiveMinimum": 0 },
+        "dropout": { "type": "number", "minimum": 0, "maximum": 1 },
+        "target_modules": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "optimizer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "lr", "weight_decay", "betas", "eps", "max_grad_norm"],
+      "properties": {
+        "name": { "const": "adamw" },
+        "lr": { "type": "number", "exclusiveMinimum": 0 },
+        "weight_decay": { "type": "number", "minimum": 0 },
+        "betas": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "eps": { "type": "number", "exclusiveMinimum": 0 },
+        "max_grad_norm": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "lr_schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "warmup_steps"],
+      "description": "A pure function of the logical step, so no scheduler state is checkpointed.",
+      "properties": {
+        "name": { "enum": ["linear_warmup_linear_decay", "constant"] },
+        "warmup_steps": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "logical_batch_size": { "type": "integer", "minimum": 1 },
+    "total_logical_steps": { "type": "integer", "minimum": 1 },
+    "checkpoint_every_steps": { "type": "integer", "minimum": 1 },
+    "train_examples": { "type": "integer", "minimum": 1 },
+    "max_seq_length": { "type": "integer", "minimum": 8 },
+    "seed": { "type": "integer", "minimum": 0 },
+    "provider_terms": {
+      "type": "array", "minItems": 1, "maxItems": 256,
+      "description": "Provider wallet-signed quotes committed by a client-signed job binding before funding.",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["provider_id", "wallet", "price_per_step", "quote"],
+        "properties": {
+          "provider_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "wallet": { "$ref": "#/$defs/address" },
+          "price_per_step": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]{1,6})?$" },
+          "quote": {
+            "type": "object", "additionalProperties": false,
+            "required": ["kind", "job_id", "onchain_job_id", "chain_id", "contract", "provider_id", "wallet", "price_per_step", "workload_hash", "signature"],
+            "properties": {
+              "kind": { "const": "gpuchain.provider_quote.v1" },
+              "job_id": { "type": "string", "format": "uuid" },
+              "onchain_job_id": { "type": "string", "pattern": "^0x[0-9a-f]{64}$" },
+              "chain_id": { "type": "integer", "minimum": 1 },
+              "contract": { "$ref": "#/$defs/address" },
+              "provider_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+              "wallet": { "$ref": "#/$defs/address" },
+              "price_per_step": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]{1,6})?$" },
+              "workload_hash": { "$ref": "#/$defs/sha256" },
+              "signature": { "type": "string", "pattern": "^0x[0-9a-fA-F]{130}$" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "address": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" }
+  }
+}

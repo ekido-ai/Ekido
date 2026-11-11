@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/exec_config/v1",
+  "title": "ExecConfig",
+  "description": "How a job executes on one GPU. May change at recovery. micro_batch * accumulation must equal the job's logical_batch_size (checked in gpuchain_core).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["micro_batch", "accumulation", "amp", "grad_checkpointing", "attention_impl", "loader_workers"],
+  "properties": {
+    "micro_batch": { "type": "integer", "minimum": 1 },
+    "accumulation": { "type": "integer", "minimum": 1 },
+    "amp": { "enum": ["bf16", "fp16", "none"], "description": "Autocast only. Master weights and optimizer state stay FP32." },
+    "grad_checkpointing": { "type": "boolean" },
+    "attention_impl": { "enum": ["sdpa", "eager"] },
+    "loader_workers": { "type": "integer", "minimum": 0 }
+  }
+}

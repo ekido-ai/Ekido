@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/quality_policy/v1",
+  "title": "QualityPolicy",
+  "description": "Acceptance terms fixed before execution; the canonical hash is committed on-chain as policyHash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "metric", "min_absolute", "non_inferiority_margin", "confidence", "bootstrap_resamples", "eval_set_hash", "eval_version_hash"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "metric": { "const": "accuracy", "description": "The decision metric. Macro-F1 and McNemar are reported, not used to decide." },
+    "min_absolute": { "type": "number", "minimum": 0, "maximum": 1, "description": "Floor on the final candidate only; early checkpoints cannot meet it." },
+    "non_inferiority_margin": { "type": "number", "minimum": 0, "maximum": 1, "description": "Passes if the one-sided lower bound of (candidate - reference) is at least -margin." },
+    "probation_margin": { "type": "number", "minimum": 0, "maximum": 0.15, "description": "Optional, and only for mid-training checks. Honest training dips between checkpoints. The final check always uses non_inferiority_margin." },
+    "probation_steps": { "type": "integer", "minimum": 1, "description": "How far a replacement trains before its first check." },
+    "confidence": { "type": "number", "exclusiveMinimum": 0.5, "exclusiveMaximum": 1 },
+    "bootstrap_resamples": { "type": "integer", "minimum": 100 },
+    "eval_set_hash": { "$ref": "#/$defs/sha256" },
+    "eval_version_hash": { "$ref": "#/$defs/sha256", "description": "Hash of evaluation code, image, tokenizer and data." },
+    "eval_every_steps": { "type": ["integer", "null"], "minimum": 1, "description": "null evaluates only at handover and final." }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}
