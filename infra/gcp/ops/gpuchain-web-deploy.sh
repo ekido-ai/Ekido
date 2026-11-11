@@ -10,6 +10,10 @@ TGZ="${1:?usage: gpuchain-web-deploy.sh <web-src.tgz> [deps]}"
 DEPS="${2:-}"
 STAMP=$(date +%Y%m%d-%H%M%S)
 FAILED=0
+# Logs live in a root-owned folder: in /tmp, a file left by another user can't be overwritten even by root
+# (fs.protected_regular), which silently skipped a build once.
+LOGS=/var/log/gpuchain-deploy
+mkdir -p "$LOGS"
 as() { sudo -u gpuchain "$@"; }
 deploy() {
   local dir=$1 svc=$2; shift 2
@@ -31,11 +35,11 @@ deploy() {
   fi
   as tar -xzf "$TGZ" "${files[@]}"
   local ok=yes
-  if [ "$DEPS" = deps ] && ! as npm ci --no-audit --no-fund > "/tmp/npm-ci-$svc.log" 2>&1; then
-    ok=no; echo "npm ci FAILED"; tail -20 "/tmp/npm-ci-$svc.log"
+  if [ "$DEPS" = deps ] && ! as npm ci --no-audit --no-fund > "$LOGS/npm-ci-$svc.log" 2>&1; then
+    ok=no; echo "npm ci FAILED"; tail -20 "$LOGS/npm-ci-$svc.log"
   fi
-  if [ "$ok" = yes ] && ! as env "$@" npx next build > "/tmp/build-$svc.log" 2>&1; then
-    ok=no; echo "BUILD FAILED"; tail -20 "/tmp/build-$svc.log"
+  if [ "$ok" = yes ] && ! as env "$@" npx next build > "$LOGS/build-$svc.log" 2>&1; then
+    ok=no; echo "BUILD FAILED"; tail -20 "$LOGS/build-$svc.log"
   fi
   if [ "$ok" = yes ]; then
     systemctl restart "$svc"
