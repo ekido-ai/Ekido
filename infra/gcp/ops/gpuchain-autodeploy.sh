@@ -6,8 +6,9 @@
 # reads the commit, its check runs and the source archive anonymously. Nothing in GitHub can reach into this server.
 #
 # Python services: refused while a job is unfinished (retried next run); the previous code is backed up and put back
-# if /readyz isn't ready within a minute. Web apps: rebuilt with the previous build kept and restored on failure.
-# Changes to dependencies (package.json, package-lock.json, pyproject.toml) are never deployed automatically.
+# if /readyz isn't ready within a minute. Web apps: rebuilt with the previous build kept and restored on failure; a
+# changed lockfile is installed with npm ci (CI has already built with it), keeping the old node_modules to put back.
+# Python dependency changes (pyproject.toml) are never deployed automatically.
 set -euo pipefail
 
 REPO="${GPUCHAIN_REPO:-piyushgargog/GPUChain}"
@@ -64,19 +65,19 @@ DIRS=(apps/coordinator/gpuchain_coordinator packages/gpuchain_core/gpuchain_core
 WEB_LIVE=/opt/GPUchain/.cache/sepolia-release/apps/web-combined
 same() { diff -rq --strip-trailing-cr --exclude tests --exclude __pycache__ "$1" "$2" >/dev/null 2>&1; }
 
-# Dependencies are never changed automatically: if the lockfile differs from the one installed, stop here.
-for d in "$WEB_LIVE" /opt/GPUchain/apps/web-combined; do
-  same "$SRC/apps/web-combined/package-lock.json" "$d/package-lock.json" || fail "${SHA:0:7}: web dependencies changed; deploy this one by hand (see RUNBOOK.md)"
-done
+# Python dependencies are never changed automatically.
 if [ -f "$APP/apps/coordinator/pyproject.toml" ] && ! same "$SRC/apps/coordinator/pyproject.toml" "$APP/apps/coordinator/pyproject.toml"; then
   fail "${SHA:0:7}: coordinator dependencies changed; deploy this one by hand (see RUNBOOK.md)"
 fi
 
-PY=no; WEB=no
+PY=no; WEB=no; DEPS=no
 for d in "${DIRS[@]}"; do same "$SRC/$d" "$APP/$d" || PY=yes; done
 same "$SRC/infra/gcp/sepolia_coordinator.py" "$APP/infra/gcp/sepolia_coordinator.py" || PY=yes
 for p in src public next.config.ts; do same "$SRC/apps/web-combined/$p" "$WEB_LIVE/$p" || WEB=yes; done
-log "${SHA:0:7}: python=$PY web=$WEB"
+for d in "$WEB_LIVE" /opt/GPUchain/apps/web-combined; do
+  for f in package.json package-lock.json; do same "$SRC/apps/web-combined/$f" "$d/$f" || { WEB=yes; DEPS=yes; }; done
+done
+log "${SHA:0:7}: python=$PY web=$WEB web_dependencies=$DEPS"
 [ "$DRY" = 1 ] && { log "dry run: stopping before any change"; exit 0; }
 
 # ── 3. Python services ──────────────────────────────────────────────────────
@@ -106,8 +107,13 @@ fi
 # ── 4. Web apps ─────────────────────────────────────────────────────────────
 if [ "$WEB" = yes ]; then
   TGZ="$STATE/web-src.tgz"
-  tar -czf "$TGZ" -C "$SRC/apps/web-combined" src next.config.ts public
-  bash "$WEB_DEPLOY" "$TGZ" || fail "${SHA:0:7}: web build failed; previous build kept"
+  if [ "$DEPS" = yes ]; then
+    tar -czf "$TGZ" -C "$SRC/apps/web-combined" src next.config.ts public package.json package-lock.json
+    bash "$WEB_DEPLOY" "$TGZ" deps || fail "${SHA:0:7}: web dependencies or build failed; previous version kept"
+  else
+    tar -czf "$TGZ" -C "$SRC/apps/web-combined" src next.config.ts public
+    bash "$WEB_DEPLOY" "$TGZ" || fail "${SHA:0:7}: web build failed; previous build kept"
+  fi
   log "${SHA:0:7}: web apps deployed"
 fi
 
