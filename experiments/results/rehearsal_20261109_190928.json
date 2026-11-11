@@ -1,0 +1,72 @@
+{
+  "mode": "REAL GPU",
+  "chain": "local Anvil",
+  "what": "Automated, no dashboard. Not gate G5.",
+  "rounds": 3,
+  "clean": 3,
+  "rows": [
+    {
+      "kill_step": 53,
+      "problems": [],
+      "job_id": "34071313-67b0-4563-b862-8ae91b74bc61",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 290,
+      "kill_to_detected_s": 0.1,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 50,
+        "Provider B (capped 768 MiB)": 350
+      },
+      "earned_usdc": {
+        "Provider A": 0.05,
+        "Provider B (capped 768 MiB)": 1.05,
+        "Provider C (capped 300 MiB)": 0.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 87,
+      "problems": [],
+      "job_id": "4eee3db5-1fd5-4788-9a23-e1606a815ce4",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 287,
+      "kill_to_detected_s": 0.2,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 75,
+        "Provider B (capped 768 MiB)": 325
+      },
+      "earned_usdc": {
+        "Provider A": 0.075,
+        "Provider B (capped 768 MiB)": 0.975,
+        "Provider C (capped 300 MiB)": 0.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 103,
+      "problems": [],
+      "job_id": "e330c84d-13b6-455a-a1dd-7c73567a1a2d",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 292,
+      "kill_to_detected_s": 0.23,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 100,
+        "Provider B (capped 768 MiB)": 300
+      },
+      "earned_usdc": {
+        "Provider A": 0.1,
+        "Provider B (capped 768 MiB)": 0.9,
+        "Provider C (capped 300 MiB)": 0.0,
+        "Provider P (injected fault)": 0.0
+      }
+    }
+  ]
+}

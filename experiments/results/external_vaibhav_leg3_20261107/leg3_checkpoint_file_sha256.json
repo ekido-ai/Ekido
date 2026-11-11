@@ -1,0 +1,7 @@
+{
+  "evidence.json": "61a30e06de047a779282242092ba7a8a07a0cc184c7a723a7e0f8e0caf0c127c",
+  "manifest.json": "f82debc14a39cb37b37cf1c33e6cb9614ec8f9637f4bb8f96558c682e444d440",
+  "optimizer.safetensors": "0a23c2a25426ccc7548c60ccbc373d1cad2fa4403fabdbccdf6b974236eeeaba",
+  "spec.json": "4f516fa5f6be7152b3e0a6a841c95f1674272ed0dfd43cdd08d2dd3646dbe628",
+  "trainable.safetensors": "a0c184bed3bc51fb73a6247eadaa224767ace88a3690b6da52c5c3ae31ee85e7"
+}

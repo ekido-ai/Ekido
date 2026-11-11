@@ -1,0 +1,396 @@
+{
+  "started_at": "2026-11-04T16:31:37.172961+00:00",
+  "args": {
+    "logical_batch": 32,
+    "micro_batch": 32,
+    "max_len": 128,
+    "lr": 0.0005,
+    "steps": 300,
+    "eval_every": 50,
+    "sweep_steps": 10,
+    "caps_mib": [
+      3072,
+      2048,
+      1536,
+      1024,
+      768,
+      512
+    ],
+    "train_examples": 20000,
+    "eval_examples": 7600,
+    "cpu_eval_examples": 500,
+    "seed": 1337,
+    "only": [
+      "env",
+      "sweep",
+      "cap",
+      "curve"
+    ],
+    "out": "experiments/results"
+  },
+  "environment": {
+    "python": "3.12.16",
+    "torch": "2.15.0+cu132",
+    "cuda_build": "13.2",
+    "cuda_available": true,
+    "transformers": "5.22.1",
+    "peft": "0.21.2",
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "total_mib": 6144,
+    "compute_capability": "8.6",
+    "bf16_reported_default": true,
+    "bf16_native": true,
+    "arch_list": [
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ]
+  },
+  "data": {
+    "train_examples": 20000,
+    "eval_examples": 7600,
+    "max_len": 128,
+    "token_length_p50": 51,
+    "token_length_p99": 126,
+    "truncated_fraction": 0.0088
+  },
+  "memory_sweep": [
+    {
+      "amp": "bf16",
+      "micro_batch": 32,
+      "accumulation": 1,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 16.178,
+      "peak_allocated_mib": 956.8,
+      "peak_reserved_mib": 996.0
+    },
+    {
+      "amp": "bf16",
+      "micro_batch": 16,
+      "accumulation": 2,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 15.521,
+      "peak_allocated_mib": 661.2,
+      "peak_reserved_mib": 704.0
+    },
+    {
+      "amp": "bf16",
+      "micro_batch": 8,
+      "accumulation": 4,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 11.595,
+      "peak_allocated_mib": 516.5,
+      "peak_reserved_mib": 544.0
+    },
+    {
+      "amp": "bf16",
+      "micro_batch": 4,
+      "accumulation": 8,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 5.76,
+      "peak_allocated_mib": 434.2,
+      "peak_reserved_mib": 454.0
+    },
+    {
+      "amp": "bf16",
+      "micro_batch": 2,
+      "accumulation": 16,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 2.817,
+      "peak_allocated_mib": 399.0,
+      "peak_reserved_mib": 424.0
+    },
+    {
+      "amp": "bf16",
+      "micro_batch": 1,
+      "accumulation": 32,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 1.427,
+      "peak_allocated_mib": 383.5,
+      "peak_reserved_mib": 394.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 32,
+      "accumulation": 1,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 14.51,
+      "peak_allocated_mib": 957.2,
+      "peak_reserved_mib": 1002.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 16,
+      "accumulation": 2,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 14.403,
+      "peak_allocated_mib": 661.2,
+      "peak_reserved_mib": 704.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 8,
+      "accumulation": 4,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 11.257,
+      "peak_allocated_mib": 516.5,
+      "peak_reserved_mib": 544.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 4,
+      "accumulation": 8,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 4.841,
+      "peak_allocated_mib": 435.4,
+      "peak_reserved_mib": 452.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 2,
+      "accumulation": 16,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 2.628,
+      "peak_allocated_mib": 399.0,
+      "peak_reserved_mib": 424.0
+    },
+    {
+      "amp": "fp16",
+      "micro_batch": 1,
+      "accumulation": 32,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 1.376,
+      "peak_allocated_mib": 383.5,
+      "peak_reserved_mib": 394.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 32,
+      "accumulation": 1,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 6.809,
+      "peak_allocated_mib": 1272.3,
+      "peak_reserved_mib": 1382.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 16,
+      "accumulation": 2,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 6.554,
+      "peak_allocated_mib": 775.3,
+      "peak_reserved_mib": 836.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 8,
+      "accumulation": 4,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 6.123,
+      "peak_allocated_mib": 519.1,
+      "peak_reserved_mib": 586.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 4,
+      "accumulation": 8,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 5.592,
+      "peak_allocated_mib": 401.0,
+      "peak_reserved_mib": 420.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 2,
+      "accumulation": 16,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 3.358,
+      "peak_allocated_mib": 336.8,
+      "peak_reserved_mib": 386.0
+    },
+    {
+      "amp": "none",
+      "micro_batch": 1,
+      "accumulation": 32,
+      "steps": 10,
+      "status": "ok",
+      "logical_steps_per_s": 1.662,
+      "peak_allocated_mib": 310.0,
+      "peak_reserved_mib": 336.0
+    }
+  ],
+  "memory_cap": [
+    {
+      "cap_mib": 3072,
+      "first_fitting_micro_batch": 32,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "ok",
+          "peak_reserved_mib": 996.0
+        }
+      ]
+    },
+    {
+      "cap_mib": 2048,
+      "first_fitting_micro_batch": 32,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "ok",
+          "peak_reserved_mib": 996.0
+        }
+      ]
+    },
+    {
+      "cap_mib": 1536,
+      "first_fitting_micro_batch": 32,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "ok",
+          "peak_reserved_mib": 996.0
+        }
+      ]
+    },
+    {
+      "cap_mib": 1024,
+      "first_fitting_micro_batch": 32,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "ok",
+          "peak_reserved_mib": 996.0
+        }
+      ]
+    },
+    {
+      "cap_mib": 768,
+      "first_fitting_micro_batch": 16,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "oom",
+          "error": "CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 6.00 GiB of which 4.20 GiB is free. Inclu"
+        },
+        {
+          "micro_batch": 16,
+          "status": "ok",
+          "peak_reserved_mib": 692.0
+        }
+      ]
+    },
+    {
+      "cap_mib": 512,
+      "first_fitting_micro_batch": 4,
+      "tried": [
+        {
+          "micro_batch": 32,
+          "status": "oom",
+          "error": "CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 6.00 GiB of which 4.47 GiB is free. Inclu"
+        },
+        {
+          "micro_batch": 16,
+          "status": "oom",
+          "error": "CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 6.00 GiB of which 4.46 GiB is free. Inclu"
+        },
+        {
+          "micro_batch": 8,
+          "status": "oom",
+          "error": "CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 6.00 GiB of which 4.46 GiB is free. Inclu"
+        },
+        {
+          "micro_batch": 4,
+          "status": "ok",
+          "peak_reserved_mib": 452.0
+        }
+      ]
+    }
+  ],
+  "training_curve": {
+    "steps": 300,
+    "micro_batch": 32,
+    "logical_batch": 32,
+    "trainable_params": 741124,
+    "total_params": 67697672,
+    "train_seconds": 21.86,
+    "logical_steps_per_s": 13.722,
+    "peak_reserved_mib": 1108.0,
+    "curve": [
+      {
+        "step": 0,
+        "accuracy": 0.24947368421052632,
+        "loss": null
+      },
+      {
+        "step": 50,
+        "accuracy": 0.88,
+        "loss": 0.3281,
+        "changed_vs_previous": 5246
+      },
+      {
+        "step": 100,
+        "accuracy": 0.8851315789473684,
+        "loss": 0.2512,
+        "changed_vs_previous": 559
+      },
+      {
+        "step": 150,
+        "accuracy": 0.8968421052631579,
+        "loss": 0.2206,
+        "changed_vs_previous": 345
+      },
+      {
+        "step": 200,
+        "accuracy": 0.8985526315789474,
+        "loss": 0.2245,
+        "changed_vs_previous": 297
+      },
+      {
+        "step": 250,
+        "accuracy": 0.901578947368421,
+        "loss": 0.3502,
+        "changed_vs_previous": 167
+      },
+      {
+        "step": 300,
+        "accuracy": 0.9032894736842105,
+        "loss": 0.1255,
+        "changed_vs_previous": 149
+      }
+    ],
+    "final_accuracy": 0.9032894736842105,
+    "largest_drop_between_evals": 0.0017,
+    "steps_between_evals": 50,
+    "eval_examples": 7600,
+    "half_width_95_unpaired": 0.00665,
+    "eval_seconds_gpu": 27.97,
+    "eval_seconds_cpu": 24.97,
+    "eval_examples_cpu": 500,
+    "cpu_vs_gpu_prediction_flips": 0,
+    "checkpoint_trainable_bytes": 2968608,
+    "checkpoint_optimizer_bytes": 5942040,
+    "checkpoint_save_seconds": 0.012
+  },
+  "finished_at": "2026-11-04T16:37:31.284868+00:00"
+}

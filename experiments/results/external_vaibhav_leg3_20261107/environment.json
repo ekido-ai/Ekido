@@ -1,0 +1,51 @@
+{
+  "python": "3.13.16",
+  "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "nvidia_smi": "name, memory.total [MiB], compute_cap, driver_version\nTesla T4, 15360 MiB, 7.5, 580.178.04\nTesla T4, 15360 MiB, 7.5, 580.178.04",
+  "torch": "2.11.0+cu130",
+  "cuda_runtime": "13.0",
+  "cuda_available": true,
+  "gpu": "Tesla T4",
+  "compute_capability": [
+    7,
+    5
+  ],
+  "versions": {
+    "accelerate": "1.15.0",
+    "datasets": "4.8.5",
+    "eth-account": "0.14.0",
+    "jsonschema": "4.26.0",
+    "numpy": "2.1.3",
+    "peft": "0.21.2",
+    "safetensors": "0.8.0",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2"
+  },
+  "leg2": {
+    "folder": "/kaggle/input/datasets/vaibhavparmar7002/gpuchain-leg-2-checkpoint-rtx-3060/leg2_3060_20261107",
+    "evidence_type": "REAL GPU RUN",
+    "machine": {
+      "device": "cuda",
+      "torch": "2.14.1+cu130",
+      "python": "3.14.5",
+      "os": "Windows-11-10.0.26300-SP0",
+      "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "compute_capability": "8.6",
+      "memory_mib": 6143,
+      "cuda": "13.0"
+    },
+    "from_step": 150,
+    "to_step": 200,
+    "file_sha256": {
+      "SHA256SUMS.json": "8caaed67a3a7b653c9722e020e7a72174e104d538956700c44d0aec5299c09c8",
+      "evidence.json": "531a40701f9ace1a70da180ad661d769fc82712e718737710d21a4d83901c2e9",
+      "manifest.json": "a742b3bdfb958711771aa41f4cdd7126b778e839d455456c2c6a14cc861a3b82",
+      "optimizer.safetensors": "6519a8a4b86fc6b6f65002261563d28b80b2fe0df4d2b80d61d81a42c063c57c",
+      "spec.json": "5686fef7e86f24edda19a1898c11362bd60b31acfd166c61c9ed476e6369ae81",
+      "trainable.safetensors": "eed5836766c363414a72d408421e69b13b31f38424e1ebb6d71bc16d959bd109"
+    }
+  },
+  "cross_gpu": true,
+  "command": "/usr/bin/python3 experiments/cross_gpu_resume.py resume --checkpoint /kaggle/input/datasets/vaibhavparmar7002/gpuchain-leg-2-checkpoint-rtx-3060/leg2_3060_20261107 --out /kaggle/working/back_home --steps 50 --micro-batch 16 --device cuda",
+  "exit_code": 0
+}

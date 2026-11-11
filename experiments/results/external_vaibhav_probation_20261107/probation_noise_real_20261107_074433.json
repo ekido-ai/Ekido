@@ -1,0 +1,837 @@
+{
+  "experiment": "probation_noise",
+  "created_at": "2026-11-07T07:44:33.490805+00:00",
+  "device": "cuda",
+  "workload": "distilbert-lora-agnews, the real model",
+  "torch": "2.11.0+cu130",
+  "environment": {
+    "python": "3.13.16",
+    "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "cuda": "13.0",
+    "gpu": "Tesla T4",
+    "compute_capability": [
+      7,
+      5
+    ],
+    "memory_mib": 14911
+  },
+  "identity": {
+    "model_id": "distilbert-base-uncased",
+    "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+    "dataset_id": "fancyzhx/ag_news",
+    "dataset_revision": "eb185aade064a813bc0b7f42de02595523103ca4",
+    "train_sha256": "65011f777297ca64a4aa14715f9ec33ecdd63fad0afcc070141349fe0584a0e5",
+    "train_rows": 120000,
+    "test_sha256": "510142e216f159859263fd45690bf1b24e460dc3bd5ac6e36df124f7fd7de092",
+    "test_rows": 7600
+  },
+  "eval_examples": 2000,
+  "seeds": 5,
+  "honest_runs_only": true,
+  "by_margin": {
+    "0.02": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    },
+    "0.03": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    },
+    "0.05": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    },
+    "0.08": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    },
+    "0.1": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    },
+    "0.15": {
+      "pairs_refused": 0,
+      "of_pairs": 75,
+      "seeds_with_any_refusal": 0,
+      "of_seeds": 5,
+      "refused_at_steps": []
+    }
+  },
+  "worst": {
+    "seed": 4,
+    "reference_step": 275,
+    "candidate_step": 300,
+    "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+    "reference_accuracy": 0.9035,
+    "candidate_accuracy": 0.893,
+    "difference": -0.0105,
+    "ci_lower": -0.0165
+  },
+  "rows": [
+    {
+      "seed": 1,
+      "reference_step": 25,
+      "candidate_step": 50,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8225,
+      "candidate_accuracy": 0.8815,
+      "difference": 0.059,
+      "ci_lower": 0.0445
+    },
+    {
+      "seed": 1,
+      "reference_step": 50,
+      "candidate_step": 75,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8815,
+      "candidate_accuracy": 0.8895,
+      "difference": 0.008,
+      "ci_lower": -0.0005
+    },
+    {
+      "seed": 1,
+      "reference_step": 75,
+      "candidate_step": 100,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8895,
+      "candidate_accuracy": 0.897,
+      "difference": 0.0075,
+      "ci_lower": 0.0005
+    },
+    {
+      "seed": 1,
+      "reference_step": 100,
+      "candidate_step": 125,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.897,
+      "candidate_accuracy": 0.9025,
+      "difference": 0.0055,
+      "ci_lower": -0.0015
+    },
+    {
+      "seed": 1,
+      "reference_step": 125,
+      "candidate_step": 150,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9025,
+      "candidate_accuracy": 0.8985,
+      "difference": -0.004,
+      "ci_lower": -0.011
+    },
+    {
+      "seed": 1,
+      "reference_step": 150,
+      "candidate_step": 175,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8985,
+      "candidate_accuracy": 0.8885,
+      "difference": -0.01,
+      "ci_lower": -0.0155
+    },
+    {
+      "seed": 1,
+      "reference_step": 175,
+      "candidate_step": 200,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8885,
+      "candidate_accuracy": 0.897,
+      "difference": 0.0085,
+      "ci_lower": 0.003
+    },
+    {
+      "seed": 1,
+      "reference_step": 200,
+      "candidate_step": 225,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.897,
+      "candidate_accuracy": 0.902,
+      "difference": 0.005,
+      "ci_lower": -0.0005
+    },
+    {
+      "seed": 1,
+      "reference_step": 225,
+      "candidate_step": 250,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.902,
+      "candidate_accuracy": 0.9015,
+      "difference": -0.0005,
+      "ci_lower": -0.006
+    },
+    {
+      "seed": 1,
+      "reference_step": 250,
+      "candidate_step": 275,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9015,
+      "candidate_accuracy": 0.903,
+      "difference": 0.0015,
+      "ci_lower": -0.004
+    },
+    {
+      "seed": 1,
+      "reference_step": 275,
+      "candidate_step": 300,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.903,
+      "candidate_accuracy": 0.8995,
+      "difference": -0.0035,
+      "ci_lower": -0.008
+    },
+    {
+      "seed": 1,
+      "reference_step": 300,
+      "candidate_step": 325,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.8995,
+      "difference": 0.0,
+      "ci_lower": -0.0035
+    },
+    {
+      "seed": 1,
+      "reference_step": 325,
+      "candidate_step": 350,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.9055,
+      "difference": 0.006,
+      "ci_lower": 0.0015
+    },
+    {
+      "seed": 1,
+      "reference_step": 350,
+      "candidate_step": 375,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9055,
+      "candidate_accuracy": 0.9035,
+      "difference": -0.002,
+      "ci_lower": -0.0045
+    },
+    {
+      "seed": 1,
+      "reference_step": 375,
+      "candidate_step": 400,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9035,
+      "candidate_accuracy": 0.902,
+      "difference": -0.0015,
+      "ci_lower": -0.0055
+    },
+    {
+      "seed": 2,
+      "reference_step": 25,
+      "candidate_step": 50,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8385,
+      "candidate_accuracy": 0.8675,
+      "difference": 0.029,
+      "ci_lower": 0.017
+    },
+    {
+      "seed": 2,
+      "reference_step": 50,
+      "candidate_step": 75,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8675,
+      "candidate_accuracy": 0.8815,
+      "difference": 0.014,
+      "ci_lower": 0.0035
+    },
+    {
+      "seed": 2,
+      "reference_step": 75,
+      "candidate_step": 100,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8815,
+      "candidate_accuracy": 0.8745,
+      "difference": -0.007,
+      "ci_lower": -0.015
+    },
+    {
+      "seed": 2,
+      "reference_step": 100,
+      "candidate_step": 125,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8745,
+      "candidate_accuracy": 0.8925,
+      "difference": 0.018,
+      "ci_lower": 0.0105
+    },
+    {
+      "seed": 2,
+      "reference_step": 125,
+      "candidate_step": 150,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8925,
+      "candidate_accuracy": 0.8945,
+      "difference": 0.002,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 2,
+      "reference_step": 150,
+      "candidate_step": 175,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8945,
+      "candidate_accuracy": 0.894,
+      "difference": -0.0005,
+      "ci_lower": -0.0085
+    },
+    {
+      "seed": 2,
+      "reference_step": 175,
+      "candidate_step": 200,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.894,
+      "candidate_accuracy": 0.8965,
+      "difference": 0.0025,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 2,
+      "reference_step": 200,
+      "candidate_step": 225,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8965,
+      "candidate_accuracy": 0.901,
+      "difference": 0.0045,
+      "ci_lower": -0.002
+    },
+    {
+      "seed": 2,
+      "reference_step": 225,
+      "candidate_step": 250,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.901,
+      "candidate_accuracy": 0.9035,
+      "difference": 0.0025,
+      "ci_lower": -0.0025
+    },
+    {
+      "seed": 2,
+      "reference_step": 250,
+      "candidate_step": 275,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9035,
+      "candidate_accuracy": 0.9015,
+      "difference": -0.002,
+      "ci_lower": -0.008
+    },
+    {
+      "seed": 2,
+      "reference_step": 275,
+      "candidate_step": 300,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9015,
+      "candidate_accuracy": 0.9015,
+      "difference": 0.0,
+      "ci_lower": -0.004
+    },
+    {
+      "seed": 2,
+      "reference_step": 300,
+      "candidate_step": 325,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9015,
+      "candidate_accuracy": 0.9025,
+      "difference": 0.001,
+      "ci_lower": -0.0035
+    },
+    {
+      "seed": 2,
+      "reference_step": 325,
+      "candidate_step": 350,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9025,
+      "candidate_accuracy": 0.902,
+      "difference": -0.0005,
+      "ci_lower": -0.0045
+    },
+    {
+      "seed": 2,
+      "reference_step": 350,
+      "candidate_step": 375,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.902,
+      "candidate_accuracy": 0.9015,
+      "difference": -0.0005,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 2,
+      "reference_step": 375,
+      "candidate_step": 400,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9015,
+      "candidate_accuracy": 0.9015,
+      "difference": 0.0,
+      "ci_lower": -0.002
+    },
+    {
+      "seed": 3,
+      "reference_step": 25,
+      "candidate_step": 50,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8375,
+      "candidate_accuracy": 0.869,
+      "difference": 0.0315,
+      "ci_lower": 0.0195
+    },
+    {
+      "seed": 3,
+      "reference_step": 50,
+      "candidate_step": 75,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.869,
+      "candidate_accuracy": 0.8925,
+      "difference": 0.0235,
+      "ci_lower": 0.015
+    },
+    {
+      "seed": 3,
+      "reference_step": 75,
+      "candidate_step": 100,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8925,
+      "candidate_accuracy": 0.891,
+      "difference": -0.0015,
+      "ci_lower": -0.0075
+    },
+    {
+      "seed": 3,
+      "reference_step": 100,
+      "candidate_step": 125,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.891,
+      "candidate_accuracy": 0.894,
+      "difference": 0.003,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 3,
+      "reference_step": 125,
+      "candidate_step": 150,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.894,
+      "candidate_accuracy": 0.8985,
+      "difference": 0.0045,
+      "ci_lower": -0.0025
+    },
+    {
+      "seed": 3,
+      "reference_step": 150,
+      "candidate_step": 175,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8985,
+      "candidate_accuracy": 0.894,
+      "difference": -0.0045,
+      "ci_lower": -0.0095
+    },
+    {
+      "seed": 3,
+      "reference_step": 175,
+      "candidate_step": 200,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.894,
+      "candidate_accuracy": 0.897,
+      "difference": 0.003,
+      "ci_lower": -0.0025
+    },
+    {
+      "seed": 3,
+      "reference_step": 200,
+      "candidate_step": 225,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.897,
+      "candidate_accuracy": 0.8975,
+      "difference": 0.0005,
+      "ci_lower": -0.0045
+    },
+    {
+      "seed": 3,
+      "reference_step": 225,
+      "candidate_step": 250,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8975,
+      "candidate_accuracy": 0.897,
+      "difference": -0.0005,
+      "ci_lower": -0.006
+    },
+    {
+      "seed": 3,
+      "reference_step": 250,
+      "candidate_step": 275,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.897,
+      "candidate_accuracy": 0.903,
+      "difference": 0.006,
+      "ci_lower": 0.0005
+    },
+    {
+      "seed": 3,
+      "reference_step": 275,
+      "candidate_step": 300,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.903,
+      "candidate_accuracy": 0.907,
+      "difference": 0.004,
+      "ci_lower": -0.0015
+    },
+    {
+      "seed": 3,
+      "reference_step": 300,
+      "candidate_step": 325,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.907,
+      "candidate_accuracy": 0.8985,
+      "difference": -0.0085,
+      "ci_lower": -0.0145
+    },
+    {
+      "seed": 3,
+      "reference_step": 325,
+      "candidate_step": 350,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8985,
+      "candidate_accuracy": 0.9065,
+      "difference": 0.008,
+      "ci_lower": 0.0035
+    },
+    {
+      "seed": 3,
+      "reference_step": 350,
+      "candidate_step": 375,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9065,
+      "candidate_accuracy": 0.904,
+      "difference": -0.0025,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 3,
+      "reference_step": 375,
+      "candidate_step": 400,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.904,
+      "candidate_accuracy": 0.9035,
+      "difference": -0.0005,
+      "ci_lower": -0.0025
+    },
+    {
+      "seed": 4,
+      "reference_step": 25,
+      "candidate_step": 50,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.7955,
+      "candidate_accuracy": 0.869,
+      "difference": 0.0735,
+      "ci_lower": 0.0585
+    },
+    {
+      "seed": 4,
+      "reference_step": 50,
+      "candidate_step": 75,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.869,
+      "candidate_accuracy": 0.8875,
+      "difference": 0.0185,
+      "ci_lower": 0.011
+    },
+    {
+      "seed": 4,
+      "reference_step": 75,
+      "candidate_step": 100,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8875,
+      "candidate_accuracy": 0.891,
+      "difference": 0.0035,
+      "ci_lower": -0.0055
+    },
+    {
+      "seed": 4,
+      "reference_step": 100,
+      "candidate_step": 125,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.891,
+      "candidate_accuracy": 0.8825,
+      "difference": -0.0085,
+      "ci_lower": -0.0155
+    },
+    {
+      "seed": 4,
+      "reference_step": 125,
+      "candidate_step": 150,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8825,
+      "candidate_accuracy": 0.898,
+      "difference": 0.0155,
+      "ci_lower": 0.007
+    },
+    {
+      "seed": 4,
+      "reference_step": 150,
+      "candidate_step": 175,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.898,
+      "candidate_accuracy": 0.8965,
+      "difference": -0.0015,
+      "ci_lower": -0.007
+    },
+    {
+      "seed": 4,
+      "reference_step": 175,
+      "candidate_step": 200,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8965,
+      "candidate_accuracy": 0.901,
+      "difference": 0.0045,
+      "ci_lower": -0.0015
+    },
+    {
+      "seed": 4,
+      "reference_step": 200,
+      "candidate_step": 225,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.901,
+      "candidate_accuracy": 0.9025,
+      "difference": 0.0015,
+      "ci_lower": -0.0035
+    },
+    {
+      "seed": 4,
+      "reference_step": 225,
+      "candidate_step": 250,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9025,
+      "candidate_accuracy": 0.898,
+      "difference": -0.0045,
+      "ci_lower": -0.012
+    },
+    {
+      "seed": 4,
+      "reference_step": 250,
+      "candidate_step": 275,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.898,
+      "candidate_accuracy": 0.9035,
+      "difference": 0.0055,
+      "ci_lower": 0.0
+    },
+    {
+      "seed": 4,
+      "reference_step": 275,
+      "candidate_step": 300,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9035,
+      "candidate_accuracy": 0.893,
+      "difference": -0.0105,
+      "ci_lower": -0.0165
+    },
+    {
+      "seed": 4,
+      "reference_step": 300,
+      "candidate_step": 325,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.893,
+      "candidate_accuracy": 0.8995,
+      "difference": 0.0065,
+      "ci_lower": -0.0005
+    },
+    {
+      "seed": 4,
+      "reference_step": 325,
+      "candidate_step": 350,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.8995,
+      "difference": 0.0,
+      "ci_lower": -0.004
+    },
+    {
+      "seed": 4,
+      "reference_step": 350,
+      "candidate_step": 375,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.9025,
+      "difference": 0.003,
+      "ci_lower": -0.001
+    },
+    {
+      "seed": 4,
+      "reference_step": 375,
+      "candidate_step": 400,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9025,
+      "candidate_accuracy": 0.902,
+      "difference": -0.0005,
+      "ci_lower": -0.0035
+    },
+    {
+      "seed": 5,
+      "reference_step": 25,
+      "candidate_step": 50,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8175,
+      "candidate_accuracy": 0.877,
+      "difference": 0.0595,
+      "ci_lower": 0.047
+    },
+    {
+      "seed": 5,
+      "reference_step": 50,
+      "candidate_step": 75,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.877,
+      "candidate_accuracy": 0.8885,
+      "difference": 0.0115,
+      "ci_lower": 0.0015
+    },
+    {
+      "seed": 5,
+      "reference_step": 75,
+      "candidate_step": 100,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8885,
+      "candidate_accuracy": 0.8875,
+      "difference": -0.001,
+      "ci_lower": -0.0085
+    },
+    {
+      "seed": 5,
+      "reference_step": 100,
+      "candidate_step": 125,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8875,
+      "candidate_accuracy": 0.8975,
+      "difference": 0.01,
+      "ci_lower": 0.0025
+    },
+    {
+      "seed": 5,
+      "reference_step": 125,
+      "candidate_step": 150,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8975,
+      "candidate_accuracy": 0.896,
+      "difference": -0.0015,
+      "ci_lower": -0.0085
+    },
+    {
+      "seed": 5,
+      "reference_step": 150,
+      "candidate_step": 175,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.896,
+      "candidate_accuracy": 0.897,
+      "difference": 0.001,
+      "ci_lower": -0.0055
+    },
+    {
+      "seed": 5,
+      "reference_step": 175,
+      "candidate_step": 200,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.897,
+      "candidate_accuracy": 0.896,
+      "difference": -0.001,
+      "ci_lower": -0.006
+    },
+    {
+      "seed": 5,
+      "reference_step": 200,
+      "candidate_step": 225,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.896,
+      "candidate_accuracy": 0.8995,
+      "difference": 0.0035,
+      "ci_lower": 0.0
+    },
+    {
+      "seed": 5,
+      "reference_step": 225,
+      "candidate_step": 250,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.901,
+      "difference": 0.0015,
+      "ci_lower": -0.003
+    },
+    {
+      "seed": 5,
+      "reference_step": 250,
+      "candidate_step": 275,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.901,
+      "candidate_accuracy": 0.8995,
+      "difference": -0.0015,
+      "ci_lower": -0.0045
+    },
+    {
+      "seed": 5,
+      "reference_step": 275,
+      "candidate_step": 300,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8995,
+      "candidate_accuracy": 0.902,
+      "difference": 0.0025,
+      "ci_lower": -0.0015
+    },
+    {
+      "seed": 5,
+      "reference_step": 300,
+      "candidate_step": 325,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.902,
+      "candidate_accuracy": 0.9025,
+      "difference": 0.0005,
+      "ci_lower": -0.003
+    },
+    {
+      "seed": 5,
+      "reference_step": 325,
+      "candidate_step": 350,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.9025,
+      "candidate_accuracy": 0.901,
+      "difference": -0.0015,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 5,
+      "reference_step": 350,
+      "candidate_step": 375,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.901,
+      "candidate_accuracy": 0.8985,
+      "difference": -0.0025,
+      "ci_lower": -0.005
+    },
+    {
+      "seed": 5,
+      "reference_step": 375,
+      "candidate_step": 400,
+      "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+      "reference_accuracy": 0.8985,
+      "candidate_accuracy": 0.8995,
+      "difference": 0.001,
+      "ci_lower": -0.001
+    }
+  ]
+}

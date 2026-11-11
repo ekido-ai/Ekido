@@ -1,0 +1,20 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "suite": "quality-smoke",
+  "starting_available_mb": 4308,
+  "error": null,
+  "results": [
+    {
+      "suite": "contracts",
+      "exit_code": 0,
+      "seconds": 1.4,
+      "log": "contracts.log"
+    },
+    {
+      "suite": "quality-smoke",
+      "exit_code": 0,
+      "seconds": 16.054,
+      "log": "quality-smoke.log"
+    }
+  ]
+}

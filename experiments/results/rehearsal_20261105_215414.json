@@ -1,0 +1,169 @@
+{
+  "mode": "SYNTHETIC CPU",
+  "chain": "local Anvil",
+  "what": "Automated, no dashboard. Not gate G5.",
+  "rounds": 8,
+  "clean": 8,
+  "rows": [
+    {
+      "kill_step": 425,
+      "problems": [],
+      "job_id": "c5e907db-6502-4014-a332-b113b1143eb0",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 59,
+      "kill_to_detected_s": 0.22,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 400,
+        "Provider B": 5600
+      },
+      "earned_usdc": {
+        "Provider A": 0.4,
+        "Provider B": 16.8,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 700,
+      "problems": [],
+      "job_id": "6b0d837d-39f7-4a53-bae5-3a4f5863f850",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 59,
+      "kill_to_detected_s": 0.17,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1200,
+        "Provider B": 4800
+      },
+      "earned_usdc": {
+        "Provider A": 1.2,
+        "Provider B": 14.4,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 825,
+      "problems": [],
+      "job_id": "fb09dd13-5835-424a-9df0-b747e039ae74",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 61,
+      "kill_to_detected_s": 0.25,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1000,
+        "Provider B": 5000
+      },
+      "earned_usdc": {
+        "Provider A": 1.0,
+        "Provider B": 15.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 1100,
+      "problems": [],
+      "job_id": "c6800d41-fc39-440a-8447-01f0d32929b7",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 60,
+      "kill_to_detected_s": 0.11,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1400,
+        "Provider B": 4600
+      },
+      "earned_usdc": {
+        "Provider A": 1.4,
+        "Provider B": 13.8,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 425,
+      "problems": [],
+      "job_id": "2001401b-def9-490a-a5b0-bd52283836b1",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 60,
+      "kill_to_detected_s": 0.32,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 800,
+        "Provider B": 5200
+      },
+      "earned_usdc": {
+        "Provider A": 0.8,
+        "Provider B": 15.6,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 700,
+      "problems": [],
+      "job_id": "8c15cff2-4d50-4ed5-b7c1-1905ea62974a",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 61,
+      "kill_to_detected_s": 0.18,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1000,
+        "Provider B": 5000
+      },
+      "earned_usdc": {
+        "Provider A": 1.0,
+        "Provider B": 15.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 825,
+      "problems": [],
+      "job_id": "87679a25-fcac-4583-a138-8f86d2a9bf0d",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 59,
+      "kill_to_detected_s": 0.17,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1200,
+        "Provider B": 4800
+      },
+      "earned_usdc": {
+        "Provider A": 1.2,
+        "Provider B": 14.4,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 1100,
+      "problems": [],
+      "job_id": "ad1144f3-5dbf-408e-a673-23ce3d032f57",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 61,
+      "kill_to_detected_s": 0.27,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1400,
+        "Provider B": 4600
+      },
+      "earned_usdc": {
+        "Provider A": 1.4,
+        "Provider B": 13.8,
+        "Provider P (injected fault)": 0.0
+      }
+    }
+  ]
+}

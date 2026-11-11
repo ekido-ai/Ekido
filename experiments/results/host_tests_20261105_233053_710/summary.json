@@ -1,0 +1,74 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "status": "INTERRUPTED_AT_USER_REQUEST",
+  "all_suites_passed": false,
+  "results": [
+    {
+      "suite": "core",
+      "tests": 130,
+      "seconds": 0.328,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "runtime",
+      "tests": 48,
+      "seconds": 22.857,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "agent",
+      "tests": 22,
+      "seconds": 0.142,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "coordinator",
+      "tests": 125,
+      "seconds": 7.419,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "verifier",
+      "tests": 20,
+      "seconds": 14.116,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "contracts",
+      "passed": 85,
+      "failed": 0,
+      "complete": true
+    },
+    {
+      "suite": "e2e-recovery",
+      "tests": 5,
+      "seconds": 140.652,
+      "complete": true,
+      "passed": true
+    },
+    {
+      "suite": "e2e-faults",
+      "complete": false,
+      "completed_ok_lines": 5,
+      "status": "INTERRUPTED_AT_USER_REQUEST"
+    }
+  ],
+  "not_reached": [
+    "post-fix e2e-settlement",
+    "e2e-chain"
+  ],
+  "not_run": [
+    "dashboard tests",
+    "typecheck",
+    "frontend build",
+    "GPU",
+    "Docker",
+    "testnet"
+  ],
+  "cleanup": "Exact runner PID 1304 and child tree stopped; no project .cache Python/Anvil/Forge processes remained."
+}
