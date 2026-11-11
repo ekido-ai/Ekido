@@ -1,0 +1,64 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Local sharing bundles
+*.bundle
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Foundry
+contracts/lib/
+contracts/out/
+contracts/cache/
+contracts/broadcast/*/31337/
+
+# Models, data and runtime artifacts
+.cache/
+hf_cache/
+data/
+artifacts/
+checkpoints/
+*.safetensors
+*.pt
+*.pth
+*.bin
+
+# Logs and editors
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local demo details
+experiments/demo_stack_info.json
+
+# Forge deploy transaction logs
+contracts/broadcast/
+
+# Personal working notes, kept on the laptop only
+CLAUDE.md
+HANDOFF.md
+TASKS.md
+.vsls.json
+docs/agent-handoff.md
+docs/repo-review-2026-11-05.md
+docs/vaibhav-repo-review-2026-11-05.md
