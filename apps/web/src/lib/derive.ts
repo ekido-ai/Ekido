@@ -160,6 +160,7 @@ export function derive(events: FeedEvent[], fallbackTotal = 400): View {
         break;
       }
       case "compile.decision":
+        if (d.provider_id === "__proto__" || d.provider_id === "constructor" || d.provider_id === "prototype") break;
         view.decisions[d.provider_id] = { decision: d.decision, code: d.code, reason: d.reason, exec: d.exec };
         break;
       case "recovery.step":

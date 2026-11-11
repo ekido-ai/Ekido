@@ -84,7 +84,7 @@ jobs:
         working-directory: contracts
     steps:
       - uses: actions/checkout@v7
-      - uses: foundry-rs/foundry-toolchain@v1
+      - uses: foundry-rs/foundry-toolchain@dba66c27052e63476d886f22216e119ba7e615bf # v1
       - name: Fetch libraries
         run: |
           git clone --depth 1 --branch v1.17.0 https://github.com/foundry-rs/forge-std lib/forge-std

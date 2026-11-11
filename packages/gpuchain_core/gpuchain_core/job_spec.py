@@ -51,7 +51,10 @@ def spec_problems(spec: dict) -> list[str]:
         try:
             validate_spec_identity(spec)
         except (KeyError, TypeError, ValueError) as exc:
-            problems.append(f"invalid data identity: {exc}")
+            # Our own ValueErrors name the field and never echo input, so they're safe and useful to show.
+            # Anything else (a missing key, a wrong type) reports only its kind.
+            detail = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
+            problems.append(f"invalid data identity: {detail}")
     from .protocol_fee import fee_problems
 
     problems.extend(fee_problems(spec))
