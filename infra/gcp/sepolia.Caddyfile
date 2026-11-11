@@ -1,0 +1,10 @@
+# Replace only the existing DuckDNS site block at cutover.
+gpuchain.duckdns.org {
+	encode gzip
+	handle_path /sepolia/* {
+		reverse_proxy 127.0.0.1:8003
+	}
+	handle {
+		reverse_proxy 127.0.0.1:3101
+	}
+}

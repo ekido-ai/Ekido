@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Daily backup of the Base Sepolia coordinator: a consistent SQLite snapshot (online backup API, safe while
+# the service runs) and an append-only copy of the content-addressed artifacts. Nothing is ever deleted here.
+# The local copy protects against corruption and mistakes. If /etc/gpuchain/backup.env sets BACKUP_BUCKET, each
+# snapshot and any new artifacts are also copied to that Cloud Storage bucket, which protects against losing the disk.
+# The upload never deletes anything in the bucket; the bucket's own lifecycle rule expires old DB snapshots.
+set -euo pipefail
+BACKUP_BUCKET=""
+[ -f /etc/gpuchain/backup.env ] && . /etc/gpuchain/backup.env
+SRC_DB=/var/lib/gpuchain-sepolia/jobs.db
+SRC_ART=/var/lib/gpuchain-sepolia/artifacts
+DEST=/var/backups/gpuchain
+STAMP=$(date -u +%Y%m%d-%H%M%S)
+mkdir -p "$DEST/db" "$DEST/artifacts"
+python3 - "$SRC_DB" "$DEST/db/jobs-$STAMP.db" <<'PY'
+import sqlite3, sys
+src = sqlite3.connect(f"file:{sys.argv[1]}?mode=ro", uri=True)
+dst = sqlite3.connect(sys.argv[2])
+src.backup(dst)
+ok = dst.execute("PRAGMA integrity_check").fetchone()[0]
+dst.close(); src.close()
+if ok != "ok":
+    raise SystemExit(f"backup failed its integrity check: {ok}")
+PY
+gzip -9 "$DEST/db/jobs-$STAMP.db"
+# Artifacts are named by their hash and never change, so copying only new files is enough.
+cp -rn "$SRC_ART/." "$DEST/artifacts/" 2>/dev/null || true
+echo "backup ok: $DEST/db/jobs-$STAMP.db.gz ($(du -sh "$DEST" | cut -f1) total)"
+if [ -n "$BACKUP_BUCKET" ]; then
+  GCLOUD=$(command -v gcloud || echo /snap/bin/gcloud)
+  "$GCLOUD" storage cp --no-clobber "$DEST/db/jobs-$STAMP.db.gz" "gs://$BACKUP_BUCKET/db/"
+  # rsync without --delete-unmatched-destination-objects: only adds new artifacts.
+  "$GCLOUD" storage rsync --recursive "$DEST/artifacts" "gs://$BACKUP_BUCKET/artifacts"
+  echo "off-site ok: gs://$BACKUP_BUCKET/db/jobs-$STAMP.db.gz"
+fi

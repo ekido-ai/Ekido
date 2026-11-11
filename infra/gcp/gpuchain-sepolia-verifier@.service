@@ -1,0 +1,25 @@
+[Unit]
+Description=GPUChain Base Sepolia verifier %i
+After=gpuchain-sepolia.service
+Requires=gpuchain-sepolia.service
+
+[Service]
+DynamicUser=true
+User=gpuchain-sepolia-verifier-%i
+WorkingDirectory=/opt/gpuchain-sepolia
+StateDirectory=gpuchain-sepolia-verifier-%i
+StateDirectoryMode=0700
+Environment=PYTHONPATH=/opt/gpuchain-sepolia/workers/verifier:/opt/gpuchain-sepolia/workers/runtime:/opt/gpuchain-sepolia/packages/gpuchain_core
+Environment=VERIFIER_STATE_DIR=/var/lib/gpuchain-sepolia-verifier-%i
+Environment=HF_HOME=/var/lib/gpuchain-sepolia-verifier-%i/huggingface
+EnvironmentFile=/etc/gpuchain/sepolia-verifier-%i.env
+ExecStart=/opt/gpuchain-sepolia/venv/bin/python -m gpuchain_verifier.worker --coordinator http://127.0.0.1:8003 --device cpu
+Restart=on-failure
+RestartSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

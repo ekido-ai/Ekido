@@ -1,0 +1,17 @@
+[Unit]
+Description=GPUChain bounded hosted demo controls
+After=gpuchain-stack.service
+Requires=gpuchain-stack.service
+
+[Service]
+User=gpuchain
+WorkingDirectory=/opt/GPUchain
+ExecStart=/opt/GPUchain/.cache/cpu-venv/bin/python /opt/GPUchain/infra/gcp/demo_control.py
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
