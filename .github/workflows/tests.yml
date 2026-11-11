@@ -68,6 +68,8 @@ jobs:
           cache: npm
           cache-dependency-path: apps/web-combined/package-lock.json
       - run: npm ci
+      - name: Generate Next.js route types
+        run: npx next typegen
       - run: npx tsc --noEmit
       - run: npx vitest run
 
