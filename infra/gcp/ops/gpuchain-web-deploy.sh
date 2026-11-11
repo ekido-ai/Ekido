@@ -1,34 +1,58 @@
 #!/usr/bin/env bash
-# Rebuilds both web apps from a source archive (src, next.config.ts, public). Used by gpuchain-autodeploy.sh and by hand.
-#   gpuchain-web-deploy.sh /path/to/web-src.tgz
-# The previous src, .next and next.config.ts are kept outside the app. A service is restarted only after its build
-# succeeds; on a failed build the previous files are put back. Exits non-zero if any build failed.
+# Rebuilds both web apps from a source archive. Used by gpuchain-autodeploy.sh and by hand.
+#   gpuchain-web-deploy.sh /path/to/web-src.tgz          # src, next.config.ts, public
+#   gpuchain-web-deploy.sh /path/to/web-src.tgz deps     # also package.json and package-lock.json, then npm ci
+# The previous src, .next, next.config.ts (and with deps, node_modules and the package files) are kept outside the
+# app, never deleted. A service is restarted only after its build succeeds; otherwise everything is put back.
+# Exits non-zero if any app failed.
 set -u
-TGZ="${1:?usage: gpuchain-web-deploy.sh <web-src.tgz>}"
+TGZ="${1:?usage: gpuchain-web-deploy.sh <web-src.tgz> [deps]}"
+DEPS="${2:-}"
 STAMP=$(date +%Y%m%d-%H%M%S)
 FAILED=0
+as() { sudo -u gpuchain "$@"; }
 deploy() {
   local dir=$1 svc=$2; shift 2
   echo "== $svc in $dir"
   cd "$dir" || { FAILED=1; return; }
   local bk="/opt/GPUchain-web-backups/$svc"
   mkdir -p "$bk" && chown gpuchain "$bk" /opt/GPUchain-web-backups
-  for old in src.bak-* src.failed-* .next.bak-* .next.failed-* next.config.ts.bak-*; do [ -e "$old" ] && sudo -u gpuchain mv "$old" "$bk/"; done
-  sudo -u gpuchain cp -a src "$bk/src.bak-$STAMP"
-  sudo -u gpuchain cp -a .next "$bk/.next.bak-$STAMP"
-  sudo -u gpuchain cp next.config.ts "$bk/next.config.ts.bak-$STAMP"
-  sudo -u gpuchain mv src "$bk/src.replaced-$STAMP"
-  sudo -u gpuchain tar -xzf "$TGZ" src next.config.ts public
-  if sudo -u gpuchain env "$@" npx next build > "/tmp/build-$svc.log" 2>&1; then
+  for old in src.bak-* src.failed-* .next.bak-* .next.failed-* next.config.ts.bak-*; do [ -e "$old" ] && as mv "$old" "$bk/"; done
+  as cp -a src "$bk/src.bak-$STAMP"
+  as cp -a .next "$bk/.next.bak-$STAMP"
+  as cp next.config.ts "$bk/next.config.ts.bak-$STAMP"
+  as mv src "$bk/src.replaced-$STAMP"
+  local files=(src next.config.ts public)
+  if [ "$DEPS" = deps ]; then
+    as cp package.json "$bk/package.json.bak-$STAMP"
+    as cp package-lock.json "$bk/package-lock.json.bak-$STAMP"
+    as mv node_modules "$bk/node_modules.bak-$STAMP"
+    files+=(package.json package-lock.json)
+  fi
+  as tar -xzf "$TGZ" "${files[@]}"
+  local ok=yes
+  if [ "$DEPS" = deps ] && ! as npm ci --no-audit --no-fund > "/tmp/npm-ci-$svc.log" 2>&1; then
+    ok=no; echo "npm ci FAILED"; tail -20 "/tmp/npm-ci-$svc.log"
+  fi
+  if [ "$ok" = yes ] && ! as env "$@" npx next build > "/tmp/build-$svc.log" 2>&1; then
+    ok=no; echo "BUILD FAILED"; tail -20 "/tmp/build-$svc.log"
+  fi
+  if [ "$ok" = yes ]; then
     systemctl restart "$svc"
     sleep 4
     echo "built and restarted: $(systemctl is-active "$svc")"
   else
     FAILED=1
-    echo "BUILD FAILED, restoring"; tail -20 "/tmp/build-$svc.log"
-    sudo -u gpuchain mv src "$bk/src.failed-$STAMP"; sudo -u gpuchain cp -a "$bk/src.bak-$STAMP" src
-    sudo -u gpuchain mv .next "$bk/.next.failed-$STAMP"; sudo -u gpuchain cp -a "$bk/.next.bak-$STAMP" .next
-    sudo -u gpuchain cp "$bk/next.config.ts.bak-$STAMP" next.config.ts
+    echo "restoring the previous version"
+    as mv src "$bk/src.failed-$STAMP"; as cp -a "$bk/src.bak-$STAMP" src
+    as mv .next "$bk/.next.failed-$STAMP"; as cp -a "$bk/.next.bak-$STAMP" .next
+    as cp "$bk/next.config.ts.bak-$STAMP" next.config.ts
+    if [ "$DEPS" = deps ]; then
+      [ -e node_modules ] && as mv node_modules "$bk/node_modules.failed-$STAMP"
+      as mv "$bk/node_modules.bak-$STAMP" node_modules
+      as cp "$bk/package.json.bak-$STAMP" package.json
+      as cp "$bk/package-lock.json.bak-$STAMP" package-lock.json
+    fi
   fi
 }
 deploy /opt/GPUchain/.cache/sepolia-release/apps/web-combined gpuchain-sepolia-web \
