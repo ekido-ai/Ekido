@@ -28,9 +28,11 @@ class ArtifactStore:
         # filesystem, and the containment check below holds even if that ever changes.
         if not SHA256_PATTERN.fullmatch(digest):
             raise ArtifactError("not a lowercase SHA-256")
+        # Defence in depth: the pattern already keeps names safe, and this holds even if it ever changes.
         root = os.path.realpath(self.root)
+        prefix = root if root.endswith(os.sep) else root + os.sep  # a store at "/" must not become "//"
         path = os.path.normpath(os.path.join(root, digest[:2], digest))
-        if not path.startswith(root + os.sep):
+        if not path.startswith(prefix):
             raise ArtifactError("artifact path escapes the store")
         return Path(path)
 
