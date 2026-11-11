@@ -37,7 +37,7 @@ jobs:
             dir: workers/verifier
             path: ".:../../packages/gpuchain_core:../../workers/runtime"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -61,7 +61,7 @@ jobs:
       run:
         working-directory: apps/web-combined
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -81,7 +81,7 @@ jobs:
       run:
         working-directory: contracts
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: foundry-rs/foundry-toolchain@v1
       - name: Fetch libraries
         run: |
