@@ -17,6 +17,16 @@ The first public release: the hackathon build, continued as a personal project.
 - **Provider kit** for Windows, macOS and Linux, with on-chain listing from the provider's own wallet.
 - **Operations:** `/readyz` deep health checks, per-client rate limits, hardened provider joins, security headers, a 5-minute health monitor, daily integrity-checked backups copied to a private Cloud Storage bucket, and email alerts from uptime checks.
 - **Evidence:** recorded GPU runs (4 and 9 Nov), a cross-GPU run (T4 → RTX 3060 → T4), quality and false-rejection measurements, and a real testnet settlement, all under `experiments/results/`.
+- **Continuous integration:** Python suites, the web app's typecheck, unit tests and production build, and the Foundry tests on every pull request; CodeQL for Python, TypeScript and workflows; dependency review; Conventional Commit PR titles.
+- **Continuous deployment:** the server deploys `main` itself once CI is green, without any credential in GitHub. It compares the new code with what's running, waits for unfinished jobs, installs web dependency updates with `npm ci`, and puts the previous version back if anything fails. A Deploy workflow confirms the live site runs the merged commit.
+- **Repository protection:** pull requests and green checks required on `main`, no force pushes, secret scanning with push protection, Dependabot alerts and security updates, private vulnerability reporting.
+
+### Security
+
+- The artifact store accepted a digest with a trailing newline (`re.match` with `$`); it now uses `fullmatch` and keeps every path inside the store.
+- Event reducers refuse `__proto__`, `constructor` and `prototype` as provider ids.
+- `minimatch` moved from 10 to 11 to fix a denial-of-service advisory in the lint toolchain.
+- Third-party GitHub Actions are pinned to commit SHAs.
 
 ### Fixed
 
