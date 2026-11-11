@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BadgeCheck, Blocks, Coins, Gauge, History, Plus, Radio, RotateCcw, Server, ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { History, Radio, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { useDashboard, usePlayerSnapshot, useSourceControl } from "@/lib/events/source-context";
 import { formatClock } from "@/lib/events/describe";
 import { config } from "@/lib/config";
