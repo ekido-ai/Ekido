@@ -9,6 +9,9 @@ updates:
       # Node's types must match the Node major the server and CI run (22), not the newest one.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # typescript-eslint (our lint) supports TypeScript <6.1; lift this when it supports newer majors.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     groups:
       minor-and-patch:
         update-types: [minor, patch]
