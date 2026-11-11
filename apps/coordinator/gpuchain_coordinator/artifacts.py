@@ -28,11 +28,11 @@ class ArtifactStore:
         # filesystem, and the containment check below holds even if that ever changes.
         if not SHA256_PATTERN.fullmatch(digest):
             raise ArtifactError("not a lowercase SHA-256")
-        root = self.root.resolve()
-        path = (root / digest[:2] / digest).resolve()
-        if not path.is_relative_to(root):
+        root = os.path.realpath(self.root)
+        path = os.path.normpath(os.path.join(root, digest[:2], digest))
+        if not path.startswith(root + os.sep):
             raise ArtifactError("artifact path escapes the store")
-        return path
+        return Path(path)
 
     def exists(self, digest: str) -> bool:
         return self.path_for(digest).is_file()
