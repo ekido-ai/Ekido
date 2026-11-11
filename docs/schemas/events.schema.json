@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/events/v1",
+  "title": "DashboardEvent",
+  "description": "Everything the dashboard shows arrives as one of these, over WebSocket or from a replay file. Replay files are newline-delimited events with the same shape, so UI work never waits on the backend. `id` increases per job; clients use it to de-duplicate and to catch up after reconnecting.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "id", "ts", "type", "job_id", "provenance", "data"],
+  "properties": {
+    "v": { "const": 1 },
+    "id": { "type": "integer", "minimum": 0 },
+    "ts": { "type": "string", "format": "date-time" },
+    "job_id": { "type": ["string", "null"], "format": "uuid" },
+    "provenance": {
+      "enum": ["LIVE", "RECORDED", "SYNTHETIC"],
+      "description": "Drives truth badges. RECORDED is replayed; SYNTHETIC comes from the CPU fallback workload."
+    },
+    "type": {
+      "enum": [
+        "provider.updated",
+        "telemetry.sample",
+        "job.state_changed",
+        "training.progress",
+        "checkpoint.committed",
+        "checkpoint.verified",
+        "checkpoint.accepted",
+        "checkpoint.rejected",
+        "failure.warning",
+        "failure.detected",
+        "recovery.step",
+        "compile.decision",
+        "quality.result",
+        "chain.tx",
+        "fault.injected"
+      ]
+    },
+    "data": { "type": "object", "description": "Per-type payload; see the $defs below." }
+  },
+  "$defs": {
+    "provider_kind": {
+      "enum": ["REAL", "CAPPED_PROFILE", "INJECTED_FAULT"],
+      "description": "Required on provider.updated, and rendered as a badge."
+    },
+    "job_state": {
+      "enum": ["OPEN", "ASSIGNED", "RUNNING", "RECOVERING", "VALIDATING", "COMPLETED", "SETTLED", "FAILED", "CANCELLED", "DISPUTED", "REFUNDED"]
+    },
+    "recovery_stage": {
+      "enum": ["DETECTED", "FENCED", "SELECT_CHECKPOINT", "HANDOVER_EVAL", "FIND_CANDIDATES", "COMPILE", "PROBE", "ASSIGN", "RESTORE", "CANARY_CHECK", "RESUMED", "ABORT"]
+    },
+    "payloads": {
+      "provider.updated": { "provider_id": "uuid", "name": "string", "kind": "provider_kind", "status": "string", "gpu_model": "string", "vram_mib": "number", "capacity_mib": "number", "price_per_step": "string" },
+      "telemetry.sample": { "worker_id": "uuid", "util_pct": "number|null", "mem_used_mib": "number|null", "temp_c": "number|null", "power_w": "number|null", "source": "HOST_NVML|CONTAINER_NVML|SYNTHETIC" },
+      "job.state_changed": { "from": "job_state", "to": "job_state", "reason": "string" },
+      "training.progress": { "provider_id": "uuid", "attempt": "int", "step": "int", "total_steps": "int", "loss": "number", "steps_per_s": "number", "peak_mem_mib": "number" },
+      "checkpoint.*": { "checkpoint_hash": "sha256", "step": "int", "signer": "address|null", "provider_id": "uuid|null", "reason": "string|null" },
+      "failure.warning": { "provider_id": "uuid", "rule": "THERMAL|MEMORY_PRESSURE|THROUGHPUT|CHECKPOINT_OVERDUE", "detail": "string" },
+      "failure.detected": { "provider_id": "uuid", "cause": "PROCESS_EXIT|OOM|HEARTBEAT_LOST|DISCONNECT", "injected": "boolean", "last_step": "int" },
+      "recovery.step": { "attempt": "int", "stage": "recovery_stage", "detail": "string", "lost_steps": "int|null", "fencing_token": "int", "provider_id": "uuid (DETECTED, rollback's FENCED, ASSIGN)", "checkpoint_hash": "sha256|null (SELECT_CHECKPOINT)", "resume_step": "int (SELECT_CHECKPOINT)" },
+      "compile.decision": { "provider_id": "uuid", "decision": "ACCEPTED|REJECTED", "code": "string|null", "reason": "string", "exec": "ExecConfig|null", "manifest_hash": "sha256|null", "attempt": "int", "from_exec": "ExecConfig|null", "capacity_mib": "number|null", "peak_mem_mib": "number|null", "steps_per_s": "number|null" },
+      "quality.result": { "checkpoint_hash": "sha256", "verifier": "address", "verdict": "PASS|FAIL", "accuracy": "number", "difference": "number", "ci_lower": "number", "margin": "number", "is_final": "boolean" },
+      "chain.tx": { "action": "string", "tx_hash": "string|null", "status": "PENDING|CONFIRMED|FAILED", "chain_id": "int", "explorer_url": "string|null", "local_chain": "boolean" },
+      "fault.injected": { "fault_kind": "string", "target_provider_id": "uuid", "label": "INJECTED" }
+    }
+  }
+}

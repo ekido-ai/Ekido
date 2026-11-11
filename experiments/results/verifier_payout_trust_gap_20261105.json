@@ -1,0 +1,11 @@
+{
+  "kind": "LOCAL_CPU_SIGNING_PROOF_NO_TRANSACTION",
+  "public_dummy_key_only": true,
+  "own_final_checkpoint_was_previously_accepted": true,
+  "arbitrary_unrelated_wallet_receives_full_budget": true,
+  "coordinator_supplied_report_is_unsigned": true,
+  "verifier_signed": true,
+  "signature_recovers_to_verifier": true,
+  "status": "OPEN_HIGH_PRIORITY_TRUST_GAP",
+  "not_claimed": "No transaction was submitted. This does not require changing the escrow contract."
+}

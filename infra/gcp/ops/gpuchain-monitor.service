@@ -1,0 +1,6 @@
+[Unit]
+Description=GPUChain health monitor
+
+[Service]
+Type=oneshot
+ExecStart=/opt/gpuchain-ops/gpuchain-monitor.sh

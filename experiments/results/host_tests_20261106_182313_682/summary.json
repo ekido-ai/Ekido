@@ -1,0 +1,44 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "suite": "fast",
+  "starting_available_mb": 5008,
+  "error": null,
+  "results": [
+    {
+      "suite": "core",
+      "exit_code": 0,
+      "seconds": 2.441,
+      "log": "core.log"
+    },
+    {
+      "suite": "runtime",
+      "exit_code": 0,
+      "seconds": 34.837,
+      "log": "runtime.log"
+    },
+    {
+      "suite": "agent",
+      "exit_code": 0,
+      "seconds": 2.029,
+      "log": "agent.log"
+    },
+    {
+      "suite": "coordinator",
+      "exit_code": 0,
+      "seconds": 15.027,
+      "log": "coordinator.log"
+    },
+    {
+      "suite": "verifier",
+      "exit_code": 0,
+      "seconds": 30.188,
+      "log": "verifier.log"
+    },
+    {
+      "suite": "contracts",
+      "exit_code": 0,
+      "seconds": 1.788,
+      "log": "contracts.log"
+    }
+  ]
+}

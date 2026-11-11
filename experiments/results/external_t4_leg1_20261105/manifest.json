@@ -1,0 +1,50 @@
+{
+  "adaptation_manifest_hash": null,
+  "attempt": 1,
+  "canary": {
+    "loss_fp32": 0.043106809258461
+  },
+  "created_at": "2026-11-05T17:04:04.287803+00:00",
+  "dataset_fingerprint": "0000000000000000000000000000000000000000000000000000000000000000",
+  "environment": {
+    "cuda": "13.0",
+    "driver": "580.178.04",
+    "gpu": "Tesla T4",
+    "image_digest": null,
+    "torch": "2.11.0+cu130"
+  },
+  "epoch": 0,
+  "exec": {
+    "accumulation": 2,
+    "amp": "fp16",
+    "attention_impl": "sdpa",
+    "grad_checkpointing": false,
+    "loader_workers": 0,
+    "micro_batch": 16
+  },
+  "fencing_token": 1,
+  "files": {
+    "optimizer.safetensors": {
+      "bytes": 5942040,
+      "sha256": "1a09204d923b7a66586f10a120e364f01655aee21417600d26c9ed04b967c8d0"
+    },
+    "trainable.safetensors": {
+      "bytes": 2968608,
+      "sha256": "b62a8248889b64c6ba53ffab4767b26c915c016f104eb81d5d7e1b812f6d4427"
+    }
+  },
+  "format": "GPCK/1",
+  "immutable_hash": "4ed647b19881a9f0c76fc61710ad3fe219f9f46878d2b220ec3cac7a2e00f3ed",
+  "job_id": "00000000-0000-0000-0000-00000000c001",
+  "logical_step": 150,
+  "model": {
+    "id": "distilbert-base-uncased",
+    "revision": "main"
+  },
+  "parent_manifest_hash": "00e91ae80bf8e70ad95970f933962002d8f95bbf62b2230afc0ea045a75d0224",
+  "scaler": {
+    "growth_tracker": 150,
+    "scale": 65536.0
+  },
+  "signer": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

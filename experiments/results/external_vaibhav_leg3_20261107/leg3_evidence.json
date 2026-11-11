@@ -1,0 +1,48 @@
+{
+  "experiment": "cross_gpu_resume",
+  "evidence_type": "REAL GPU RUN",
+  "created_at": "2026-11-07T10:11:20.715919+00:00",
+  "machine": {
+    "device": "cuda",
+    "torch": "2.11.0+cu130",
+    "python": "3.13.16",
+    "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "gpu": "Tesla T4",
+    "compute_capability": "7.5",
+    "memory_mib": 14911,
+    "cuda": "13.0"
+  },
+  "leg": "resume",
+  "from_step": 200,
+  "to_step": 250,
+  "precision": "fp16",
+  "exec": {
+    "micro_batch": 16,
+    "accumulation": 2,
+    "amp": "fp16",
+    "grad_checkpointing": false,
+    "attention_impl": "sdpa",
+    "loader_workers": 0
+  },
+  "previous_leg": {
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "exec": {
+      "accumulation": 4,
+      "amp": "bf16",
+      "attention_impl": "sdpa",
+      "grad_checkpointing": false,
+      "loader_workers": 0,
+      "micro_batch": 8
+    }
+  },
+  "canary": {
+    "saved": 0.06621839851140976,
+    "measured": 0.06621836125850677
+  },
+  "accuracy_after_leg": 0.905,
+  "eval_set_hash": "efd9f992931da5cabb27865d70f1b199c7d0b9e8acf26e1d68cdc5234aa78e9d",
+  "eval_examples": 2000,
+  "seconds": 55.3,
+  "peak_mem_mib": 687.8,
+  "not_claimed": "This doesn't show the result equals an uninterrupted run. experiments/quality_comparison.py measures that."
+}

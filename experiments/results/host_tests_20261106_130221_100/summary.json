@@ -1,0 +1,65 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "status": "INTERRUPTED_FOR_FAILURE_DIAGNOSIS",
+  "all_suites_passed": false,
+  "results": [
+    {
+      "suite": "core",
+      "complete": true,
+      "tests": 130,
+      "seconds": 0.765,
+      "passed": true
+    },
+    {
+      "suite": "runtime",
+      "complete": true,
+      "tests": 48,
+      "seconds": 52.611,
+      "passed": true
+    },
+    {
+      "suite": "agent",
+      "complete": true,
+      "tests": 22,
+      "seconds": 0.511,
+      "passed": true
+    },
+    {
+      "suite": "coordinator",
+      "complete": true,
+      "tests": 125,
+      "seconds": 15.708,
+      "passed": true
+    },
+    {
+      "suite": "verifier",
+      "complete": true,
+      "tests": 20,
+      "seconds": 27.238,
+      "passed": true
+    },
+    {
+      "suite": "contracts",
+      "complete": true,
+      "passed": 85,
+      "failed": 0
+    },
+    {
+      "suite": "e2e-recovery",
+      "complete": true,
+      "tests": 5,
+      "seconds": 468.895,
+      "passed": false
+    },
+    {
+      "suite": "e2e-faults",
+      "complete": false,
+      "ok_lines": 1
+    }
+  ],
+  "not_reached": [
+    "settlement",
+    "chain"
+  ],
+  "note": "Recovery timed out waiting for a checkpoint before agent kill; see e2e-recovery.log. Fault suite intentionally stopped early."
+}

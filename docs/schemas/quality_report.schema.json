@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/quality_report/v1",
+  "title": "QualityReport",
+  "description": "One verifier's evaluation of one checkpoint. Reports may differ slightly across devices; quorum requires agreement on verdict for the same checkpoint hash, not identical reports.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "job_id", "checkpoint_hash", "reference_checkpoint_hash", "policy_hash", "eval_set_hash", "eval_version_hash", "n_examples", "metrics", "comparison", "checks", "verdict", "reasons", "device", "created_at", "signer", "signature"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "job_id": { "type": "string", "format": "uuid" },
+    "checkpoint_hash": { "$ref": "#/$defs/sha256" },
+    "reference_checkpoint_hash": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/sha256" }], "description": "null means compared with the untrained baseline." },
+    "policy_hash": { "$ref": "#/$defs/sha256" },
+    "eval_set_hash": { "$ref": "#/$defs/sha256" },
+    "eval_version_hash": { "$ref": "#/$defs/sha256" },
+    "is_final": { "type": "boolean" },
+    "n_examples": { "type": "integer", "minimum": 1 },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accuracy", "macro_f1", "loss"],
+      "properties": {
+        "accuracy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "macro_f1": { "type": "number", "minimum": 0, "maximum": 1 },
+        "loss": { "type": "number", "minimum": 0 }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_accuracy", "difference", "ci_lower", "margin", "confidence", "resamples"],
+      "properties": {
+        "reference_accuracy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "difference": { "type": "number", "minimum": -1, "maximum": 1 },
+        "ci_lower": { "type": "number", "minimum": -1, "maximum": 1 },
+        "margin": { "type": "number", "minimum": 0, "maximum": 1 },
+        "confidence": { "type": "number" },
+        "resamples": { "type": "integer", "minimum": 1 },
+        "mcnemar_p": { "type": ["number", "null"], "description": "Reported only; not used to decide." }
+      }
+    },
+    "correctness_hash": { "$ref": "#/$defs/sha256", "description": "Hash of the per-example correct/incorrect vector." },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signature_valid", "lineage_valid", "no_nan_inf", "weights_changed"],
+      "properties": {
+        "signature_valid": { "type": "boolean" },
+        "lineage_valid": { "type": "boolean" },
+        "no_nan_inf": { "type": "boolean" },
+        "weights_changed": { "type": "boolean" }
+      }
+    },
+    "verdict": { "enum": ["PASS", "FAIL"] },
+    "reasons": { "type": "array", "items": { "enum": ["NON_INFERIORITY_FAILED", "BELOW_ABSOLUTE_FLOOR", "INVALID_SIGNATURE", "INVALID_LINEAGE", "NAN_OR_INF", "WEIGHTS_UNCHANGED", "HASH_MISMATCH", "MALFORMED_CHECKPOINT"] } },
+    "device": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "signer": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" },
+    "signature": { "type": "string", "pattern": "^0x[0-9a-fA-F]{130}$" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

@@ -1,0 +1,62 @@
+[
+ {
+  "fault": "THERMAL_WARNING",
+  "problems": [],
+  "job_id": "f6835185-c888-4b6e-a747-3de095cd0c09",
+  "delivered": true,
+  "seconds_after_fault": 93.3,
+  "state": "SETTLED",
+  "attempts": 1,
+  "causes": [],
+  "warnings": [
+   "THERMAL"
+  ],
+  "rejected_steps": [],
+  "fault_events": [
+   "THERMAL_WARNING"
+  ],
+  "steps": {
+   "Provider A": 300
+  },
+  "payouts": {
+   "Provider A": "0.300000"
+  },
+  "refund": "4.700000",
+  "settlement": "SETTLED",
+  "passed": true
+ },
+ {
+  "fault": "OOM",
+  "problems": [
+   "first failure was ['HEARTBEAT_LOST'], expected one of ['OOM']"
+  ],
+  "job_id": "abdbeb35-f55e-4b28-ab5d-e0db38d721ce",
+  "delivered": true,
+  "seconds_after_fault": 396.4,
+  "state": "SETTLED",
+  "attempts": 3,
+  "causes": [
+   "HEARTBEAT_LOST"
+  ],
+  "warnings": [],
+  "rejected_steps": [
+   150
+  ],
+  "fault_events": [
+   "OOM"
+  ],
+  "steps": {
+   "Provider A": 100,
+   "Provider B (capped 768 MiB)": 200
+  },
+  "payouts": {
+   "Provider B (capped 768 MiB)": "0.600000",
+   "Provider A": "0.100000"
+  },
+  "refund": "4.300000",
+  "settlement": "SETTLED",
+  "seconds_to_detect": 39.45,
+  "seconds_to_first_resume": 219.9,
+  "passed": false
+ }
+]

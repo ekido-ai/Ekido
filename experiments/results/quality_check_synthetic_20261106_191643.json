@@ -1,0 +1,51 @@
+{
+  "experiment": "quality_comparison",
+  "evidence_type": "SCRIPT CHECK ONLY, synthetic workload",
+  "created_at": "2026-11-06T13:46:43.712062+00:00",
+  "environment": {
+    "device": "cpu",
+    "gpu": null,
+    "torch": "2.15.0+cpu",
+    "amp": "none"
+  },
+  "protocol": {
+    "steps": 50,
+    "kill_step": 25,
+    "micro_base": 32,
+    "micro_adapted": 8,
+    "capacity_adapted": null,
+    "eval_examples": 128,
+    "seeds": 1,
+    "resume_step": 25,
+    "actual_process_kill": false
+  },
+  "margin": 0.02,
+  "identity": null,
+  "note": "Both arms ran on one device. The baseline completed and the resumed arm started from its intermediate checkpoint; no process was killed. This compares a changed micro-batch, not two kinds of GPU.",
+  "statistics": {
+    "seeds": 1,
+    "mean_difference": 0.0,
+    "ci_95": null,
+    "note": "One seed gives no interval"
+  },
+  "claim": null,
+  "trials": [
+    {
+      "seed": 1,
+      "baseline_accuracy": 0.890625,
+      "resumed_accuracy": 0.890625,
+      "eval_set_hash": "c6948146b516b503394bd1480d12f5963c90138968abff18aaf0552c6f44ebea",
+      "difference": 0.0,
+      "paired_ci_lower": 0.0,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.5543849468231201,
+        "measured": 0.5543849468231201
+      },
+      "baseline_seconds": 5.8,
+      "resumed_seconds": 5.8,
+      "baseline_peak_mib": null,
+      "resumed_peak_mib": null
+    }
+  ]
+}

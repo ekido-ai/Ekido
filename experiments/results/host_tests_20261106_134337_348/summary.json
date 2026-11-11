@@ -1,0 +1,20 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "suite": "settlement",
+  "starting_available_mb": 4023,
+  "error": null,
+  "results": [
+    {
+      "suite": "contracts",
+      "exit_code": 0,
+      "seconds": 1.983,
+      "log": "contracts.log"
+    },
+    {
+      "suite": "e2e-settlement",
+      "exit_code": 0,
+      "seconds": 231.146,
+      "log": "e2e-settlement.log"
+    }
+  ]
+}

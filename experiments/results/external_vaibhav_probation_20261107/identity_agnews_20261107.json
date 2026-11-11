@@ -1,0 +1,10 @@
+{
+  "model_id": "distilbert-base-uncased",
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "dataset_id": "fancyzhx/ag_news",
+  "dataset_revision": "eb185aade064a813bc0b7f42de02595523103ca4",
+  "train_sha256": "65011f777297ca64a4aa14715f9ec33ecdd63fad0afcc070141349fe0584a0e5",
+  "train_rows": 120000,
+  "test_sha256": "510142e216f159859263fd45690bf1b24e460dc3bd5ac6e36df124f7fd7de092",
+  "test_rows": 7600
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpuchain/adaptation_manifest/v1",
+  "title": "AdaptationManifest",
+  "description": "The compiler's record for one recovery: what changed, why, and which providers were refused. Every approved config must have a real probe result; estimates never approve a config.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "job_id", "attempt", "from_checkpoint", "from", "to", "invariants", "changes", "rejected_candidates", "probe", "created_at"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "job_id": { "type": "string", "format": "uuid" },
+    "attempt": { "type": "integer", "minimum": 1 },
+    "from_checkpoint": { "$ref": "#/$defs/sha256" },
+    "from": { "$ref": "#/$defs/placement" },
+    "to": { "$ref": "#/$defs/placement" },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["immutable_hash", "logical_batch_size"],
+      "properties": {
+        "immutable_hash": { "$ref": "#/$defs/sha256" },
+        "logical_batch_size": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "from", "to", "reason"],
+        "properties": {
+          "field": { "enum": ["micro_batch", "accumulation", "amp", "grad_checkpointing", "attention_impl", "loader_workers"] },
+          "from": { "type": ["integer", "string", "boolean"] },
+          "to": { "type": ["integer", "string", "boolean"] },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "rejected_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["provider_id", "code", "reason"],
+        "properties": {
+          "provider_id": { "type": "string", "format": "uuid" },
+          "code": { "enum": ["OFFLINE", "GATE_COMPUTE_CAP", "GATE_TORCH_VERSION", "GATE_FREE_MEMORY", "PROBE_OOM", "PROBE_ERROR", "OVER_MEMORY_MARGIN", "DEADLINE", "BUDGET", "EXCLUDED"] },
+          "reason": { "type": "string" },
+          "tried": { "type": "array", "items": { "$ref": "exec_config.schema.json" } }
+        }
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["peak_mem_mib", "capacity_mib", "steps_per_s", "duration_s"],
+      "description": "Measured on the target provider, so it is not an estimate.",
+      "properties": {
+        "peak_mem_mib": { "type": "number", "minimum": 0 },
+        "capacity_mib": { "type": "number", "exclusiveMinimum": 0 },
+        "steps_per_s": { "type": "number", "exclusiveMinimum": 0 },
+        "duration_s": { "type": "number", "minimum": 0 }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_id", "exec"],
+      "properties": {
+        "provider_id": { "type": "string", "format": "uuid" },
+        "exec": { "$ref": "exec_config.schema.json" }
+      }
+    }
+  }
+}

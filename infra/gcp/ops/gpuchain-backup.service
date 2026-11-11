@@ -1,0 +1,7 @@
+[Unit]
+Description=GPUChain daily backup (coordinator DB and artifacts)
+
+[Service]
+Type=oneshot
+ExecStart=/opt/gpuchain-ops/gpuchain-backup.sh
+Nice=10

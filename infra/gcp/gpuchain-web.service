@@ -1,0 +1,17 @@
+[Unit]
+Description=GPUChain dashboard
+After=network-online.target gpuchain-stack.service
+
+[Service]
+User=gpuchain
+WorkingDirectory=/opt/GPUchain/apps/web-combined
+ExecStart=/usr/bin/npx next start -p 3100 -H 127.0.0.1
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target

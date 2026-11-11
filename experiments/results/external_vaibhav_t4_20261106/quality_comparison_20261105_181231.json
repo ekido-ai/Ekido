@@ -1,0 +1,115 @@
+{
+  "experiment": "quality_comparison",
+  "evidence_type": "REAL MODEL",
+  "created_at": "2026-11-05T18:12:31.676687+00:00",
+  "environment": {
+    "device": "cuda",
+    "gpu": "Tesla T4",
+    "torch": "2.11.0+cu130",
+    "amp": "fp16"
+  },
+  "protocol": {
+    "steps": 400,
+    "kill_step": 150,
+    "micro_base": 32,
+    "micro_adapted": 8,
+    "capacity_adapted": null,
+    "eval_examples": 2000,
+    "seeds": 5
+  },
+  "margin": 0.02,
+  "note": "Both arms ran on one device. This compares resuming with a changed micro-batch, not two kinds of GPU.",
+  "statistics": {
+    "seeds": 5,
+    "mean_difference": 0.0009000000000000001,
+    "standard_deviation": 0.0019811612756158946,
+    "ci_95": [
+      -0.0015595422663577051,
+      0.0033595422663577055
+    ],
+    "worst_seed": -0.002
+  },
+  "claim": "No degradation detected beyond 2 accuracy points at this sample size (mean +0.0009, 95% CI [-0.0016, +0.0034], 5 seeds, 2000 examples).",
+  "trials": [
+    {
+      "seed": 1,
+      "baseline_accuracy": 0.902,
+      "resumed_accuracy": 0.9055,
+      "difference": 0.0035,
+      "paired_ci_lower": 0.0005,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.3703897297382355,
+        "measured": 0.3703897297382355
+      },
+      "baseline_seconds": 70.0,
+      "resumed_seconds": 44.0,
+      "baseline_peak_mib": 991.2,
+      "resumed_peak_mib": 532.6
+    },
+    {
+      "seed": 2,
+      "baseline_accuracy": 0.9015,
+      "resumed_accuracy": 0.903,
+      "difference": 0.0015,
+      "paired_ci_lower": -0.0015,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.6335922479629517,
+        "measured": 0.6335922479629517
+      },
+      "baseline_seconds": 50.5,
+      "resumed_seconds": 44.1,
+      "baseline_peak_mib": 991.2,
+      "resumed_peak_mib": 532.6
+    },
+    {
+      "seed": 3,
+      "baseline_accuracy": 0.9035,
+      "resumed_accuracy": 0.904,
+      "difference": 0.0005,
+      "paired_ci_lower": -0.0025,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.13820642232894897,
+        "measured": 0.13820642232894897
+      },
+      "baseline_seconds": 51.4,
+      "resumed_seconds": 45.2,
+      "baseline_peak_mib": 991.2,
+      "resumed_peak_mib": 532.6
+    },
+    {
+      "seed": 4,
+      "baseline_accuracy": 0.902,
+      "resumed_accuracy": 0.9,
+      "difference": -0.002,
+      "paired_ci_lower": -0.005,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.12724293768405914,
+        "measured": 0.12724293768405914
+      },
+      "baseline_seconds": 52.0,
+      "resumed_seconds": 44.4,
+      "baseline_peak_mib": 991.2,
+      "resumed_peak_mib": 532.6
+    },
+    {
+      "seed": 5,
+      "baseline_accuracy": 0.8995,
+      "resumed_accuracy": 0.9005,
+      "difference": 0.001,
+      "paired_ci_lower": -0.0015,
+      "quality_guard_verdict": "PASS",
+      "canary": {
+        "saved": 0.14141011238098145,
+        "measured": 0.14141011238098145
+      },
+      "baseline_seconds": 52.0,
+      "resumed_seconds": 44.4,
+      "baseline_peak_mib": 991.2,
+      "resumed_peak_mib": 532.6
+    }
+  ]
+}

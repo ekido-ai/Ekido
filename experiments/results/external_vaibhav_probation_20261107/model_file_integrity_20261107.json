@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-11-07T04:42:04.907521+00:00",
+  "model_id": "distilbert-base-uncased",
+  "revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "file": "model.safetensors",
+  "bytes": 267954768,
+  "expected_sha256": "5e3f1108e3cb34ee048634875d8482665b65ac713291a7e32396fb18f6ff0063",
+  "actual_sha256": "5e3f1108e3cb34ee048634875d8482665b65ac713291a7e32396fb18f6ff0063",
+  "hash_match": true,
+  "scope": "File integrity only; no model training, evaluation or GPU run."
+}

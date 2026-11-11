@@ -1,0 +1,62 @@
+{
+  "chain_id": 84532,
+  "contract": "0x00000000000000000000000000000000000C0DE1",
+  "cases": [
+    {
+      "name": "passed_two_payees",
+      "verdict": {
+        "jobId": "0xabababababababababababababababababababababababababababababababab",
+        "passed": true,
+        "finalCheckpoint": "0x0101010101010101010101010101010101010101010101010101010101010101",
+        "lineageRoot": "0x0202020202020202020202020202020202020202020202020202020202020202",
+        "qualityReport": "0x0303030303030303030303030303030303030303030303030303030303030303",
+        "payees": [
+          "0x00000000000000000000000000000000000000A1",
+          "0x00000000000000000000000000000000000000B2"
+        ],
+        "amounts": [
+          2000000,
+          2500000
+        ],
+        "refund": 500000,
+        "expiry": 1900000000
+      },
+      "digest": "0x905232ad82f246f468edd16fc5d909aebe0cc8aab384e052143b60c2b4d462b6",
+      "signers": [
+        "0x3DA8D322CB2435dA26E9C9fEE670f9fB7Fe74E49",
+        "0x37dA28C050E3c0A1c0aC3BE97913EC038783dA4C",
+        "0x093d49D617a10F26915553255Ec3FEE532d2C12F"
+      ],
+      "signatures": [
+        "0x9ce42cac76b970067f921237a08d7a9a533c7906a7226b666d136b1eb9d994fa4a88f7e8faa75ee879cb7064668676b2b85ff305a6525a2f1ad2dede2a38e3b41b",
+        "0x66941fbbf7e90ea5fe3a7b28ad4d104d70d4a1dce010f06acda6d027d4c9691641e2650f27e72a3ed876480359a4af0d733e374dc5b0c439433c8e9c5988871a1b",
+        "0x21fe85a02372267ff00e9dcfca2ba1f6de603c5fdd611ef2c57a11d3a6332e901785a3a82dfb7e4c7052b2479b7980e850fb8d825a6ed28450dc686f17c66d681b"
+      ]
+    },
+    {
+      "name": "failed_no_payees",
+      "verdict": {
+        "jobId": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+        "passed": false,
+        "finalCheckpoint": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "lineageRoot": "0x0404040404040404040404040404040404040404040404040404040404040404",
+        "qualityReport": "0x0505050505050505050505050505050505050505050505050505050505050505",
+        "payees": [],
+        "amounts": [],
+        "refund": 5000000,
+        "expiry": 1900000000
+      },
+      "digest": "0xd1b174a41ca2637f16872c2ee225a9efc6c487fbc35a25313a866805b91d0caa",
+      "signers": [
+        "0x3DA8D322CB2435dA26E9C9fEE670f9fB7Fe74E49",
+        "0x37dA28C050E3c0A1c0aC3BE97913EC038783dA4C",
+        "0x093d49D617a10F26915553255Ec3FEE532d2C12F"
+      ],
+      "signatures": [
+        "0xc54a43ec40170e1566dc9dc63a2a757e35cca654069fc8dc62c9770b917a4e8c3047b2884b1fe48f15d5ba044d883501510ac864456d1ab8f8006a413a605ac61c",
+        "0x62bc847d2c72d53414ccfd906b3157b15ee4b2322fa9c9a637412f2e62f9aaf831bfea3a9fef1b838908300e10d1df7c323e5467b11007fd76fc29b029773bc41b",
+        "0x51461e9fdec8f8b977f014a94eb04e59d9ba325c717ad8ff1150b6b73682b326724d1134a2ad8603a13a8476af8f55051a3baa3c50e661c716698211544d7c981b"
+      ]
+    }
+  ]
+}

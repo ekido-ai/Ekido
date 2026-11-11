@@ -1,0 +1,68 @@
+{
+  "kind": "CPU_SYNTHETIC_LOCAL_CHAIN_TESTS",
+  "suite": "all",
+  "starting_available_mb": 5472,
+  "error": null,
+  "results": [
+    {
+      "suite": "core",
+      "exit_code": 0,
+      "seconds": 2.474,
+      "log": "core.log"
+    },
+    {
+      "suite": "runtime",
+      "exit_code": 0,
+      "seconds": 34.519,
+      "log": "runtime.log"
+    },
+    {
+      "suite": "agent",
+      "exit_code": 0,
+      "seconds": 2.08,
+      "log": "agent.log"
+    },
+    {
+      "suite": "coordinator",
+      "exit_code": 0,
+      "seconds": 14.456,
+      "log": "coordinator.log"
+    },
+    {
+      "suite": "verifier",
+      "exit_code": 0,
+      "seconds": 30.833,
+      "log": "verifier.log"
+    },
+    {
+      "suite": "contracts",
+      "exit_code": 0,
+      "seconds": 1.79,
+      "log": "contracts.log"
+    },
+    {
+      "suite": "e2e-recovery",
+      "exit_code": 0,
+      "seconds": 209.697,
+      "log": "e2e-recovery.log"
+    },
+    {
+      "suite": "e2e-faults",
+      "exit_code": 0,
+      "seconds": 591.069,
+      "log": "e2e-faults.log"
+    },
+    {
+      "suite": "e2e-settlement",
+      "exit_code": 0,
+      "seconds": 264.632,
+      "log": "e2e-settlement.log"
+    },
+    {
+      "suite": "e2e-chain",
+      "exit_code": 0,
+      "seconds": 10.296,
+      "log": "e2e-chain.log"
+    }
+  ]
+}

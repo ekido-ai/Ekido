@@ -1,0 +1,122 @@
+{
+  "mode": "SYNTHETIC CPU",
+  "chain": "local Anvil",
+  "what": "Automated, no dashboard. Not gate G5.",
+  "rounds": 6,
+  "clean": 5,
+  "rows": [
+    {
+      "kill_step": 425,
+      "problems": [
+        "ended in FAILED, not SETTLED"
+      ],
+      "job_id": "dc849d50-0c39-45ce-b195-31fe9b038fd9",
+      "fault": true,
+      "state": "FAILED",
+      "seconds": 36,
+      "kill_to_detected_s": 0.19,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 3
+    },
+    {
+      "kill_step": 700,
+      "problems": [],
+      "job_id": "6a0dc9fa-d210-4ede-aec5-e387ae076460",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 59,
+      "kill_to_detected_s": 0.21,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1000,
+        "Provider B": 5000
+      },
+      "earned_usdc": {
+        "Provider A": 1.0,
+        "Provider B": 15.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 825,
+      "problems": [],
+      "job_id": "bde523be-fa40-4b63-9faa-a9b78d3b6962",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 61,
+      "kill_to_detected_s": 0.18,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1000,
+        "Provider B": 5000
+      },
+      "earned_usdc": {
+        "Provider A": 1.0,
+        "Provider B": 15.0,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 1100,
+      "problems": [],
+      "job_id": "16bff11c-70c1-4be3-93ec-e522d29979b1",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 58,
+      "kill_to_detected_s": 0.25,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1400,
+        "Provider B": 4600
+      },
+      "earned_usdc": {
+        "Provider A": 1.4,
+        "Provider B": 13.8,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 425,
+      "problems": [],
+      "job_id": "0a93ab0e-1840-4ca1-a9e3-5d4a96992b16",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 61,
+      "kill_to_detected_s": 0.25,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 400,
+        "Provider B": 5600
+      },
+      "earned_usdc": {
+        "Provider A": 0.4,
+        "Provider B": 16.8,
+        "Provider P (injected fault)": 0.0
+      }
+    },
+    {
+      "kill_step": 700,
+      "problems": [],
+      "job_id": "cccce134-cfee-44e1-9d7a-765811de06eb",
+      "fault": true,
+      "state": "SETTLED",
+      "seconds": 66,
+      "kill_to_detected_s": 0.24,
+      "cause": "PROCESS_EXIT",
+      "rejected_checkpoints": 1,
+      "steps": {
+        "Provider A": 1000,
+        "Provider B": 5000
+      },
+      "earned_usdc": {
+        "Provider A": 1.0,
+        "Provider B": 15.0,
+        "Provider P (injected fault)": 0.0
+      }
+    }
+  ]
+}

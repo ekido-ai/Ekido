@@ -1,0 +1,91 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python (${{ matrix.suite }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: core
+            dir: packages/gpuchain_core
+            path: "."
+          - suite: runtime
+            dir: workers/runtime
+            path: ".:../../packages/gpuchain_core"
+          - suite: agent
+            dir: workers/agent
+            path: ".:../../packages/gpuchain_core"
+          - suite: coordinator
+            dir: apps/coordinator
+            path: ".:../../packages/gpuchain_core"
+          - suite: verifier
+            dir: workers/verifier
+            path: ".:../../packages/gpuchain_core:../../workers/runtime"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies (CPU only)
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install safetensors numpy eth-account "sqlalchemy>=2" "fastapi>=0.115" httpx pydantic-settings websockets "uvicorn>=0.30" web3
+      - name: Run tests
+        working-directory: ${{ matrix.dir }}
+        env:
+          PYTHONPATH: ${{ matrix.path }}
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s tests
+
+  web:
+    name: Web app
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/web-combined
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/web-combined/package-lock.json
+      - run: npm ci
+      - name: Generate Next.js route types
+        run: npx next typegen
+      - run: npx tsc --noEmit
+      - run: npx vitest run
+
+  contracts:
+    name: Contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Fetch libraries
+        run: |
+          git clone --depth 1 --branch v1.17.0 https://github.com/foundry-rs/forge-std lib/forge-std
+          git clone --depth 1 --branch v5.7.0 https://github.com/OpenZeppelin/openzeppelin-contracts lib/openzeppelin-contracts
+      - run: forge build --sizes
+      - run: forge test

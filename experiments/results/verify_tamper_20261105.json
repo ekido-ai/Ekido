@@ -1,0 +1,27 @@
+{
+  "what": "The Verify page on a settled job, then with the coordinator answers changed in the browser to simulate a lying coordinator.",
+  "workload": "SYNTHETIC CPU, local Anvil chain, one job, one kill. Not the real model and not Base Sepolia.",
+  "job_id": "e84eaae2-e933-4afb-8da0-bf03f8cc7a5e",
+  "date": "2026-11-05",
+  "honest_result": "All 10 checks passed",
+  "tampered": {
+    "higherPrice": {
+      "result": "1 of 10 checks failed",
+      "detail": null
+    },
+    "missingCheckpoint": {
+      "result": "The check couldn't finish",
+      "detail": "Checkpoint 27c8f1522c is missing from the chain"
+    },
+    "swappedFinalCheckpointParent": {
+      "result": "The check couldn't finish",
+      "detail": "Checkpoint eeeeeeeeee is missing from the chain"
+    },
+    "wrongSpec": {
+      "result": "1 of 10 checks failed",
+      "detail": null
+    }
+  },
+  "after_removing_the_tampering": "All 10 checks passed",
+  "console_errors": []
+}

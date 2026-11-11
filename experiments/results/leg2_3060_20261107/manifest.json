@@ -1,0 +1,47 @@
+{
+  "adaptation_manifest_hash": null,
+  "attempt": 2,
+  "canary": {
+    "loss_fp32": 0.06621839851140976
+  },
+  "created_at": "2026-11-07T09:40:40.138650+00:00",
+  "dataset_fingerprint": "0000000000000000000000000000000000000000000000000000000000000000",
+  "environment": {
+    "cuda": "13.0",
+    "driver": "581.80",
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "image_digest": null,
+    "torch": "2.14.1+cu130"
+  },
+  "epoch": 0,
+  "exec": {
+    "accumulation": 4,
+    "amp": "bf16",
+    "attention_impl": "sdpa",
+    "grad_checkpointing": false,
+    "loader_workers": 0,
+    "micro_batch": 8
+  },
+  "fencing_token": 2,
+  "files": {
+    "optimizer.safetensors": {
+      "bytes": 5942040,
+      "sha256": "6519a8a4b86fc6b6f65002261563d28b80b2fe0df4d2b80d61d81a42c063c57c"
+    },
+    "trainable.safetensors": {
+      "bytes": 2968608,
+      "sha256": "eed5836766c363414a72d408421e69b13b31f38424e1ebb6d71bc16d959bd109"
+    }
+  },
+  "format": "GPCK/1",
+  "immutable_hash": "4ed647b19881a9f0c76fc61710ad3fe219f9f46878d2b220ec3cac7a2e00f3ed",
+  "job_id": "00000000-0000-0000-0000-00000000c001",
+  "logical_step": 200,
+  "model": {
+    "id": "distilbert-base-uncased",
+    "revision": "main"
+  },
+  "parent_manifest_hash": "547ca8bf4a07a17151e4ba25109fbb81243043d7416c33f6fd704ee41ba2c738",
+  "scaler": null,
+  "signer": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
