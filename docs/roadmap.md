@@ -1,4 +1,4 @@
-# GPUChain roadmap: what to do next
+# Ekido roadmap: what to do next
 
 Written 7 Nov 2026, after the ship. For the team and the next agent. Each item says why it matters, what "done" means, and roughly how big it is. The detailed state of the code is in `docs/agent-handoff.md`.
 
@@ -12,7 +12,7 @@ Written 7 Nov 2026, after the ship. For the team and the next agent. Each item s
 - **Quality margin checked on the real model:** 5 seeds on a T4, 75 pairs, no false rejections.
 - **Contract on Base Sepolia:** escrow `0x1BF65f755457a92850009c88AFb337Ec57745a22`, registry `0xcdf927CE0D885552529C5463993e64429a51c2Ff`. Settings were read back from the chain. The three wallets are funded with test ETH, and the client holds 20 test USDC.
 - **Dashboard:** landing page, live and recorded modes, Verify page, receipts, and Prateek's earnings page. 105 tests.
-- **One command to join as a provider,** for GPU or CPU: `python -m gpuchain_agent.join`. Tested by unit tests only, not across two machines.
+- **One command to join as a provider,** for GPU or CPU: `python -m ekido_agent.join`. Tested by unit tests only, not across two machines.
 
 **Not yet:** a job settled on Base Sepolia, a live provider on another machine, users running their own code, and a public server.
 
@@ -40,7 +40,7 @@ Written 7 Nov 2026, after the ship. For the team and the next agent. Each item s
 | # | Task | Why | Done when | Size |
 |---|---|---|---|---|
 | 3.1 | **Coordinator on a Google Cloud VM** with HTTPS, `API_TOKEN`, and verifiers on CPU | Providers anywhere can connect, with no laptop involved | `https://<server>/healthz` works, and the operator API is locked | 1 day. Needs a GCP project with billing, and `gcloud auth login` done by Piyush |
-| 3.2 | Test `gpuchain_agent.join` from two other machines, one GPU and one CPU, on different networks | The one-command join is only unit-tested | Both run a job and get paid | Half a day |
+| 3.2 | Test `ekido_agent.join` from two other machines, one GPU and one CPU, on different networks | The one-command join is only unit-tested | Both run a job and get paid | Half a day |
 | 3.3 | "Become a provider" page: connect a wallet, register on-chain (`ProviderRegistry.register` is open to anyone), set a price, copy the join command | No terminal knowledge needed to start | A new person joins from the page alone | 1 day |
 | 3.4 | "Rent a GPU" page: available providers with GPU, price and history, then start a job and fund it from a wallet | The renter side of the marketplace | A job funded from the browser, end to end | 1 to 2 days |
 | 3.5 | Spam and abuse limits: per-wallet limits, and a stake or deposit for providers | Open sign-up attracts junk accounts | Written policy and enforced limits | 1 day |

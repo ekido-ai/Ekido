@@ -35,7 +35,7 @@
 | Coordinator moving funds | Role checks: it can only mark active and anchor events | Access-control tests |
 | Funds locked forever | Permissionless timeout refund after deadline plus grace | Time-warp tests, `TimestampEdge.t.sol` |
 | Zombie worker writing after being replaced | Fencing token per attempt (409 on stale writes), dead-man lease | Coordinator fencing tests, e2e fault tests |
-| Malicious checkpoint (pickle, wrong shapes, NaN, oversized) | safetensors and JSON only, validation order before any load | `packages/gpuchain_core/tests` (GPCK) |
+| Malicious checkpoint (pickle, wrong shapes, NaN, oversized) | safetensors and JSON only, validation order before any load | `packages/ekido_core/tests` (GPCK) |
 | Provider poisons weights or skips training | Paired bootstrap test against the last accepted checkpoint, weight-change check, rollback | Quality tests, recorded 4 Nov run |
 | Lying coordinator shown to the client | Browser recomputes payouts and lineage from the chain; tampering is flagged | `apps/web-combined/src/lib/verify`, `experiments/results/verify_tamper_20261105.json` |
 | Fake providers flooding the network | At most 5 providers per IP, unique printable names, rate limits | `apps/coordinator/tests/test_provider_join.py`, `test_rate_limit.py` |

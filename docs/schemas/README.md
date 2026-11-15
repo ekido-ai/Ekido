@@ -28,7 +28,7 @@ These files are the contract between the four tracks, so everyone can build agai
 
 ## How the Verdict is built
 
-`contracts/src/GPUChainEscrow.sol` is the contract we use. `gpuchain_core/settlement.py` builds the Verdict, so every verifier signs identical bytes:
+`contracts/src/GPUChainEscrow.sol` is the contract we use. `ekido_core/settlement.py` builds the Verdict, so every verifier signs identical bytes:
 
 - `finalCheckpoint`: the final GPCK manifest hash.
 - `lineageRoot`: hash over the accepted manifest hashes, in order from root to tip.

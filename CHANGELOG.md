@@ -2,6 +2,20 @@
 
 All notable changes to this project are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Changed
+
+- **Renamed the project from GPUChain to Ekido.**
+  - The Python packages are now `ekido_core`, `ekido_coordinator`, `ekido_agent`, `ekido_runtime` and `ekido_verifier`.
+  - Environment variables use the `EKIDO_` prefix.
+  - The provider kit is now `ekido-provider-kit.zip`.
+- **Unchanged on purpose:**
+  - The deployed `GPUChainEscrow` contract and its EIP-712 domain.
+  - The signed and hashed message kinds (`gpuchain.*.v1`, `gpuchain-replay/1`).
+  - Browser storage keys and the `gpuchain_hf_cache` Docker volume.
+  - The live domain, the server's unit names and paths, and the provider key path `~/.gpuchain/`. These move in a later step.
+
 ## [0.1.0] - 2026-11-11
 
 The first public release: the hackathon build, continued as a personal project.

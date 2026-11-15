@@ -1,6 +1,6 @@
 # Code of conduct
 
-We want GPUChain to be a friendly place to learn and build, for everyone.
+We want Ekido to be a friendly place to learn and build, for everyone.
 
 ## Expected
 

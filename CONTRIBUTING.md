@@ -1,6 +1,6 @@
-# Contributing to GPUChain
+# Contributing to Ekido
 
-Thanks for your interest. GPUChain is a small project, so a clear issue or a focused pull request helps most.
+Thanks for your interest. Ekido is a small project, so a clear issue or a focused pull request helps most.
 
 ## Before you start
 
@@ -20,7 +20,7 @@ Thanks for your interest. GPUChain is a small project, so a clear issue or a foc
 2. Make the change with tests next to it.
 3. Run the tests for what you touched:
    - Contracts: `forge test` in `contracts/`
-   - Python packages: `pytest` in `packages/gpuchain_core`, `apps/coordinator`, `workers/agent`, `workers/runtime` or `workers/verifier`
+   - Python packages: `pytest` in `packages/ekido_core`, `apps/coordinator`, `workers/agent`, `workers/runtime` or `workers/verifier`
    - Web app: `npx vitest run` and `npx tsc --noEmit` in `apps/web-combined/`
 4. Open a pull request that says what changed, why, and how you tested it. Say plainly what you didn't run.
 

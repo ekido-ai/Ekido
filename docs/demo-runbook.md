@@ -11,7 +11,7 @@ Needs Docker Desktop with GPU support, Node, and Python. From the repo root:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install "fastapi>=0.115" "uvicorn>=0.30" "sqlalchemy>=2" pydantic-settings eth-account websockets web3
-docker build -t gpuchain-runtime:spike -f infra/runtime.Dockerfile infra
+docker build -t ekido-runtime:spike -f infra/runtime.Dockerfile infra
 cd apps/web; pnpm install; pnpm build; cd ../..
 ```
 
