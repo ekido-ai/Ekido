@@ -18,8 +18,8 @@ These files are the contract between the four tracks, so everyone can build agai
 
 ## Conventions
 
-- **Hashes:** lowercase hex SHA-256 with no `0x` (`Sha256` in schemas). On-chain values use `0x`-prefixed `bytes32`.
-- **Canonical JSON:** RFC 8785 (JCS). A document's hash is the SHA-256 of its canonical form, with the `signature` field removed.
+- **Hashes:** lowercase hex SHA-256 with no `0x` (`sha256` in `$defs` of the schemas). On-chain values use `0x`-prefixed `bytes32`.
+- **Canonical JSON:** RFC 8785 (JCS). A document's hash is the SHA-256 of its canonical form, with the `signature` and `sig` fields removed.
 - **Addresses:** `0x`-prefixed, 20 bytes, compared case-insensitively.
 - **Amounts:** USDC base units (6 decimals) as decimal strings, never floats.
 - **Times:** RFC 3339 UTC.

@@ -43,6 +43,27 @@
 | Job escapes onto a provider's machine | Approved workloads only; Docker mode with no network, read-only root, dropped capabilities, memory and PID limits | Agent tests |
 | Disk loss on the server | Daily integrity-checked backups copied to a private bucket the server cannot delete from | Backup run of 10 Nov |
 
+## Contract security pass (14 Nov 2026)
+
+Static analysis, fuzz and invariant results for `contracts/src/`. Not an audit. The full triage is in [`contracts/security/slither-report.md`](contracts/security/slither-report.md) and the raw output in `contracts/security/slither-output.txt`.
+
+| Check | Result |
+|---|---|
+| Slither 0.11.6 (102 detectors, solc 0.8.33) | 12 results: 0 High, 2 Medium, 7 Low, 3 Informational. Both Medium results are false positives (locals that deliberately start at their default value); the rest are timestamp comparisons and unindexed event addresses. No code change needed |
+| Invariant `invariant_contractIsAlwaysSolvent` | Token balance equals `totalLocked + totalWithdrawable` across random call sequences (128 runs, depth 64) |
+| Fuzz `testFuzz_settlementConservesFunds`, `testFuzz_wrongTotalAlwaysRejected` | Payouts plus refund always equal the budget; a verdict whose amounts don't add up is always rejected (512 runs each) |
+
+Weaknesses found in the earlier attacker review, each reproduced by a test in `contracts/test/AttackerReview.t.sol`:
+
+| ID | Weakness | Status |
+|---|---|---|
+| F1 | The client picks the deadline, and anyone can refund the client an hour after it, even while the job is still running. A verdict that is signed but not yet submitted then fails | Open, disclosed. The coordinator must check the on-chain deadline and submit the verdict in time (`test_poc_F1_clientRefundsBeforeLateVerdictLands`) |
+| F2 | The arbiter could be swapped during a dispute | Fixed: the arbiter is snapshotted per job (`test_holds_F2_*`, `IndependentF2F5.t.sol`) |
+| F3 | A client can delay provider payouts by up to 3 days at no cost if the arbiter stays silent | Open, disclosed (`test_poc_F3_freeDisputeDelaysProviderPayoutThreeDays`) |
+| F4 | Job IDs are first come, first served, so a pending `createJob` can be front-run. The attacker can't take the money | Open, disclosed (`test_poc_F4_attackerSquatsJobId`) |
+| F5 | A job could be activated after its deadline | Fixed: `markActive` checks the deadline (`test_holds_F5_cannotActivateAfterDeadline`) |
+| F6 | The owner is one key with no delay and can change the coordinator, arbiter and verifier set for new jobs | Open, disclosed (`test_poc_F6_ownerSwapIsInstantAndUntested`) |
+
 ## Out of scope / residual
 
 - **Colluding verifiers.** Two of the three team-run verifiers could approve bad work. The dispute window and public report hashes are the only defence today; independent paid verifiers are next.

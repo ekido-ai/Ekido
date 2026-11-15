@@ -1,6 +1,6 @@
 # Cross-GPU leg 3, from Vaibhav (7 Nov 2026)
 
-Copied, without running any code, from `C:\Users\Mahak\Downloads\attachments (1).zip`, the Gmail wrapper. The inner `GPUChain_leg3_outputs_2026-11-07.zip` has SHA-256 `c5210339529d2f7f94b7731639f9108ae1027e9657dc563ccfa422535de81d0c`, which matches what Vaibhav quoted. All six files listed in `SHA256SUMS.json` matched.
+Copied, without running any code, from `attachments (1).zip`, the Gmail wrapper. The inner `GPUChain_leg3_outputs_2026-11-07.zip` has SHA-256 `c5210339529d2f7f94b7731639f9108ae1027e9657dc563ccfa422535de81d0c`, which matches what Vaibhav quoted. All six files listed in `SHA256SUMS.json` matched.
 
 **Round trip:**
 

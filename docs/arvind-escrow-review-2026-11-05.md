@@ -1,6 +1,6 @@
 # Review of `contracts/src/GPUChainEscrow.sol` (Piyush's version)
 
-Reviewer: Arvind, 5 Nov 2026, with Claude. **Unaudited, not a professional audit.** Local only, nothing deployed to a public network.
+Reviewer: Arvind, 5 Nov 2026, with an AI assistant. **Unaudited, not a professional audit.** Local only, nothing deployed to a public network.
 
 ## What I ran (real results)
 | Check | Result |

@@ -13,7 +13,7 @@
   "cap_p": 1200,
   "eval_examples": 2000
  },
- "work_dir": "C:\\Users\\Mahak\\AppData\\Local\\Temp\\gpuchain_run_hpv8udi_",
+ "work_dir": "C:\\Users\\<user>\\AppData\\Local\\Temp\\gpuchain_run_hpv8udi_",
  "providers": {
   "a": "d27708fa-854a-4965-9042-68fae8fec23b",
   "p": "b44ebd63-92e7-438e-930e-ab6d523b9203",
