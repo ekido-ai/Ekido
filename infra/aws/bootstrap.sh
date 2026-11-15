@@ -72,7 +72,7 @@ echo "== units and ops scripts"
 install -m 0644 "$SRC/infra/gcp/gpuchain-sepolia.service" "$SRC/infra/gcp/gpuchain-sepolia-verifier@.service" \
   "$SRC/infra/gcp/gpuchain-sepolia-web.service" /etc/systemd/system/
 install -m 0644 "$SRC"/infra/gcp/ops/gpuchain-sepolia-smoke-provider.service \
-  "$SRC"/infra/gcp/ops/gpuchain-{autodeploy,backup,monitor}.{service,timer} /etc/systemd/system/
+  "$SRC"/infra/gcp/ops/gpuchain-{autodeploy,backup,monitor,retention}.{service,timer} /etc/systemd/system/
 mkdir -p "$OPS"
 for f in gpuchain-autodeploy.sh gpuchain-web-deploy.sh gpuchain-backup.sh gpuchain-monitor.sh; do
   sed 's/\r$//' "$SRC/infra/gcp/ops/$f" > "$OPS/$f"; chmod 0755 "$OPS/$f"; bash -n "$OPS/$f"
@@ -92,5 +92,6 @@ systemctl reload caddy || systemctl restart caddy
 
 systemctl daemon-reload
 systemctl enable gpuchain-sepolia gpuchain-sepolia-verifier@1 gpuchain-sepolia-verifier@2 gpuchain-sepolia-web \
-  gpuchain-sepolia-smoke-provider gpuchain-autodeploy.timer gpuchain-backup.timer gpuchain-monitor.timer >/dev/null 2>&1
+  gpuchain-sepolia-smoke-provider gpuchain-autodeploy.timer gpuchain-backup.timer gpuchain-monitor.timer \
+  gpuchain-retention.timer >/dev/null 2>&1
 echo "Bootstrap done for ${SHA:0:7}. Next: secrets, data, escrow ABI, then start the services."
