@@ -5,7 +5,8 @@
 # snapshot and any new artifacts are also copied to that Cloud Storage bucket, which protects against losing the disk.
 # The upload never deletes anything in the bucket; the bucket's own lifecycle rule expires old DB snapshots.
 set -euo pipefail
-BACKUP_BUCKET=""
+BACKUP_BUCKET=""      # Google Cloud Storage bucket name (the GCP VM).
+BACKUP_S3_BUCKET=""   # Amazon S3 bucket name (an AWS VM). Set one of the two, not both.
 [ -f /etc/gpuchain/backup.env ] && . /etc/gpuchain/backup.env
 SRC_DB=/var/lib/gpuchain-sepolia/jobs.db
 SRC_ART=/var/lib/gpuchain-sepolia/artifacts
@@ -32,4 +33,11 @@ if [ -n "$BACKUP_BUCKET" ]; then
   # rsync without --delete-unmatched-destination-objects: only adds new artifacts.
   "$GCLOUD" storage rsync --recursive "$DEST/artifacts" "gs://$BACKUP_BUCKET/artifacts"
   echo "off-site ok: gs://$BACKUP_BUCKET/db/jobs-$STAMP.db.gz"
+fi
+if [ -n "$BACKUP_S3_BUCKET" ]; then
+  # Each snapshot name is unique (UTC timestamp), so nothing is overwritten. `sync` without --delete only adds
+  # new artifacts, which are named by their hash and never change. The instance role must not allow s3:DeleteObject.
+  aws s3 cp "$DEST/db/jobs-$STAMP.db.gz" "s3://$BACKUP_S3_BUCKET/db/"
+  aws s3 sync "$DEST/artifacts" "s3://$BACKUP_S3_BUCKET/artifacts"
+  echo "off-site ok: s3://$BACKUP_S3_BUCKET/db/jobs-$STAMP.db.gz"
 fi

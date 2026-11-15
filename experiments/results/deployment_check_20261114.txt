@@ -1,0 +1,15 @@
+# Deployed contracts vs this repository, run on the AWS instance on 14 Nov 2026
+# Command: cd /opt/GPUchain && FORGE=/opt/foundry/forge python3 infra/verify_deployed_contracts.py (as root)
+# forge 1.9.0 (SHA-256 of the download checked against the published one), libraries forge-std v1.17.0 and OpenZeppelin v5.7.0
+
+GPUChainEscrow 0x1BF65f755457a92850009c88AFb337Ec57745a22
+  deployed 11953 bytes, compiled here 11953 bytes
+  225 differing bytes in 20 runs
+  every differing byte is zero in the compiled code (constructor values): True
+  metadata hash differs: False
+  RESULT: same build; only constructor values differ
+ProviderRegistry 0xcdf927CE0D885552529C5463993e64429a51c2Ff
+  deployed 1396 bytes, compiled here 1396 bytes
+  RESULT: identical
+
+exit code: 0

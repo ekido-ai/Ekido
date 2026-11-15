@@ -39,3 +39,10 @@ class SignedTerms(unittest.TestCase):
                     self.spec["provider_terms"].append(copy.deepcopy(self.spec["provider_terms"][0]))
                     self.binding = job_binding(job_id=self.job, onchain_id=self.onchain, chain_id=self.chain, contract=self.contract, spec=self.spec, policy=self.policy, budget="5", key=self.client_key)
                 with self.assertRaises(ValueError): self.check()
+
+    def test_rejects_a_budget_that_is_negative_or_finer_than_a_micro_usdc(self):
+        for budget in ("-5", "0", "5.0000001", "NaN", "Infinity"):
+            with self.subTest(budget=budget):
+                self.binding = job_binding(job_id=self.job, onchain_id=self.onchain, chain_id=self.chain, contract=self.contract, spec=self.spec, policy=self.policy, budget=budget, key=self.client_key)
+                with self.assertRaises(ValueError):
+                    validate_terms(job_id=self.job, client=self.client, binding=self.binding, spec=self.spec, policy=self.policy, budget=Decimal(budget), chain_id=self.chain, contract=self.contract)

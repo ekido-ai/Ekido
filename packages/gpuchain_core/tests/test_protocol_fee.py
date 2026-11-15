@@ -49,6 +49,15 @@ class ProtocolFeeTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             add_fee({A: Decimal("1")}, Decimal("1"), (800, TREASURY))
 
+    def test_one_wallet_in_two_casings_is_added_up(self):
+        payouts, refund = add_fee({A.upper().replace("0X", "0x"): Decimal("1"), A: Decimal("2")}, Decimal("10"), None)
+        self.assertEqual(payouts, {A: Decimal("3")})
+        self.assertEqual(refund, Decimal("7"))
+
+    def test_a_negative_payout_is_refused(self):
+        with self.assertRaises(ValueError):
+            add_fee({A: Decimal("-5"), B: Decimal("5")}, Decimal("5"), None)
+
 
 if __name__ == "__main__":
     unittest.main()

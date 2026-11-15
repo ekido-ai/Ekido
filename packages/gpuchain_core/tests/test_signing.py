@@ -6,7 +6,11 @@ from pathlib import Path
 
 try:
     from eth_account import Account
+except ImportError:  # pragma: no cover
+    Account = None
 
+if Account is not None:
+    # Only a missing eth-account skips these tests. A broken import of our own code must fail the run.
     from gpuchain_core.signing import (
         order_signatures,
         recover_document_signer,
@@ -17,8 +21,6 @@ try:
         verify_document,
     )
     import generate_verdict_vector as vector
-except ImportError:  # pragma: no cover
-    Account = None
 
 KEY_A = "0x" + "11" * 32
 KEY_B = "0x" + "22" * 32

@@ -13,7 +13,7 @@
   "cap_p": 1200,
   "eval_examples": 2000
  },
- "work_dir": "C:\\Users\\Mahak\\AppData\\Local\\Temp\\gpuchain_run_xczvryjr",
+ "work_dir": "C:\\Users\\<user>\\AppData\\Local\\Temp\\gpuchain_run_xczvryjr",
  "providers": {
   "a": "33fbc050-75c5-4402-97fa-3d7801ab624c",
   "p": "67f10633-e9e2-46c9-90f6-bf30a1e763a9",

@@ -51,16 +51,20 @@ def _write_durable(tensors: dict[str, torch.Tensor], path: Path) -> None:
 
 
 def optimizer_state_to_tensors(optimizer: torch.optim.Optimizer, names: Mapping[int, str]) -> dict[str, torch.Tensor]:
-    """Adam state keyed by parameter name, because indexes aren't stable across environments."""
-    states = {id(param): state for param, state in optimizer.state.items()}
-    missing = sorted(name for param_id, name in names.items() if not isinstance(states.get(param_id), dict) or not all(field in states[param_id] for field in OPTIMIZER_FIELDS))
-    if missing:
-        raise CheckpointError("BAD_CHECKPOINT", f"no optimizer state or incomplete Adam state for {len(missing)} trainable parameters, such as {missing[0]}")
+    """Adam state keyed by parameter name, because indexes aren't stable across environments.
+
+    A parameter Adam hasn't touched yet has no state, and is stored as no tensors at all: before the
+    first step, or when it never received a gradient. State with only some of its fields is refused.
+    """
     tensors: dict[str, torch.Tensor] = {}
     for param, state in optimizer.state.items():
         if id(param) not in names:
             raise CheckpointError("BAD_CHECKPOINT", "optimizer state contains an unknown parameter")
         name = names[id(param)]
+        if not state:
+            continue
+        if not isinstance(state, dict) or not all(field in state for field in OPTIMIZER_FIELDS):
+            raise CheckpointError("BAD_CHECKPOINT", f"incomplete Adam state for trainable parameter {name}")
         tensors[f"{name}.exp_avg"] = state["exp_avg"].detach().cpu().clone()
         tensors[f"{name}.exp_avg_sq"] = state["exp_avg_sq"].detach().cpu().clone()
         tensors[f"{name}.step"] = torch.as_tensor(state["step"]).detach().cpu().clone().reshape(1)
@@ -167,6 +171,24 @@ def expected_optimizer_shapes(param_shapes: Mapping[str, tuple[int, ...]]) -> di
     return shapes
 
 
+def _stored_optimizer_shapes(path: Path, param_shapes: Mapping[str, tuple[int, ...]]) -> dict[str, tuple[int, ...]]:
+    """Shapes to expect in the optimizer file: each parameter has all of its Adam fields, or none of them."""
+    try:
+        with safe_open(str(path), framework="pt", device="cpu") as handle:
+            found = set(handle.keys())
+    except (SafetensorError, OSError, ValueError, RuntimeError) as exc:
+        raise CheckpointError("MALFORMED_CHECKPOINT", f"{path.name} is not valid safetensors: {exc}") from exc
+    kept: dict[str, tuple[int, ...]] = {}
+    for name, shape in param_shapes.items():
+        fields = expected_optimizer_shapes({name: shape})
+        present = found.intersection(fields)
+        if present and len(present) != len(fields):
+            raise CheckpointError("MALFORMED_CHECKPOINT", f"{path.name}: incomplete optimizer state for {name}")
+        if present:
+            kept.update(fields)
+    return kept
+
+
 def load_checkpoint(
     directory: Path,
     param_shapes: Mapping[str, tuple[int, ...]],
@@ -175,7 +197,10 @@ def load_checkpoint(
     max_file_bytes: int = DEFAULT_MAX_FILE_BYTES,
     expected_immutable_hash: str | None = None,
 ) -> tuple[dict, dict[str, torch.Tensor], dict[str, torch.Tensor]]:
-    """Validate a checkpoint and return (manifest, trainable, optimizer tensors), all on CPU."""
+    """Validate a checkpoint and return (manifest, trainable, optimizer tensors), all on CPU.
+
+    A parameter with no optimizer state has no entries in the optimizer tensors.
+    """
     directory = Path(directory)
     manifest = read_manifest(directory)
     if expected_immutable_hash is not None and manifest.get("immutable_hash") != expected_immutable_hash:
@@ -183,13 +208,19 @@ def load_checkpoint(
     trainable_path = _check_file(directory, TRAINABLE_FILE, manifest, max_file_bytes)
     optimizer_path = _check_file(directory, OPTIMIZER_FILE, manifest, max_file_bytes)
     trainable = _load_validated(trainable_path, param_shapes, dtype)
-    optimizer_tensors = _load_validated(optimizer_path, expected_optimizer_shapes(param_shapes), dtype)
+    optimizer_tensors = _load_validated(optimizer_path, _stored_optimizer_shapes(optimizer_path, param_shapes), dtype)
     return manifest, trainable, optimizer_tensors
 
 
 def restore_optimizer_state(optimizer: torch.optim.Optimizer, named_params: Mapping[str, torch.nn.Parameter], tensors: Mapping[str, torch.Tensor]) -> None:
-    """Puts validated Adam state back, moving each tensor to its parameter's device."""
+    """Puts validated Adam state back, moving each tensor to its parameter's device.
+
+    A parameter the checkpoint holds no state for is left without any, as it was when saved.
+    """
     for name, param in named_params.items():
+        if f"{name}.step" not in tensors:
+            optimizer.state.pop(param, None)
+            continue
         optimizer.state[param] = {
             "step": tensors[f"{name}.step"].reshape(()).clone().to(param.device),
             "exp_avg": tensors[f"{name}.exp_avg"].clone().to(param.device),

@@ -31,4 +31,4 @@ Thanks for your interest. GPUChain is a small project, so a clear issue or a foc
 - Solidity: checks-effects-interactions, custom errors, and a test for every revert path.
 - User-facing text: plain words, sentence case, active voice.
 
-By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE).
+This project is not open source: all rights are reserved (see [`LICENSE`](LICENSE)). Contributions are by invitation, and by contributing you agree that your contribution becomes part of the project under that license.

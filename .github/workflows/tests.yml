@@ -91,3 +91,32 @@ jobs:
           git clone --depth 1 --branch v5.7.0 https://github.com/OpenZeppelin/openzeppelin-contracts lib/openzeppelin-contracts
       - run: forge build --sizes
       - run: forge test
+
+  slither:
+    name: Slither
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: foundry-rs/foundry-toolchain@dba66c27052e63476d886f22216e119ba7e615bf # v1
+      - name: Fetch libraries
+        run: |
+          git clone --depth 1 --branch v1.17.0 https://github.com/foundry-rs/forge-std lib/forge-std
+          git clone --depth 1 --branch v5.7.0 https://github.com/OpenZeppelin/openzeppelin-contracts lib/openzeppelin-contracts
+      - run: pip install slither-analyzer==0.11.6
+      # Same filters as contracts/security/slither-report.md. Slither's exit code is ignored here;
+      # the check below decides, so a Low or Informational result does not fail the job.
+      - name: Run Slither
+        run: slither . --filter-paths "lib/|test/|script/" --json slither.json || true
+      # Fails on any High or Medium result except the two false positives triaged in
+      # slither-report.md (#1, #2): locals that deliberately start at their default value.
+      # They are matched by variable, function and contract, so the same detector firing
+      # anywhere else still fails the job.
+      - name: Fail on new Medium or High results
+        run: python security/check_slither.py slither.json

@@ -19,6 +19,18 @@ def verdict(**overrides):
     return build_verdict(**(args | overrides))
 
 
+class Bytes32(unittest.TestCase):
+    def test_whitespace_cannot_stand_in_for_hex_digits(self):
+        # Sixty-two hex digits plus two spaces is 64 characters, and bytes.fromhex skips the spaces.
+        for value in ("aa" * 31 + "  ", " " + "aa" * 31 + " ", "aa" * 31 + "\n\n"):
+            with self.subTest(value=repr(value)):
+                with self.assertRaises(ValueError):
+                    to_bytes32(value)
+
+    def test_a_valid_digest_is_lowercased_and_prefixed(self):
+        self.assertEqual(to_bytes32("AB" * 32), "0x" + "ab" * 32)
+
+
 class Roots(unittest.TestCase):
     def test_lineage_depends_on_order(self):
         self.assertNotEqual(lineage_root([H1, H2]), lineage_root([H2, H1]))
@@ -105,6 +117,14 @@ class Verdicts(unittest.TestCase):
         payouts = {f"0x{i:040x}": Decimal("0.5") for i in range(1, 10)}
         with self.assertRaises(ValueError):
             verdict(payouts=payouts, refund=Decimal("0.5"))
+
+    def test_a_negative_refund_is_refused(self):
+        with self.assertRaises(ValueError):
+            verdict(payouts={A: Decimal("6")}, refund=Decimal("-1"), budget=Decimal("5"))
+
+    def test_a_negative_payout_is_refused(self):
+        with self.assertRaises(ValueError):
+            verdict(payouts={A: Decimal("-1"), B: Decimal("5")}, refund=Decimal("0"), budget=Decimal("5"))
 
 
 if __name__ == "__main__":

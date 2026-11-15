@@ -25,6 +25,27 @@ Every number here traces to a raw file in [`experiments/results/`](experiments/r
 
 Not shown: recovery between GPUs live on stage, independent (non-team) verifiers, private training data, an audit.
 
+## Reliability: what happens when a GPU fails
+
+Spare GPUs go away without warning: a laptop sleeps, a driver crashes, a cloud instance is reclaimed. GPUChain treats that as the normal case.
+
+| Failure | How it is noticed | What the system does |
+|---|---|---|
+| Provider process or machine dies | Heartbeats stop; the coordinator's lease on the provider runs out | The job moves to another provider and resumes from the last checkpoint the verifiers accepted |
+| Network drops | The agent's connection closes | Same failover; a fencing token stops the old provider's late work from being accepted |
+| Out of memory on the new GPU | A memory probe before training | Micro-batch, accumulation and precision change; every logical step stays the same |
+| Crash while writing a checkpoint, or a corrupt checkpoint | Content hash and parent link on every checkpoint | The checkpoint is refused and the run fails over, so the chain of checkpoints cannot break |
+| Provider returns bad work | Verifiers re-evaluate on held-out data; two of three must sign | The work is refused and that provider is paid 0 |
+| Agent restarts with a new key | Every key a provider has used is kept | Accepted work is still paid |
+
+Measured on one run (RTX 3060 Laptop, local chain, raw files in `experiments/results/`):
+
+- Failure noticed in **0.6 s**; training resumed on another provider **65 s** later.
+- **8 of 400** steps lost; final accuracy 90.7% on 2,000 test examples.
+- 3 of 3 kill-and-recover rounds settled with the right payouts.
+
+What this does not show yet: these are single runs on one seed; six fault types are covered by end-to-end tests on CPU (`tests/test_e2e_faults.py`) but have not all been run on a GPU; recovery between two physical GPUs has run as a handed-over job, not live in front of an audience.
+
 ## How it fits together
 
 ```
@@ -69,7 +90,7 @@ Never commit `.env` files or private keys. Use testnet-only wallets.
 
 This is a prototype on a test network. Contracts are unaudited. Verifiers and the dispute arbiter are run by the team, so verification is permissioned, not trustless. Providers can read job data in GPU memory, so only public data should be used. A pass from the quality test means no degradation was detected beyond the agreed margin, not that two models are identical.
 
-## Team Outliers
+## Team
 
 | | Role |
 |---|---|
@@ -79,3 +100,7 @@ This is a prototype on a test network. Contracts are unaudited. Verifiers and th
 | Prateek Sharma | Product design: web app, UI/UX, the demo |
 
 Built for a hackathon in November 2026 and continued as a personal project.
+
+## License
+
+All rights reserved. The source is here to read; using, copying or deploying it needs written permission. See [`LICENSE`](LICENSE).

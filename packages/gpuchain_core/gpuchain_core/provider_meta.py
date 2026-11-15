@@ -9,6 +9,7 @@ vector in tests/test_provider_meta.py pins both.
 """
 from __future__ import annotations
 
+import re
 from decimal import Decimal
 
 from eth_utils import keccak
@@ -30,6 +31,8 @@ def price_micros(price: str | Decimal) -> int:
 
 
 def provider_metadata(name: str, wallet: str, price: str | Decimal, capacity_mib: int | None) -> dict:
+    if not isinstance(wallet, str) or not re.fullmatch(r"0x[0-9a-fA-F]{40}", wallet):
+        raise ValueError("wallet must be a 0x-prefixed 20-byte address")
     return {
         "kind": META_KIND,
         "name": name.strip(),

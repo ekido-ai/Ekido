@@ -48,3 +48,17 @@ The choices that shaped the project, with the reason for each. The original plan
 | One VM, SQLite, systemd, Caddy | The fewest moving parts that run reliably. Postgres, job leases and a second coordinator are the next step (see `docs/system-design.md`). |
 | Off-site backups the server cannot delete | Protects against disk loss and against an attacker on the server wiping backups. |
 | Email alerts from external uptime checks | Someone hears about an outage even when the server itself is down. |
+
+## Decisions made on 14 Nov 2026
+
+### 1. A refused final model fails the whole job: keep it
+
+When the final model is refused by the quality test, the job fails and everyone is refunded, including providers who did honest work earlier in the run.
+
+| Option | What it means | Cost |
+|---|---|---|
+| A. Full refund (kept) | Simple to explain. A bad final model costs the client nothing. | A provider can do honest work and earn 0 because a later one was bad. |
+| B. Pay accepted steps, refuse the rest | Providers keep pay for steps that passed their own checks. | Needs a rule for which steps count, plus a contract and verdict change. Weakens "pay only for what works". |
+| C. Full refund, plus a small payment for accepted checkpoints from a fee pool | Honest providers get something. | A new pool and a new place to cheat. |
+
+Decision: keep A. It matches the promise "pay only for what works" and needs no contract change; the README limitation says it plainly. Revisit B after the contracts are audited.
