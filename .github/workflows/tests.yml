@@ -36,6 +36,9 @@ jobs:
           - suite: verifier
             dir: workers/verifier
             path: ".:../../packages/ekido_core:../../workers/runtime"
+          - suite: experiments
+            dir: experiments
+            path: "."
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
