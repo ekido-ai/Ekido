@@ -31,7 +31,9 @@ api.__HOST__ {
 }
 
 # Base Sepolia (see sepolia.Caddyfile): coordinator under /sepolia, its dashboard on 3101.
-gpuchain.duckdns.org {
+# ekido.duckdns.org is the main site. gpuchain.duckdns.org stays as the provider and API domain. Both serve the same app;
+# the coordinator allows both origins through CORS_ORIGINS in /etc/gpuchain/sepolia.env.
+gpuchain.duckdns.org, ekido.duckdns.org {
 	import secure
 	encode gzip
 	# The commit the server is running, published by infra/gcp/ops/gpuchain-autodeploy.sh.
