@@ -83,6 +83,6 @@ Decision: B.
 
 ### 2. Product direction for Ekido
 
-The full set of landmark decisions is recorded in `docs/ekido/`: who we build for, selling results instead of compute, phones as providers, hidden providers, fiat by default with blockchain proofs, the AI assistant, and the roadmap. In short:
+The full set of landmark decisions is recorded in the team's internal docs: who we build for, selling results instead of compute, phones as providers, hidden providers, fiat by default with blockchain proofs, the AI assistant, and the roadmap. In short:
 - We build for small businesses, developers and personal users who want their own small model.
 - Payment is in normal money by default, the blockchain stores proof, and crypto is optional.
