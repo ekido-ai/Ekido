@@ -83,7 +83,7 @@ The chain holds the money and the rules; the coordinator orchestrates recovery, 
 
 - **Rent out a GPU:** download the provider kit from the website's *Rent out your GPU* page, or build it with `python infra/provider-kit/build_kit.py`, then follow `infra/provider-kit/README.md`.
 - **Tests:** contracts with `forge test` in `contracts/`; Python packages with `pytest` in each package; the web app with `npx vitest run` in `apps/web-combined/`. On Windows, `infra/run-tests-host.ps1` runs the CPU suites with a memory watchdog.
-- **Local demo:** see [`docs/demo-runbook.md`](docs/demo-runbook.md) for the GPU path and the CPU fallback.
+- **Local demo:** `python experiments/demo_stack.py --help` lists the GPU path and the CPU fallback (`--cpu --no-docker`).
 - **Deploys:** merging into `main` deploys itself once CI is green; see [`RUNBOOK.md`](RUNBOOK.md).
 
 Never commit `.env` files or private keys. Use testnet-only wallets.
