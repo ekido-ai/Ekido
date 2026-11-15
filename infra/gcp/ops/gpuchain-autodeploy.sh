@@ -11,7 +11,7 @@
 # Python dependency changes (pyproject.toml) are never deployed automatically.
 set -euo pipefail
 
-REPO="${EKIDO_REPO:-piyushgargog/GPUChain}"
+REPO="${EKIDO_REPO:-ekido-ai/Ekido}"
 BRANCH="${EKIDO_BRANCH:-main}"
 STATE=/var/lib/gpuchain-autodeploy
 PUBLIC="$STATE/public"

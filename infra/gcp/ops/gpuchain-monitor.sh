@@ -11,7 +11,7 @@ code=${ready##*$'\n'}; body=${ready%$'\n'*}
 for svc in gpuchain-sepolia gpuchain-sepolia-verifier@1 gpuchain-sepolia-verifier@2 gpuchain-sepolia-web gpuchain-web caddy; do
   systemctl is-active --quiet "$svc" || problems+=("service $svc is $(systemctl is-active "$svc")")
 done
-for url in https://gpuchain.duckdns.org/ https://gpuchain.duckdns.org/sepolia/healthz; do
+for url in https://ekido.duckdns.org/ https://gpuchain.duckdns.org/sepolia/healthz; do
   c=$(curl -s -o /dev/null -m 15 -w '%{http_code}' "$url"); [ "$c" = "200" ] || problems+=("$url answered $c")
 done
 free_pct=$(df --output=pcent / | tail -1 | tr -dc '0-9'); [ "$free_pct" -lt 85 ] || problems+=("root disk ${free_pct}% used")

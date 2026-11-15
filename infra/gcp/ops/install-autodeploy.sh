@@ -15,13 +15,14 @@ mkdir -p /var/lib/gpuchain-autodeploy/public && chmod 755 /var/lib/gpuchain-auto
 chmod 644 /var/lib/gpuchain-autodeploy/public/version.json
 
 # Serve the deployed version at https://gpuchain.duckdns.org/deploy/version.json (nothing else from that folder).
+# The anchor matches the site block in infra/gcp/Caddyfile, which answers both domain names.
 CF=/etc/caddy/Caddyfile
 if ! grep -q 'handle_path /deploy/\*' "$CF"; then
   cp -a "$CF" "$CF.before-autodeploy-$(date -u +%Y%m%d-%H%M%S)"
   python3 - "$CF" <<'PY'
 import sys
 p = sys.argv[1]; s = open(p).read()
-anchor = "gpuchain.duckdns.org {\n\timport secure\n\tencode gzip\n"
+anchor = "gpuchain.duckdns.org, ekido.duckdns.org {\n\timport secure\n\tencode gzip\n"
 block = ("\thandle_path /deploy/* {\n\t\t@version path /version.json\n\t\thandle @version {\n"
          "\t\t\theader Cache-Control \"no-store\"\n\t\t\troot * /var/lib/gpuchain-autodeploy/public\n\t\t\tfile_server\n\t\t}\n"
          "\t\trespond 404\n\t}\n")
