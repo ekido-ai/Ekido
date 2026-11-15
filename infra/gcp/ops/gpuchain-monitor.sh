@@ -9,6 +9,7 @@ ready=$(curl -s -m 15 -w '\n%{http_code}' http://127.0.0.1:8003/readyz)
 code=${ready##*$'\n'}; body=${ready%$'\n'*}
 [ "$code" = "200" ] || problems+=("coordinator readyz $code: $(echo "$body" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(", ".join(f"{k}: {v[\"detail\"]}" for k,v in d["checks"].items() if not v["ok"]))' 2>/dev/null || echo unreachable)")
 for svc in gpuchain-sepolia gpuchain-sepolia-verifier@1 gpuchain-sepolia-verifier@2 gpuchain-sepolia-web gpuchain-web caddy; do
+  systemctl cat "$svc" >/dev/null 2>&1 || continue  # a unit this server doesn't have, such as the demo app on AWS
   systemctl is-active --quiet "$svc" || problems+=("service $svc is $(systemctl is-active "$svc")")
 done
 for url in https://ekido.duckdns.org/ https://gpuchain.duckdns.org/sepolia/healthz; do
