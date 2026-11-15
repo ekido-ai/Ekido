@@ -68,7 +68,7 @@ deploy /opt/GPUchain/apps/web-combined gpuchain-web \
   NEXT_PUBLIC_COORDINATOR_URL=https://api.34-93-70-171.sslip.io \
   "NEXT_PUBLIC_COORDINATOR_WS=wss://api.34-93-70-171.sslip.io/ws/jobs/{job}" \
   NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=31337
-for u in https://gpuchain.duckdns.org/ https://gpuchain.duckdns.org/chain https://34-93-70-171.sslip.io/; do
+for u in https://ekido.duckdns.org/ https://ekido.duckdns.org/chain https://34-93-70-171.sslip.io/; do
   echo "$u $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$u")"
 done
 exit $FAILED
