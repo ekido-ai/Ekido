@@ -11,8 +11,8 @@
 # Python dependency changes (pyproject.toml) are never deployed automatically.
 set -euo pipefail
 
-REPO="${GPUCHAIN_REPO:-piyushgargog/GPUChain}"
-BRANCH="${GPUCHAIN_BRANCH:-main}"
+REPO="${EKIDO_REPO:-piyushgargog/GPUChain}"
+BRANCH="${EKIDO_BRANCH:-main}"
 STATE=/var/lib/gpuchain-autodeploy
 PUBLIC="$STATE/public"
 APP=/opt/gpuchain-sepolia
@@ -61,7 +61,7 @@ log "${SHA:0:7}: CI green"
 # ── 2. What changed: compare the new source with what is running, file by file ──
 SRC=$(mktemp -d); trap 'rm -rf "$SRC"' EXIT
 curl -fsSL --max-time 120 "https://codeload.github.com/$REPO/tar.gz/$SHA" | tar -xz -C "$SRC" --strip-components=1
-DIRS=(apps/coordinator/gpuchain_coordinator packages/gpuchain_core/gpuchain_core workers/agent/gpuchain_agent workers/runtime/gpuchain_runtime workers/verifier/gpuchain_verifier)
+DIRS=(apps/coordinator/ekido_coordinator packages/ekido_core/ekido_core workers/agent/ekido_agent workers/runtime/ekido_runtime workers/verifier/ekido_verifier)
 WEB_LIVE=/opt/GPUchain/.cache/sepolia-release/apps/web-combined
 same() { diff -rq --strip-trailing-cr --exclude tests --exclude __pycache__ "$1" "$2" >/dev/null 2>&1; }
 

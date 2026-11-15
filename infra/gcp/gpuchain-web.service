@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain dashboard
+Description=Ekido dashboard
 After=network-online.target gpuchain-stack.service
 
 [Service]

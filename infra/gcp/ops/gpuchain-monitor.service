@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain health monitor
+Description=Ekido health monitor
 
 [Service]
 Type=oneshot

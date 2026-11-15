@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain Base Sepolia smoke provider (CPU, joins the hosted network)
+Description=Ekido Base Sepolia smoke provider (CPU, joins the hosted network)
 After=network-online.target gpuchain-sepolia.service caddy.service
 Wants=network-online.target
 
@@ -9,8 +9,8 @@ Wants=network-online.target
 DynamicUser=yes
 StateDirectory=gpuchain-sepolia-smoke
 WorkingDirectory=/opt/gpuchain-sepolia
-Environment=PYTHONPATH=/opt/gpuchain-sepolia/workers/agent:/opt/gpuchain-sepolia/workers/runtime:/opt/gpuchain-sepolia/packages/gpuchain_core
-ExecStart=/opt/gpuchain-sepolia/venv/bin/python -m gpuchain_agent.join --coordinator wss://gpuchain.duckdns.org/sepolia --name "Sepolia CPU verification" --price 0.001 --device cpu --workdir /var/lib/gpuchain-sepolia-smoke/work --key-file /var/lib/gpuchain-sepolia-smoke/provider.key
+Environment=PYTHONPATH=/opt/gpuchain-sepolia/workers/agent:/opt/gpuchain-sepolia/workers/runtime:/opt/gpuchain-sepolia/packages/ekido_core
+ExecStart=/opt/gpuchain-sepolia/venv/bin/python -m ekido_agent.join --coordinator wss://gpuchain.duckdns.org/sepolia --name "Sepolia CPU verification" --price 0.001 --device cpu --workdir /var/lib/gpuchain-sepolia-smoke/work --key-file /var/lib/gpuchain-sepolia-smoke/provider.key
 Restart=always
 RestartSec=10
 MemoryMax=2G

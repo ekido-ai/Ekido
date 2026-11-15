@@ -1,5 +1,5 @@
 [Unit]
-Description=Check GPUChain health every 5 minutes
+Description=Check Ekido health every 5 minutes
 
 [Timer]
 OnBootSec=2min

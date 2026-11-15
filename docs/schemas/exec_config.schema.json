@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "gpuchain/exec_config/v1",
   "title": "ExecConfig",
-  "description": "How a job executes on one GPU. May change at recovery. micro_batch * accumulation must equal the job's logical_batch_size (checked in gpuchain_core).",
+  "description": "How a job executes on one GPU. May change at recovery. micro_batch * accumulation must equal the job's logical_batch_size (checked in ekido_core).",
   "type": "object",
   "additionalProperties": false,
   "required": ["micro_batch", "accumulation", "amp", "grad_checkpointing", "attention_impl", "loader_workers"],
