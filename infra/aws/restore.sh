@@ -23,10 +23,13 @@ test -f "$APP/contracts/out/GPUChainEscrow.sol/GPUChainEscrow.json"
 echo "== secrets"
 install -d -m 0755 /etc/gpuchain
 for name in sepolia.env sepolia-verifier-1.env sepolia-verifier-2.env; do
-  umask 077
+  # Create the file with mode 600 first, then write into it. Not with umask 077: the snap-packaged AWS CLI then
+  # writes nothing and still exits 0, which left empty secret files once.
+  install -m 600 /dev/null "/etc/gpuchain/$name"
   aws ssm get-parameter --name "/ekido/server/$name" --with-decryption --query Parameter.Value --output text > "/etc/gpuchain/$name"
-  chmod 600 "/etc/gpuchain/$name"
-  echo "$name: $(grep -c '=' "/etc/gpuchain/$name") keys"
+  keys=$(grep -c '=' "/etc/gpuchain/$name" || true)
+  [ "$keys" -gt 0 ] || { echo "$name came back empty; stopping"; exit 1; }
+  echo "$name: $keys keys"
 done
 printf 'BACKUP_S3_BUCKET=%s\n' "$BUCKET" > /etc/gpuchain/backup.env
 chmod 644 /etc/gpuchain/backup.env
@@ -50,7 +53,7 @@ if [ -e "$STATE/jobs.db" ]; then
 fi
 cp "$WORK/ekido-data/jobs.db" "$STATE/jobs.db"
 mkdir -p "$STATE/artifacts"
-cp -rn "$WORK/ekido-data/artifacts/." "$STATE/artifacts/"
+cp -r --update=none "$WORK/ekido-data/artifacts/." "$STATE/artifacts/"
 echo "artifacts: $(find "$STATE/artifacts" -type f | wc -l) files"
 
 echo "== start"
