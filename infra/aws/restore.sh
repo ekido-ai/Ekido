@@ -23,10 +23,10 @@ test -f "$APP/contracts/out/GPUChainEscrow.sol/GPUChainEscrow.json"
 echo "== secrets"
 install -d -m 0755 /etc/gpuchain
 for name in sepolia.env sepolia-verifier-1.env sepolia-verifier-2.env; do
-  # Create the file with mode 600 first, then write into it. Not with umask 077: the snap-packaged AWS CLI then
-  # writes nothing and still exits 0, which left empty secret files once.
+  # Create the file with mode 600 first, then fill it through a pipe. The snap-packaged AWS CLI writes nothing when
+  # its output is redirected straight to a file, and still exits 0, which left empty secret files once.
   install -m 600 /dev/null "/etc/gpuchain/$name"
-  aws ssm get-parameter --name "/ekido/server/$name" --with-decryption --query Parameter.Value --output text > "/etc/gpuchain/$name"
+  aws ssm get-parameter --name "/ekido/server/$name" --with-decryption --query Parameter.Value --output text | cat > "/etc/gpuchain/$name"
   keys=$(grep -c '=' "/etc/gpuchain/$name" || true)
   [ "$keys" -gt 0 ] || { echo "$name came back empty; stopping"; exit 1; }
   echo "$name: $keys keys"
