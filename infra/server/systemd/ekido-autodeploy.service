@@ -5,6 +5,6 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/flock -n /run/gpuchain-autodeploy.lock /opt/gpuchain-ops/gpuchain-autodeploy.sh
+ExecStart=/usr/bin/flock -n /run/ekido-autodeploy.lock /opt/ekido-ops/ekido-autodeploy.sh
 TimeoutStartSec=45min
 Nice=5

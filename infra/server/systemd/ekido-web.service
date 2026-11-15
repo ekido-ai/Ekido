@@ -3,8 +3,8 @@ Description=Ekido Base Sepolia dashboard
 After=network-online.target
 
 [Service]
-User=gpuchain
-WorkingDirectory=/opt/GPUchain/.cache/sepolia-release/apps/web-combined
+User=ekido
+WorkingDirectory=/opt/ekido/web
 ExecStart=/usr/bin/node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3101
 Restart=on-failure
 RestartSec=5

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Pull-based continuous deployment for the hosted Base Sepolia network.
 #
-# Every few minutes (gpuchain-autodeploy.timer) this checks the newest commit on main. It deploys only when every
+# Every few minutes (ekido-autodeploy.timer) this checks the newest commit on main. It deploys only when every
 # required CI check on that commit has passed, and never holds a GitHub credential: the repository is public, so it
 # reads the commit, its check runs and the source archive anonymously. Nothing in GitHub can reach into this server.
 #
@@ -13,14 +13,14 @@ set -euo pipefail
 
 REPO="${EKIDO_REPO:-ekido-ai/Ekido}"
 BRANCH="${EKIDO_BRANCH:-main}"
-STATE=/var/lib/gpuchain-autodeploy
+STATE=/var/lib/ekido-autodeploy
 PUBLIC="$STATE/public"
-APP=/opt/gpuchain-sepolia
-BACKUPS=/opt/gpuchain-sepolia-backups
-WEB_DEPLOY=/opt/gpuchain-ops/gpuchain-web-deploy.sh
+APP=/opt/ekido
+BACKUPS=/opt/ekido-backups
+WEB_DEPLOY=/opt/ekido-ops/ekido-web-deploy.sh
 REQUIRED='["Python (core)","Python (runtime)","Python (agent)","Python (coordinator)","Python (verifier)","Web app","Contracts"]'
 API="https://api.github.com/repos/$REPO"
-CURL=(curl -fsS --max-time 30 -H "Accept: application/vnd.github+json" -H "User-Agent: gpuchain-autodeploy")
+CURL=(curl -fsS --max-time 30 -H "Accept: application/vnd.github+json" -H "User-Agent: ekido-autodeploy")
 
 mkdir -p "$STATE" "$PUBLIC" "$BACKUPS"
 chmod 755 "$STATE" "$PUBLIC"
@@ -29,7 +29,7 @@ DRY="${DRY_RUN:-0}"   # DRY_RUN=1: check CI and compare code, report what would 
 fail() {
   echo "FAILED: $*"
   [ "$DRY" = 1 ] && exit 1
-  logger -p err -t gpuchain-autodeploy "$*"; echo "$SHA" > "$STATE/failed"
+  logger -p err -t ekido-autodeploy "$*"; echo "$SHA" > "$STATE/failed"
   # Publish the failure next to the running version, so the GitHub deploy check can stop waiting and say why.
   if [ -f "$PUBLIC/version.json" ]; then
     jq --arg sha "$SHA" --arg why "$*" '. + {failed_sha: $sha, failed_reason: $why}' "$PUBLIC/version.json" > "$PUBLIC/version.json.tmp" \
@@ -62,7 +62,7 @@ log "${SHA:0:7}: CI green"
 SRC=$(mktemp -d); trap 'rm -rf "$SRC"' EXIT
 curl -fsSL --max-time 120 "https://codeload.github.com/$REPO/tar.gz/$SHA" | tar -xz -C "$SRC" --strip-components=1
 DIRS=(apps/coordinator/ekido_coordinator packages/ekido_core/ekido_core workers/agent/ekido_agent workers/runtime/ekido_runtime workers/verifier/ekido_verifier)
-WEB_LIVE=/opt/GPUchain/.cache/sepolia-release/apps/web-combined
+WEB_LIVE=/opt/ekido/web
 same() { diff -rq --strip-trailing-cr --exclude tests --exclude __pycache__ "$1" "$2" >/dev/null 2>&1; }
 
 # Python dependencies are never changed automatically.
@@ -72,16 +72,14 @@ fi
 
 PY=no; WEB=no; DEPS=no
 for d in "${DIRS[@]}"; do same "$SRC/$d" "$APP/$d" || PY=yes; done
-same "$SRC/infra/gcp/sepolia_coordinator.py" "$APP/infra/gcp/sepolia_coordinator.py" || PY=yes
+same "$SRC/infra/server/sepolia_coordinator.py" "$APP/infra/server/sepolia_coordinator.py" || PY=yes
 for p in src public next.config.ts; do same "$SRC/apps/web-combined/$p" "$WEB_LIVE/$p" || WEB=yes; done
-for d in "$WEB_LIVE" /opt/GPUchain/apps/web-combined; do
-  for f in package.json package-lock.json; do same "$SRC/apps/web-combined/$f" "$d/$f" || { WEB=yes; DEPS=yes; }; done
-done
+for f in package.json package-lock.json; do same "$SRC/apps/web-combined/$f" "$WEB_LIVE/$f" || { WEB=yes; DEPS=yes; }; done
 log "${SHA:0:7}: python=$PY web=$WEB web_dependencies=$DEPS"
 [ "$DRY" = 1 ] && { log "dry run: stopping before any change"; exit 0; }
 
 # ── 3. Python services ──────────────────────────────────────────────────────
-UNITS=(gpuchain-sepolia gpuchain-sepolia-verifier@1 gpuchain-sepolia-verifier@2 gpuchain-sepolia-smoke-provider)
+UNITS=(ekido-coordinator ekido-verifier@1 ekido-verifier@2 ekido-smoke-provider)
 # A restart is refused only while a job has compute in flight: assigned, training, recovering or being evaluated, and
 # still inside its deadline. A COMPLETED job's settlement and an OPEN job's funding both resume after a restart.
 # Anything unreadable counts as busy.
@@ -105,15 +103,15 @@ if [ "$PY" = yes ]; then
   K="$BACKUPS/auto-$(date -u +%Y%m%d-%H%M%S)-${LAST:0:7}"
   mkdir -p "$K"
   # Back up only what exists: after a package rename the new folders aren't on the server yet.
-  HAVE=(infra/gcp/sepolia_coordinator.py)
+  HAVE=(infra/server/sepolia_coordinator.py)
   for d in "${DIRS[@]}"; do if [ -e "$APP/$d" ]; then HAVE+=("$d"); fi; done
   tar -czf "$K/code.tgz" -C "$APP" "${HAVE[@]}"
   for d in "${DIRS[@]}"; do
     mkdir -p "$APP/$d"
     rsync -a --delete --exclude tests --exclude __pycache__ "$SRC/$d/" "$APP/$d/"
   done
-  install -m 0644 "$SRC/infra/gcp/sepolia_coordinator.py" "$APP/infra/gcp/sepolia_coordinator.py"
-  if ! "$APP/venv/bin/python" -m compileall -q "${DIRS[@]/#/$APP/}" "$APP/infra/gcp/sepolia_coordinator.py" >/dev/null; then
+  install -m 0644 "$SRC/infra/server/sepolia_coordinator.py" "$APP/infra/server/sepolia_coordinator.py"
+  if ! "$APP/venv/bin/python" -m compileall -q "${DIRS[@]/#/$APP/}" "$APP/infra/server/sepolia_coordinator.py" >/dev/null; then
     tar -xzf "$K/code.tgz" -C "$APP"; fail "${SHA:0:7}: code did not compile; previous code restored"
   fi
   systemctl restart "${UNITS[@]}"
