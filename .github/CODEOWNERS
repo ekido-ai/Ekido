@@ -1,1 +1,16 @@
-* @piyushgargog
+# Paths that need Piyush's approval. Everything else needs one approval from any teammate with write access.
+# (Branch protection requires one approving review and code-owner review for the paths below.)
+/docs/api/                                    @piyushgargog
+/apps/coordinator/ekido_coordinator/          @piyushgargog
+/apps/coordinator/alembic/                    @piyushgargog
+/packages/ekido_core/ekido_core/settlement.py @piyushgargog
+/packages/ekido_core/ekido_core/payout_terms.py @piyushgargog
+/packages/ekido_core/ekido_core/protocol_fee.py @piyushgargog
+/contracts/                                   @piyushgargog
+/infra/                                       @piyushgargog
+/apps/web-combined/                           @piyushgargog
+/.github/                                     @piyushgargog
+
+# Unowned on purpose: tests and data the team writes don't need Piyush's sign-off.
+/apps/web-combined/e2e/
+/experiments/
