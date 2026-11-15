@@ -7,9 +7,12 @@ quality_policy.schema.json. This checks what the workers really read, and is dep
 
 from __future__ import annotations
 
-from .data_identity import validate_spec_identity
+from .data_identity import require_commit, require_digest, validate_spec_identity
 
-TEMPLATES = ("distilbert-lora-agnews/v1", "synthetic-linear/v1", "custom-python/v1")
+TEMPLATES = ("distilbert-lora-agnews/v1", "synthetic-linear/v1", "custom-python/v1", "llm-lora/v1")
+# Base models for llm-lora/v1: only ones whose licence allows commercial use, fine-tuning and derivatives (Apache-2.0).
+# Qwen2.5-3B is left out on purpose: its licence is not Apache-2.0.
+LLM_BASES = ("Qwen/Qwen2.5-0.5B-Instruct", "Qwen/Qwen2.5-1.5B-Instruct")
 MAX_PROBATION_MARGIN = 0.15  # Wider than this, a mid-training check would stop catching real damage.
 POLICY_FIELDS = ("min_absolute", "non_inferiority_margin", "confidence", "bootstrap_resamples", "eval_set_hash", "eval_version_hash")
 
@@ -55,6 +58,8 @@ def spec_problems(spec: dict) -> list[str]:
             # Anything else (a missing key, a wrong type) reports only its kind.
             detail = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
             problems.append(f"invalid data identity: {detail}")
+    if template == "llm-lora/v1":
+        _llm_problems(spec, problems)
     from .protocol_fee import fee_problems
 
     problems.extend(fee_problems(spec))
@@ -68,6 +73,36 @@ def spec_problems(spec: dict) -> list[str]:
         if "user_config" in spec and not isinstance(spec["user_config"], dict):
             problems.append("user_config must be an object")
     return problems
+
+
+def _llm_problems(spec: dict, problems: list[str]) -> None:
+    from .recipes import RECIPES
+
+    _section(spec, "model", ("id", "revision"), problems)
+    # The rows travel as one JSONL blob in the artifact store; providers fetch it by hash and size, like checkpoints.
+    _section(spec, "dataset", ("sha256", "bytes", "train_rows", "test_rows"), problems)
+    _section(spec, "lora", ("r", "alpha", "dropout", "target_modules"), problems)
+    model, dataset = spec.get("model"), spec.get("dataset")
+    if isinstance(model, dict) and "id" in model:
+        if model["id"] not in LLM_BASES:
+            problems.append(f"model.id must be one of {', '.join(LLM_BASES)}")
+        try:
+            require_commit(model.get("revision"), "model.revision")
+        except ValueError as exc:
+            problems.append(str(exc))
+    if isinstance(dataset, dict) and "sha256" in dataset:
+        try:
+            require_digest(dataset["sha256"], "dataset.sha256")
+        except ValueError as exc:
+            problems.append(str(exc))
+        _whole(dataset, "bytes", 1, problems)
+        _whole(dataset, "train_rows", 1, problems)
+        _whole(dataset, "test_rows", 20, problems)
+    if spec.get("recipe_id") not in RECIPES:
+        problems.append(f"recipe_id must be one of {', '.join(sorted(RECIPES))}")
+    length = spec.get("max_seq_length")
+    if isinstance(length, bool) or not isinstance(length, int) or not 32 <= length <= 2048:
+        problems.append("max_seq_length must be a whole number from 32 to 2048")
 
 
 def _is_sha256(value) -> bool:
