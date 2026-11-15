@@ -18,9 +18,8 @@ ZERO_BYTES32 = "0x" + "00" * 32
 
 
 def to_bytes32(sha256_hex: str) -> str:
-    if len(sha256_hex) != 64:
+    if len(sha256_hex) != 64 or any(char not in "0123456789abcdefABCDEF" for char in sha256_hex):
         raise ValueError("expected a 64-character hex SHA-256")
-    bytes.fromhex(sha256_hex)
     return "0x" + sha256_hex.lower()
 
 
@@ -63,6 +62,8 @@ def build_verdict(
     """Same inputs give the same Verdict on every machine. Enforces what the contract will enforce."""
     if not passed and payouts:
         raise ValueError("a failed verdict pays no one: the client gets a full refund")
+    if refund < 0 or any(amount < 0 for amount in payouts.values()):
+        raise ValueError("payouts and the refund cannot be negative")
     positive = {address: amount for address, amount in payouts.items() if amount > 0}
     if len(positive) > max_payees:
         raise ValueError(f"{len(positive)} payees is over the limit of {max_payees}")

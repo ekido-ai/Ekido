@@ -47,6 +47,8 @@ class DataIdentityTests(unittest.TestCase):
             apply_identity({**base, "provider_terms": []}, identity)
 
     @unittest.skipIf(jsonschema is None, "jsonschema not installed")
+    @unittest.skipUnless((Path(__file__).resolve().parents[3] / "experiments/quality_comparison.py").exists(),
+                         "experiments/quality_comparison.py not in this checkout yet")
     def test_pinned_real_experiment_spec_matches_job_schema(self):
         root = Path(__file__).resolve().parents[3]
         module = ast.parse((root / "experiments/quality_comparison.py").read_text(encoding="utf-8"))

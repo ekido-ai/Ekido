@@ -59,6 +59,8 @@ def validate_terms(*, job_id: str, client: str, binding: dict, spec: dict, polic
     try:
         if type(chain_id) is not int or chain_id <= 0 or not isinstance(contract, str) or not ADDRESS.fullmatch(contract):
             raise ValueError("invalid chain configuration")
+        if not isinstance(budget, Decimal) or not budget.is_finite() or budget <= 0 or budget * 1_000_000 != (budget * 1_000_000).to_integral_value():
+            raise ValueError("invalid budget: it must be positive, with at most 6 decimals")
         onchain_id = onchain_job_id(job_id, client)
         expected = {"kind": "gpuchain.job_binding.v1", "job_id": job_id, "onchain_job_id": onchain_id, "chain_id": chain_id, "contract": contract.lower(), "spec_hash": document_hash(spec), "policy_hash": document_hash(policy)}
         if any(binding.get(k) != v for k, v in expected.items()) or Decimal(str(binding["budget"])) != budget or not verify_document(binding, binding["signature"], client):

@@ -32,7 +32,14 @@ class ProviderMetaTest(unittest.TestCase):
         from gpuchain_core.canonical import canonical_bytes
 
         self.assertEqual(canonical_bytes(VECTOR_META).decode(), VECTOR_JSON)
-        print("vector hash", metadata_hash(VECTOR_META))
+        # The same digest must come out of any other implementation (the web app's TypeScript port).
+        self.assertEqual(metadata_hash(VECTOR_META), "0xdcc849bbc2c814ba36af7908f5819b6ce78a178de6fe82a02f0dcce1fc51ef11")
+
+    def test_wallet_must_be_an_address(self):
+        for wallet in ("not-an-address", "0x1234", "0x" + "g" * 40, "", "0x" + "1" * 41):
+            with self.subTest(wallet=wallet):
+                with self.assertRaises(ValueError):
+                    provider_metadata("My GPU", wallet, "0.002", 4096)
 
 
 if __name__ == "__main__":

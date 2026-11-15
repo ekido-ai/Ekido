@@ -58,5 +58,5 @@ class IllegalTransition(ValueError):
 
 
 def check_transition(current: JobState, target: JobState) -> None:
-    if target not in TRANSITIONS[current]:
+    if target not in TRANSITIONS.get(current, frozenset()):
         raise IllegalTransition(f"{current} cannot move to {target}")

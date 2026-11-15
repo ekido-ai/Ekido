@@ -53,7 +53,12 @@ def fee_amount(provider_total: Decimal, bps: int) -> Decimal:
 
 def add_fee(payouts: Mapping[str, Decimal], budget: Decimal, terms: tuple[int, str] | None) -> tuple[dict[str, Decimal], Decimal]:
     """Provider payouts by wallet, plus the fee as one more payee. Returns (payouts, refund)."""
-    merged = {wallet.lower(): amount for wallet, amount in payouts.items()}
+    merged: dict[str, Decimal] = {}
+    for wallet, amount in payouts.items():
+        if amount < 0:
+            raise ValueError("a payout cannot be negative")
+        # One wallet can arrive in two casings; its amounts add up rather than replace each other.
+        merged[wallet.lower()] = merged.get(wallet.lower(), Decimal(0)) + amount
     total = sum(merged.values(), Decimal(0))
     fee = Decimal(0)
     if terms is not None and total > 0:
