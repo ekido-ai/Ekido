@@ -38,11 +38,12 @@ class Server:
                 digest = self.path.split("/")[2]
                 self._body()
                 if not outer.direct:
-                    return self._reply(404, b'{"detail":"off"}')
-                if digest in outer.store:
-                    return self._reply(200, b'{"exists": true}')
-                offer = {"url": f"{outer.base}/s3/{digest}", "headers": {"x-amz-checksum-sha256": "c"}}
-                self._reply(200, json.dumps(offer).encode())
+                    self._reply(404, b'{"detail":"off"}')
+                elif digest in outer.store:
+                    self._reply(200, b'{"exists": true}')
+                else:
+                    offer = {"url": f"{outer.base}/s3/{digest}", "headers": {"x-amz-checksum-sha256": "c"}}
+                    self._reply(200, json.dumps(offer).encode())
 
             def do_PUT(self):
                 outer.seen.append(("PUT", self.path, self.headers.get("Authorization")))
@@ -52,11 +53,12 @@ class Server:
             def do_GET(self):
                 outer.seen.append(("GET", self.path, self.headers.get("Authorization")))
                 digest = self.path.split("/")[2]
-                if self.path.endswith("/download-url"):
-                    if not outer.direct:
-                        return self._reply(404, b'{"detail":"off"}')
-                    return self._reply(200, json.dumps({"url": f"{outer.base}/s3/{digest}"}).encode())
-                self._reply(200, outer.store[digest], "application/octet-stream")
+                if not self.path.endswith("/download-url"):
+                    self._reply(200, outer.store[digest], "application/octet-stream")
+                elif not outer.direct:
+                    self._reply(404, b'{"detail":"off"}')
+                else:
+                    self._reply(200, json.dumps({"url": f"{outer.base}/s3/{digest}"}).encode())
 
         self.httpd = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         self.base = f"http://127.0.0.1:{self.httpd.server_address[1]}"
