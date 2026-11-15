@@ -52,7 +52,7 @@ regex==2026.11.7
 requests==2.34.2
 rlp==5.0.0
 safetensors==0.8.0
-setuptools==78.1.0
+setuptools==78.1.1
 SQLAlchemy==2.1.8
 starlette==1.10.0
 sympy==1.14.0
