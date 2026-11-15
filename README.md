@@ -74,7 +74,7 @@ The chain holds the money and the rules; the coordinator orchestrates recovery, 
 | `apps/coordinator/` | FastAPI coordinator: jobs, recovery, scheduler, artifacts, settlement, chain indexer, rate limits |
 | `apps/web-combined/` | Next.js web app: landing, mission control, on-chain books, accounts, provider onboarding |
 | `apps/web/` | The first dashboard prototype |
-| `infra/` | Provider kit, server deployment (`infra/aws`) and ops (backups, monitoring), Docker files, test runners |
+| `infra/` | Provider kit, server deployment (`infra/server`) and ops (backups, monitoring), Docker files, test runners |
 | `experiments/` | Spikes, benchmarks and the raw results behind every claim |
 | `tests/` | End-to-end and fault scenarios |
 | `docs/` | Design, security and privacy, market research, business model, schemas |

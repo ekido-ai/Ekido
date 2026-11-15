@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-# Rebuilds both web apps from a source archive. Used by gpuchain-autodeploy.sh and by hand.
-#   gpuchain-web-deploy.sh /path/to/web-src.tgz          # src, next.config.ts, public
-#   gpuchain-web-deploy.sh /path/to/web-src.tgz deps     # also package.json and package-lock.json, then npm ci
+# Rebuilds the web app from a source archive. Used by ekido-autodeploy.sh and by hand.
+#   ekido-web-deploy.sh /path/to/web-src.tgz          # src, next.config.ts, public
+#   ekido-web-deploy.sh /path/to/web-src.tgz deps     # also package.json and package-lock.json, then npm ci
 # The previous src, .next, next.config.ts (and with deps, node_modules and the package files) are kept outside the
 # app, never deleted. A service is restarted only after its build succeeds; otherwise everything is put back.
 # Exits non-zero if any app failed.
 set -u
-TGZ="${1:?usage: gpuchain-web-deploy.sh <web-src.tgz> [deps]}"
+TGZ="${1:?usage: ekido-web-deploy.sh <web-src.tgz> [deps]}"
 DEPS="${2:-}"
 STAMP=$(date +%Y%m%d-%H%M%S)
 FAILED=0
 # Logs live in a root-owned folder: in /tmp, a file left by another user can't be overwritten even by root
 # (fs.protected_regular), which silently skipped a build once.
-LOGS=/var/log/gpuchain-deploy
+LOGS=/var/log/ekido-deploy
 mkdir -p "$LOGS"
-as() { sudo -u gpuchain "$@"; }
+as() { sudo -u ekido "$@"; }
 deploy() {
   local dir=$1 svc=$2; shift 2
   echo "== $svc in $dir"
   cd "$dir" || { FAILED=1; return; }
-  local bk="/opt/GPUchain-web-backups/$svc"
-  mkdir -p "$bk" && chown gpuchain "$bk" /opt/GPUchain-web-backups
+  local bk="/opt/ekido-web-backups/$svc"
+  mkdir -p "$bk" && chown ekido "$bk" /opt/ekido-web-backups
   for old in src.bak-* src.failed-* .next.bak-* .next.failed-* next.config.ts.bak-*; do [ -e "$old" ] && as mv "$old" "$bk/"; done
   as cp -a src "$bk/src.bak-$STAMP"
   as cp -a .next "$bk/.next.bak-$STAMP"
@@ -59,18 +59,11 @@ deploy() {
     fi
   fi
 }
-deploy /opt/GPUchain/.cache/sepolia-release/apps/web-combined gpuchain-sepolia-web \
+deploy /opt/ekido/web ekido-web \
   NEXT_PUBLIC_COORDINATOR_URL=https://gpuchain.duckdns.org/sepolia \
   "NEXT_PUBLIC_COORDINATOR_WS=wss://gpuchain.duckdns.org/sepolia/ws/jobs/{job}" \
   NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=84532 NEXT_PUBLIC_SIGNED_JOBS=1 \
   NEXT_PUBLIC_ESCROW_ADDRESS=0x1BF65f755457a92850009c88AFb337Ec57745a22
-# The hackathon demo app exists only where it was installed (the GCP server). The AWS server has just the site.
-if [ -d /opt/GPUchain/apps/web-combined/.next ]; then
-  deploy /opt/GPUchain/apps/web-combined gpuchain-web \
-    NEXT_PUBLIC_COORDINATOR_URL=https://api.34-93-70-171.sslip.io \
-    "NEXT_PUBLIC_COORDINATOR_WS=wss://api.34-93-70-171.sslip.io/ws/jobs/{job}" \
-    NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=31337
-fi
 for u in https://ekido.duckdns.org/ https://ekido.duckdns.org/chain; do
   echo "$u $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$u")"
 done

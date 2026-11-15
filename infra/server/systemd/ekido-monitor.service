@@ -3,4 +3,4 @@ Description=Ekido health monitor
 
 [Service]
 Type=oneshot
-ExecStart=/opt/gpuchain-ops/gpuchain-monitor.sh
+ExecStart=/opt/ekido-ops/ekido-monitor.sh

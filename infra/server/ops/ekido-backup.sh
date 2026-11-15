@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Daily backup of the Base Sepolia coordinator: a consistent SQLite snapshot (online backup API, safe while
 # the service runs) and an append-only copy of the content-addressed artifacts. Nothing is ever deleted here.
-# The local copy protects against corruption and mistakes. If /etc/gpuchain/backup.env sets BACKUP_BUCKET, each
+# The local copy protects against corruption and mistakes. If /etc/ekido/backup.env sets BACKUP_BUCKET, each
 # snapshot and any new artifacts are also copied to that Cloud Storage bucket, which protects against losing the disk.
 # The upload never deletes anything in the bucket; the bucket's own lifecycle rule expires old DB snapshots.
 set -euo pipefail
 BACKUP_BUCKET=""      # Google Cloud Storage bucket name (the GCP VM).
 BACKUP_S3_BUCKET=""   # Amazon S3 bucket name (an AWS VM). Set one of the two, not both.
-[ -f /etc/gpuchain/backup.env ] && . /etc/gpuchain/backup.env
-SRC_DB=/var/lib/gpuchain-sepolia/jobs.db
-SRC_ART=/var/lib/gpuchain-sepolia/artifacts
-DEST=/var/backups/gpuchain
+[ -f /etc/ekido/backup.env ] && . /etc/ekido/backup.env
+SRC_DB=/var/lib/ekido-coordinator/jobs.db
+SRC_ART=/var/lib/ekido-coordinator/artifacts
+DEST=/var/backups/ekido
 STAMP=$(date -u +%Y%m%d-%H%M%S)
 mkdir -p "$DEST/db" "$DEST/artifacts"
 python3 - "$SRC_DB" "$DEST/db/jobs-$STAMP.db" <<'PY'
