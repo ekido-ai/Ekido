@@ -34,6 +34,16 @@ api.__HOST__ {
 gpuchain.duckdns.org {
 	import secure
 	encode gzip
+	# The commit the server is running, published by infra/gcp/ops/gpuchain-autodeploy.sh.
+	handle_path /deploy/* {
+		@version path /version.json
+		handle @version {
+			header Cache-Control "no-store"
+			root * /var/lib/gpuchain-autodeploy/public
+			file_server
+		}
+		respond 404
+	}
 	handle_path /sepolia/* {
 		reverse_proxy 127.0.0.1:8003
 	}
