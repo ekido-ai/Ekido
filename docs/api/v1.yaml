@@ -1,0 +1,541 @@
+openapi: 3.1.0
+info:
+  title: Ekido API v1
+  version: 1.0.0-week1
+  description: |
+    The contract for the week-1 build: accounts, API keys, recipes, datasets, the assistant, quotes, payments,
+    jobs, hosted models and the provider self-view. Existing routes (/jobs, /artifacts, /agent/ws, /verifier/*)
+    stay as they are for workers and operators; customers use /v1.
+
+    Rules that hold everywhere:
+    - Money is in paise (integers), currency INR. GST is shown separately.
+    - IDs are opaque strings with a prefix: usr_, org_, key_, ds_, qt_, ord_, inv_, mdl_, conv_. Job IDs stay UUIDs.
+    - Errors use `{"error": "CODE", "detail": "human text"}` with a matching HTTP status.
+    - A customer never sees a provider's identity: no names, wallets, GPU models, lists or counts.
+    - Request bodies sent to hosted models are not logged.
+    - Changing this file needs Piyush's approval (CODEOWNERS).
+servers:
+  - url: https://gpuchain.duckdns.org/sepolia
+    description: Live API (paused for week 1)
+  - url: https://ekido-staging-api.duckdns.org/sepolia
+    description: Staging API
+
+security:
+  - session: []
+  - apiKey: []
+
+tags:
+  - {name: auth, description: Sign-in and sessions}
+  - {name: orgs, description: Teams, members and API keys}
+  - {name: recipes, description: Ready-made job templates and datasets}
+  - {name: assistant, description: Plain words to a job}
+  - {name: billing, description: Quotes, payments and invoices}
+  - {name: jobs, description: Training jobs, as a customer sees them}
+  - {name: models, description: Trained models, hosting, export and savings}
+  - {name: provider, description: A provider's own status and earnings}
+  - {name: privacy, description: DPDP data rights}
+
+paths:
+  /v1/auth/email/start:
+    post:
+      tags: [auth]
+      summary: Email a sign-in link
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [email], properties: {email: {type: string, format: email}}}}}
+      responses:
+        "202": {description: Sent if the address is valid. The response is the same whether or not an account exists.}
+        "429": {$ref: "#/components/responses/Error"}
+  /v1/auth/email/verify:
+    post:
+      tags: [auth]
+      summary: Exchange the link's one-time token for a session
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [token], properties: {token: {type: string}}}}}
+      responses:
+        "200": {description: Signed in; sets the session cookie, content: {application/json: {schema: {$ref: "#/components/schemas/Me"}}}}
+        "401": {$ref: "#/components/responses/Error"}
+  /v1/auth/google/start:
+    get:
+      tags: [auth]
+      summary: Redirect to Google sign-in (state and PKCE kept server-side)
+      security: []
+      responses: {"302": {description: To Google}}
+  /v1/auth/google/callback:
+    get:
+      tags: [auth]
+      summary: Google's redirect back; sets the session cookie and redirects to the site
+      security: []
+      parameters:
+        - {name: code, in: query, required: true, schema: {type: string}}
+        - {name: state, in: query, required: true, schema: {type: string}}
+      responses: {"302": {description: To the site}, "401": {$ref: "#/components/responses/Error"}}
+  /v1/auth/logout:
+    post:
+      tags: [auth]
+      summary: End this session (server-side revoke)
+      responses: {"204": {description: Signed out}}
+  /v1/me:
+    get:
+      tags: [auth]
+      summary: The signed-in user and their teams
+      responses:
+        "200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/Me"}}}}
+        "401": {$ref: "#/components/responses/Error"}
+    delete:
+      tags: [privacy]
+      summary: Delete my account and personal data (DPDP right to erasure)
+      description: Deletes the user, memberships and their uploaded datasets. Payment and invoice records are kept as the law requires, without personal fields beyond what tax law needs.
+      responses: {"202": {description: Deletion scheduled; completes within 30 days}}
+  /v1/me/data-export:
+    get:
+      tags: [privacy]
+      summary: Download everything we hold about me (DPDP right to access)
+      responses: {"200": {description: A ZIP of JSON files, content: {application/zip: {}}}}
+  /v1/me/consents:
+    get:
+      tags: [privacy]
+      summary: My consent records
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: array, items: {$ref: "#/components/schemas/Consent"}}}}}}
+    post:
+      tags: [privacy]
+      summary: Record a consent (or its withdrawal)
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: "#/components/schemas/Consent"}}}
+      responses: {"201": {description: Recorded}}
+
+  /v1/orgs:
+    post:
+      tags: [orgs]
+      summary: Create a team; the creator becomes its owner
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [name], properties: {name: {type: string, maxLength: 80}}}}}
+      responses: {"201": {description: Created, content: {application/json: {schema: {$ref: "#/components/schemas/Org"}}}}}
+  /v1/orgs/{org_id}:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    get:
+      tags: [orgs]
+      summary: A team and its members
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/Org"}}}}, "404": {$ref: "#/components/responses/Error"}}
+  /v1/orgs/{org_id}/members:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    post:
+      tags: [orgs]
+      summary: Invite someone by email (owners and admins)
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [email, role], properties: {email: {type: string, format: email}, role: {$ref: "#/components/schemas/Role"}}}}}
+      responses: {"202": {description: Invitation sent}, "403": {$ref: "#/components/responses/Error"}}
+  /v1/orgs/{org_id}/members/{user_id}:
+    parameters: [{$ref: "#/components/parameters/OrgId"}, {name: user_id, in: path, required: true, schema: {type: string}}]
+    delete:
+      tags: [orgs]
+      summary: Remove a member (owners and admins; the last owner can't be removed)
+      responses: {"204": {description: Removed}, "409": {$ref: "#/components/responses/Error"}}
+  /v1/orgs/{org_id}/api-keys:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    get:
+      tags: [orgs]
+      summary: List keys (never the secret)
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: array, items: {$ref: "#/components/schemas/ApiKey"}}}}}}
+    post:
+      tags: [orgs]
+      summary: Create a key; the secret is returned once and stored only as a hash
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, mode]
+              properties:
+                name: {type: string, maxLength: 60}
+                mode: {type: string, enum: [test, live], description: "test keys use test payments and CPU providers only"}
+                scopes: {type: array, items: {type: string, enum: [jobs, models.predict, models.read]}, default: [jobs, models.predict, models.read]}
+      responses:
+        "201":
+          description: Created
+          content: {application/json: {schema: {allOf: [{$ref: "#/components/schemas/ApiKey"}, {type: object, required: [secret], properties: {secret: {type: string, description: "ek_test_... or ek_live_...; shown only now"}}}]}}}
+  /v1/orgs/{org_id}/api-keys/{key_id}:
+    parameters: [{$ref: "#/components/parameters/OrgId"}, {name: key_id, in: path, required: true, schema: {type: string}}]
+    delete:
+      tags: [orgs]
+      summary: Revoke a key immediately
+      responses: {"204": {description: Revoked}}
+
+  /v1/recipes:
+    get:
+      tags: [recipes]
+      summary: Ready-made recipes
+      security: []
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: array, items: {$ref: "#/components/schemas/Recipe"}}}}}}
+  /v1/recipes/{recipe_id}:
+    get:
+      tags: [recipes]
+      summary: One recipe with its column schema, sample data link and quality terms
+      security: []
+      parameters: [{name: recipe_id, in: path, required: true, schema: {type: string, example: ticket-sorter-hinglish}}]
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/Recipe"}}}}, "404": {$ref: "#/components/responses/Error"}}
+  /v1/orgs/{org_id}/datasets:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    post:
+      tags: [recipes]
+      summary: Upload cleaned rows for a recipe
+      description: |
+        The browser strips personal data first; only the cleaned rows are sent, never the raw file. The client also
+        sends what it removed, as counts per type (not the values), for the record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [recipe_id, train, test]
+              properties:
+                recipe_id: {type: string}
+                train: {type: array, maxItems: 20000, items: {type: object, additionalProperties: {type: string}}}
+                test: {type: array, minItems: 20, maxItems: 5000, items: {type: object, additionalProperties: {type: string}}}
+                redactions: {type: object, additionalProperties: {type: integer}, description: "Counts per PII type removed in the browser"}
+      responses:
+        "201": {description: Stored, content: {application/json: {schema: {$ref: "#/components/schemas/Dataset"}}}}
+        "422": {description: Rows don't fit the recipe; problems lists every one, content: {application/json: {schema: {$ref: "#/components/schemas/Problems"}}}}
+
+  /v1/assistant/messages:
+    post:
+      tags: [assistant]
+      summary: Talk to the assistant; it asks questions, then proposes a validated job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                conversation_id: {type: string}
+                message: {type: string, maxLength: 4000}
+      responses:
+        "200":
+          description: The reply
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [conversation_id, reply]
+                properties:
+                  conversation_id: {type: string}
+                  reply: {type: string}
+                  proposal: {$ref: "#/components/schemas/JobProposal"}
+                  refused: {type: string, description: "Set when the request breaks the acceptable-use policy; reply explains politely"}
+
+  /v1/orgs/{org_id}/quotes:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    post:
+      tags: [billing]
+      summary: Price a job before paying
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: "#/components/schemas/JobProposal"}}}
+      responses: {"201": {description: Quote, content: {application/json: {schema: {$ref: "#/components/schemas/Quote"}}}}, "422": {$ref: "#/components/responses/Error"}}
+  /v1/quotes/{quote_id}/orders:
+    post:
+      tags: [billing]
+      summary: Start payment for a quote (Razorpay order)
+      parameters: [{name: quote_id, in: path, required: true, schema: {type: string}}]
+      responses:
+        "201":
+          description: Pass these to Razorpay Checkout
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [order_id, gateway_order_id, key_id, amount_paise, currency]
+                properties:
+                  order_id: {type: string}
+                  gateway_order_id: {type: string}
+                  key_id: {type: string, description: "Razorpay public key id (not a secret)"}
+                  amount_paise: {type: integer}
+                  currency: {type: string, const: INR}
+        "410": {description: Quote expired, $ref: "#/components/responses/Error"}
+  /v1/payments/razorpay/webhook:
+    post:
+      tags: [billing]
+      summary: Razorpay events; signature-checked and de-duplicated, amounts re-fetched from Razorpay
+      security: []
+      parameters: [{name: X-Razorpay-Signature, in: header, required: true, schema: {type: string}}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object}}}}
+      responses: {"200": {description: Accepted (also for duplicates)}, "401": {$ref: "#/components/responses/Error"}}
+  /v1/orgs/{org_id}/invoices/{invoice_id}:
+    parameters: [{$ref: "#/components/parameters/OrgId"}, {name: invoice_id, in: path, required: true, schema: {type: string}}]
+    get:
+      tags: [billing]
+      summary: GST invoice
+      responses: {"200": {description: PDF, content: {application/pdf: {}}}}
+
+  /v1/orgs/{org_id}/jobs:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    get:
+      tags: [jobs]
+      summary: My team's jobs
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: array, items: {$ref: "#/components/schemas/CustomerJob"}}}}}}
+    post:
+      tags: [jobs]
+      summary: Start the job for a paid quote
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [quote_id], properties: {quote_id: {type: string}}}}}
+      responses:
+        "201": {description: Started, content: {application/json: {schema: {$ref: "#/components/schemas/CustomerJob"}}}}
+        "402": {description: The quote isn't paid yet, $ref: "#/components/responses/Error"}
+  /v1/jobs/{job_id}:
+    get:
+      tags: [jobs]
+      summary: One job, as the customer sees it
+      parameters: [{name: job_id, in: path, required: true, schema: {type: string, format: uuid}}]
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/CustomerJob"}}}}, "404": {$ref: "#/components/responses/Error"}}
+  /v1/jobs/{job_id}/events:
+    get:
+      tags: [jobs]
+      summary: Live progress as Server-Sent Events, with provider identities removed
+      parameters: [{name: job_id, in: path, required: true, schema: {type: string, format: uuid}}, {name: after, in: query, schema: {type: integer}}]
+      responses: {"200": {description: "text/event-stream of CustomerEvent", content: {text/event-stream: {schema: {$ref: "#/components/schemas/CustomerEvent"}}}}}
+
+  /v1/orgs/{org_id}/models:
+    parameters: [{$ref: "#/components/parameters/OrgId"}]
+    get:
+      tags: [models]
+      summary: My team's models
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: array, items: {$ref: "#/components/schemas/Model"}}}}}}
+  /v1/models/{model_id}:
+    parameters: [{$ref: "#/components/parameters/ModelId"}]
+    get:
+      tags: [models]
+      summary: A model with its score, passport and links
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/Model"}}}}}
+  /v1/models/{model_id}/predict:
+    parameters: [{$ref: "#/components/parameters/ModelId"}]
+    post:
+      tags: [models]
+      summary: Run the model on inputs (API key with models.predict)
+      security: [{apiKey: []}]
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [inputs], properties: {inputs: {type: array, minItems: 1, maxItems: 32, items: {type: string, maxLength: 8000}}}}}}
+      responses:
+        "200": {description: Outputs in input order, content: {application/json: {schema: {type: object, required: [outputs, usage], properties: {outputs: {type: array, items: {type: string}}, usage: {$ref: "#/components/schemas/Usage"}}}}}}
+        "429": {$ref: "#/components/responses/Error"}
+  /v1/chat/completions:
+    post:
+      tags: [models]
+      summary: OpenAI-compatible chat endpoint; `model` is a model_id
+      security: [{apiKey: []}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [model, messages], properties: {model: {type: string}, messages: {type: array, items: {type: object}}, max_tokens: {type: integer, maximum: 1024}, temperature: {type: number}}}}}}
+      responses: {"200": {description: OpenAI-shaped response}}
+  /v1/models/{model_id}/download:
+    parameters: [{$ref: "#/components/parameters/ModelId"}]
+    get:
+      tags: [models]
+      summary: A short-lived download link
+      parameters: [{name: format, in: query, required: true, schema: {type: string, enum: [gguf-q4, gguf-q8, safetensors]}}]
+      responses: {"200": {description: OK, content: {application/json: {schema: {type: object, required: [url, expires_in, sha256], properties: {url: {type: string}, expires_in: {type: integer}, sha256: {type: string}}}}}}}
+  /v1/models/{model_id}/savings-report:
+    parameters: [{$ref: "#/components/parameters/ModelId"}]
+    get:
+      tags: [models]
+      summary: Measured cost and quality against an AI API; every number links to its source
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/SavingsReport"}}}}}
+
+  /v1/provider/session:
+    post:
+      tags: [provider]
+      summary: A provider proves it holds its key (signed, recent message) and gets a read-only token
+      security: []
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [message, signature], properties: {message: {type: object}, signature: {type: string}}}}}}
+      responses: {"200": {description: Token, content: {application/json: {schema: {type: object, properties: {token: {type: string}}}}}}}
+  /v1/provider/me:
+    get:
+      tags: [provider]
+      summary: My device's status and earnings only
+      security: [{providerToken: []}]
+      responses: {"200": {description: OK, content: {application/json: {schema: {$ref: "#/components/schemas/ProviderSelf"}}}}}
+
+components:
+  securitySchemes:
+    session: {type: apiKey, in: cookie, name: ekido_session, description: "httpOnly, Secure, SameSite=Lax"}
+    apiKey: {type: http, scheme: bearer, description: "ek_test_... or ek_live_..."}
+    providerToken: {type: http, scheme: bearer}
+  parameters:
+    OrgId: {name: org_id, in: path, required: true, schema: {type: string, example: org_7h2k}}
+    ModelId: {name: model_id, in: path, required: true, schema: {type: string, example: mdl_9x1q}}
+  responses:
+    Error:
+      description: An error
+      content: {application/json: {schema: {$ref: "#/components/schemas/Error"}}}
+  schemas:
+    Error:
+      type: object
+      required: [error, detail]
+      properties: {error: {type: string, example: QUOTE_EXPIRED}, detail: {type: string}}
+    Problems:
+      type: object
+      required: [error, problems]
+      properties: {error: {type: string, const: INVALID_DATASET}, problems: {type: array, items: {type: string}}}
+    Role: {type: string, enum: [owner, admin, member]}
+    Me:
+      type: object
+      required: [user_id, email, orgs]
+      properties:
+        user_id: {type: string}
+        email: {type: string}
+        name: {type: string}
+        orgs: {type: array, items: {type: object, properties: {org_id: {type: string}, name: {type: string}, role: {$ref: "#/components/schemas/Role"}}}}
+    Org:
+      type: object
+      required: [org_id, name]
+      properties:
+        org_id: {type: string}
+        name: {type: string}
+        members: {type: array, items: {type: object, properties: {user_id: {type: string}, email: {type: string}, role: {$ref: "#/components/schemas/Role"}}}}
+    ApiKey:
+      type: object
+      required: [key_id, name, mode, prefix, created_at]
+      properties:
+        key_id: {type: string}
+        name: {type: string}
+        mode: {type: string, enum: [test, live]}
+        prefix: {type: string, description: "First characters, to recognise the key; e.g. ek_test_3fA9"}
+        scopes: {type: array, items: {type: string}}
+        created_at: {type: string, format: date-time}
+        last_used_at: {type: [string, "null"], format: date-time}
+    Consent:
+      type: object
+      required: [purpose, granted]
+      properties:
+        purpose: {type: string, enum: [account, training-data-processing, marketing-email]}
+        granted: {type: boolean}
+        recorded_at: {type: string, format: date-time, readOnly: true}
+        policy_version: {type: string}
+    Recipe:
+      type: object
+      required: [recipe_id, title, task, columns, quality_terms]
+      properties:
+        recipe_id: {type: string}
+        title: {type: string, example: "Sort support tickets (Hinglish)"}
+        task: {type: string, enum: [classification, extraction, generation, qa]}
+        columns: {type: array, items: {type: object, properties: {name: {type: string}, description: {type: string}}}}
+        labels: {type: array, items: {type: string}}
+        sample_url: {type: string}
+        base_models: {type: array, items: {type: string, enum: [qwen2.5-0.5b-instruct, qwen2.5-1.5b-instruct]}}
+        quality_terms: {$ref: "#/components/schemas/QualityTerms"}
+    QualityTerms:
+      type: object
+      required: [metric, floor, plain_words]
+      properties:
+        metric: {type: string, enum: [accuracy, macro_f1, exact_match, field_f1, rouge_l]}
+        floor: {type: number, description: "Minimum score on the customer's own test set"}
+        plain_words: {type: string, example: "At least 85% of your 100 test tickets sorted correctly"}
+    Dataset:
+      type: object
+      required: [dataset_id, recipe_id, train_rows, test_rows, sha256]
+      properties:
+        dataset_id: {type: string}
+        recipe_id: {type: string}
+        train_rows: {type: integer}
+        test_rows: {type: integer}
+        sha256: {type: string, description: "Fingerprint used in the model passport"}
+        redactions: {type: object, additionalProperties: {type: integer}}
+    JobProposal:
+      type: object
+      required: [recipe_id, dataset_id, base_model]
+      properties:
+        recipe_id: {type: string}
+        dataset_id: {type: string}
+        base_model: {type: string, enum: [qwen2.5-0.5b-instruct, qwen2.5-1.5b-instruct]}
+        distill: {type: boolean, default: false, description: "Generate extra training examples with the teacher model"}
+        labels: {type: array, items: {type: string}}
+        hosting_requests_per_month: {type: integer, minimum: 0}
+    Quote:
+      type: object
+      required: [quote_id, training_paise, gst_paise, total_paise, eta_minutes, quality_terms, terms_hash, expires_at]
+      properties:
+        quote_id: {type: string}
+        proposal: {$ref: "#/components/schemas/JobProposal"}
+        training_paise: {type: integer}
+        hosting_paise_per_1000: {type: integer}
+        gst_paise: {type: integer, description: "18% GST on the taxable amount"}
+        total_paise: {type: integer}
+        eta_minutes: {type: integer}
+        quality_terms: {$ref: "#/components/schemas/QualityTerms"}
+        refund_policy: {type: string, example: "Full refund if the model misses the quality floor"}
+        terms_hash: {type: string, description: "SHA-256 of the canonical quote; stored with the job"}
+        expires_at: {type: string, format: date-time}
+    CustomerJob:
+      type: object
+      required: [job_id, org_id, state, created_at]
+      properties:
+        job_id: {type: string, format: uuid}
+        org_id: {type: string}
+        quote_id: {type: string}
+        state: {type: string, enum: [queued, training, moving, checking, passed, failed, refunded]}
+        progress: {type: number, minimum: 0, maximum: 1}
+        message: {type: string, example: "A device stopped; moved to another one"}
+        model_id: {type: [string, "null"]}
+        created_at: {type: string, format: date-time}
+    CustomerEvent:
+      type: object
+      required: [seq, at, kind, message]
+      properties:
+        seq: {type: integer}
+        at: {type: string, format: date-time}
+        kind: {type: string, enum: [queued, started, checkpoint, moved, checking, passed, failed, refunded, paid]}
+        message: {type: string}
+        progress: {type: number}
+    Model:
+      type: object
+      required: [model_id, org_id, recipe_id, base_model, status]
+      properties:
+        model_id: {type: string}
+        org_id: {type: string}
+        job_id: {type: string, format: uuid}
+        recipe_id: {type: string}
+        base_model: {type: string}
+        status: {type: string, enum: [ready, failed]}
+        score: {type: object, properties: {metric: {type: string}, value: {type: number}, floor: {type: number}, examples: {type: integer}}}
+        endpoint: {type: string, example: "/v1/models/mdl_9x1q/predict"}
+        passport: {$ref: "#/components/schemas/Passport"}
+    Passport:
+      type: object
+      properties:
+        dataset_sha256: {type: string}
+        base_model: {type: string}
+        base_model_licence: {type: string, example: Apache-2.0}
+        quality_terms_hash: {type: string}
+        verdict_hash: {type: string}
+        checkpoint_sha256: {type: string}
+    Usage:
+      type: object
+      properties: {input_tokens: {type: integer}, output_tokens: {type: integer}, latency_ms: {type: integer}}
+    SavingsReport:
+      type: object
+      required: [model_id, api_baseline, ekido, quality, sources]
+      properties:
+        model_id: {type: string}
+        assumed_requests_per_month: {type: integer}
+        api_baseline: {type: object, properties: {name: {type: string}, monthly_paise: {type: integer}, price_source_url: {type: string}, price_date: {type: string, format: date}}}
+        ekido: {type: object, properties: {training_paise: {type: integer}, hosting_monthly_paise: {type: integer}}}
+        quality: {type: object, properties: {ekido_score: {type: number}, api_score: {type: [number, "null"]}, metric: {type: string}}}
+        sources: {type: array, items: {type: string}, description: "Paths of the raw measurement files"}
+    ProviderSelf:
+      type: object
+      required: [status]
+      properties:
+        status: {type: string, enum: [online, idle, busy, offline]}
+        jobs_completed: {type: integer}
+        earnings_paise: {type: integer}
+        pending_paise: {type: integer}
+        last_seen_at: {type: string, format: date-time}
