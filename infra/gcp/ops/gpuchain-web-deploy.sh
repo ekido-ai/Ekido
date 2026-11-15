@@ -64,11 +64,14 @@ deploy /opt/GPUchain/.cache/sepolia-release/apps/web-combined gpuchain-sepolia-w
   "NEXT_PUBLIC_COORDINATOR_WS=wss://gpuchain.duckdns.org/sepolia/ws/jobs/{job}" \
   NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=84532 NEXT_PUBLIC_SIGNED_JOBS=1 \
   NEXT_PUBLIC_ESCROW_ADDRESS=0x1BF65f755457a92850009c88AFb337Ec57745a22
-deploy /opt/GPUchain/apps/web-combined gpuchain-web \
-  NEXT_PUBLIC_COORDINATOR_URL=https://api.34-93-70-171.sslip.io \
-  "NEXT_PUBLIC_COORDINATOR_WS=wss://api.34-93-70-171.sslip.io/ws/jobs/{job}" \
-  NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=31337
-for u in https://ekido.duckdns.org/ https://ekido.duckdns.org/chain https://34-93-70-171.sslip.io/; do
+# The hackathon demo app exists only where it was installed (the GCP server). The AWS server has just the site.
+if [ -d /opt/GPUchain/apps/web-combined/.next ]; then
+  deploy /opt/GPUchain/apps/web-combined gpuchain-web \
+    NEXT_PUBLIC_COORDINATOR_URL=https://api.34-93-70-171.sslip.io \
+    "NEXT_PUBLIC_COORDINATOR_WS=wss://api.34-93-70-171.sslip.io/ws/jobs/{job}" \
+    NEXT_PUBLIC_EVENT_SOURCE=live NEXT_PUBLIC_CHAIN_ID=31337
+fi
+for u in https://ekido.duckdns.org/ https://ekido.duckdns.org/chain; do
   echo "$u $(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$u")"
 done
 exit $FAILED
