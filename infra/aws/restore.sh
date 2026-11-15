@@ -54,6 +54,10 @@ fi
 cp "$WORK/ekido-data/jobs.db" "$STATE/jobs.db"
 mkdir -p "$STATE/artifacts"
 cp -r --update=none "$WORK/ekido-data/artifacts/." "$STATE/artifacts/"
+# On a first restore the folder is still root's and systemd hands everything to the service user when the unit
+# starts. On a later restore the folder already belongs to that user and systemd leaves it, so files copied in as
+# root stay read-only for the service ("attempt to write a readonly database" on 15 Nov). Match the folder's owner.
+chown -R --reference="$STATE" "$STATE"
 echo "artifacts: $(find "$STATE/artifacts" -type f | wc -l) files"
 
 echo "== start"
