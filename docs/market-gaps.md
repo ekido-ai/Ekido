@@ -1,6 +1,6 @@
-# Market gaps: what GPUChain covers, and what it doesn't
+# Market gaps: what Ekido covers, and what it doesn't
 
-Written 5 Nov 2026. **GPUChain can't honestly cover every gap in this market.** This page lists what we cover and what backs it, so nobody on the team over-claims in front of the judges.
+Written 5 Nov 2026. **Ekido can't honestly cover every gap in this market.** This page lists what we cover and what backs it, so nobody on the team over-claims in front of the judges.
 
 Everything below "shown" comes from a real run or test in this repo. A blank in another product's documents doesn't prove it lacks a feature, and closed systems may do more.
 
@@ -10,7 +10,7 @@ We're not ahead as a GPU marketplace. What's different is a combination: **a job
 
 ## Gaps we cover
 
-| Gap in the market | What GPUChain does | Evidence | Limit |
+| Gap in the market | What Ekido does | Evidence | Limit |
 |---|---|---|---|
 | A provider dies and the renter restarts by hand, or loses the work | Detects the failure, picks the last accepted checkpoint, and resumes on another provider | RTX 3060 run: kill detected in under a second, 8 steps lost, resumed in about 50 s (`experiments/results/gpu_chain_story_20261105_001829.json`). Seven faults pass on CPU (`tests/test_e2e_faults.py`) | One seed on the GPU. Six faults haven't run on the GPU |
 | "Completed" doesn't mean the model is any good | A statistical test, fixed on-chain by hash before training, decides the result | Poisoned provider rejected at 24.8% accuracy while reporting normal progress | Damage smaller than the margin can pass: 2 points at the final check, 5 mid-training. The evaluation set is public |

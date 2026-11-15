@@ -9,7 +9,7 @@ Draft, 9 Nov 2026. Market figures are third-party snapshots that move daily; our
 | Client (trains a model) | Provider price × accepted steps, plus our fee on that amount | A finished model that passed the agreed quality test; full refund if the job fails |
 | Provider (rents out a GPU) | Nothing to join; gas to list on-chain (cents) | Its own price × its accepted steps, in USDC, withdrawn whenever it likes |
 | Verifiers | Their own compute | A share of the fee (planned), so independent verifiers can exist |
-| GPUChain | Coordinator infrastructure, gas for settlement, development | The rest of the fee |
+| Ekido | Coordinator infrastructure, gas for settlement, development | The rest of the fee |
 
 ## 2. What the market charges (one GPU, per hour)
 
@@ -33,7 +33,7 @@ Take rates seen: Vast.ai says hosts keep the full rate they set and renters pay 
 ## 4. How we make money
 
 1. **Protocol fee, 8% of accepted work.** Charged only when a job settles successfully. No fee on refunds. This is the core revenue and scales with volume.
-2. **Planned split of that fee:** 3% to the verifiers who signed the verdict, 5% to GPUChain. Paying verifiers is what lets independent operators run them, which is the main step toward a decentralized verifier set.
+2. **Planned split of that fee:** 3% to the verifiers who signed the verdict, 5% to Ekido. Paying verifiers is what lets independent operators run them, which is the main step toward a decentralized verifier set.
 3. **Later, priced separately, only after the core works:**
    - Private verification: a client's own hidden evaluation set and verifier set.
    - Guaranteed finish: a higher price that funds standby providers for jobs with hard deadlines.

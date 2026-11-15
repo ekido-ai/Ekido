@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain Base Sepolia dashboard
+Description=Ekido Base Sepolia dashboard
 After=network-online.target
 
 [Service]

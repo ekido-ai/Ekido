@@ -1,6 +1,6 @@
 # Security policy
 
-GPUChain is a prototype on the Base Sepolia **test network**. The contracts are **not audited**. Never send real funds to any address in this repository, and never use a wallet that holds real money with it.
+Ekido is a prototype on the Base Sepolia **test network**. The contracts are **not audited**. Never send real funds to any address in this repository, and never use a wallet that holds real money with it.
 
 ## Reporting a vulnerability
 

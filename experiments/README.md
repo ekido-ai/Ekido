@@ -1,6 +1,6 @@
 # Experiments
 
-Scripts that measure what GPUChain claims, and the raw results behind every number. A number in a README or on the website must trace back to a file in `experiments/results/`.
+Scripts that measure what Ekido claims, and the raw results behind every number. A number in a README or on the website must trace back to a file in `experiments/results/`.
 
 Results from a synthetic workload or a CPU are labelled as such in their `evidence_type` field and are not GPU evidence.
 

@@ -1,4 +1,4 @@
-# AI usage — GPUChain
+# AI usage — Ekido
 
 How an AI coding assistant was used to build this project.
 

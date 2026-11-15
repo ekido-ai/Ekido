@@ -22,20 +22,20 @@ jobs:
       matrix:
         include:
           - suite: core
-            dir: packages/gpuchain_core
+            dir: packages/ekido_core
             path: "."
           - suite: runtime
             dir: workers/runtime
-            path: ".:../../packages/gpuchain_core"
+            path: ".:../../packages/ekido_core"
           - suite: agent
             dir: workers/agent
-            path: ".:../../packages/gpuchain_core"
+            path: ".:../../packages/ekido_core"
           - suite: coordinator
             dir: apps/coordinator
-            path: ".:../../packages/gpuchain_core"
+            path: ".:../../packages/ekido_core"
           - suite: verifier
             dir: workers/verifier
-            path: ".:../../packages/gpuchain_core:../../workers/runtime"
+            path: ".:../../packages/ekido_core:../../workers/runtime"
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7

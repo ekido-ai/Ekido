@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain bounded hosted demo controls
+Description=Ekido bounded hosted demo controls
 After=gpuchain-stack.service
 Requires=gpuchain-stack.service
 

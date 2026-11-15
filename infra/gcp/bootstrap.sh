@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sets up GPUChain on a fresh Ubuntu 24.04 VM, behind HTTPS. Run as root:
+# Sets up Ekido on a fresh Ubuntu 24.04 VM, behind HTTPS. Run as root:
 #   sudo bash bootstrap.sh <host>        e.g. 34-93-70-171.sslip.io
 # Expects the repo zip at /tmp/gpuchain.zip (top folder GPUchain/). It holds no wallet keys: the stack's
 # local chain uses fixed public test keys. The operator token is made here and never leaves the VM.

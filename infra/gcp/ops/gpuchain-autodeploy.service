@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain auto-deploy: deploy main when its CI is green
+Description=Ekido auto-deploy: deploy main when its CI is green
 After=network-online.target
 Wants=network-online.target
 

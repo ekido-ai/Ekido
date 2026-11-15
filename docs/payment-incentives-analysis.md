@@ -1,4 +1,4 @@
-# Payment incentives: how a provider could game GPUChain
+# Payment incentives: how a provider could game Ekido
 
 Written 7 Nov 2026. It covers the payment rule as built: payout = accepted steps x price, capped at the budget, after a 2-of-3 verifier verdict. The contract supports a full client refund on a failed verdict, but default secure verifiers do not yet sign failed-job verdicts. The separate eligible timeout refund opens after the deadline and grace period, and credited funds must then be withdrawn. This is reasoning about the design, not a test result.
 

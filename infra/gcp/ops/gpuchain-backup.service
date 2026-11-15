@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain daily backup (coordinator DB and artifacts)
+Description=Ekido daily backup (coordinator DB and artifacts)
 
 [Service]
 Type=oneshot

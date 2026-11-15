@@ -1,5 +1,5 @@
 [Unit]
-Description=GPUChain stack: coordinator, verifiers, CPU providers and a local test chain
+Description=Ekido stack: coordinator, verifiers, CPU providers and a local test chain
 After=network-online.target
 Wants=network-online.target
 

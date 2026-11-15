@@ -6,7 +6,7 @@ const display = Saira_Semi_Condensed({ variable: "--font-display", subsets: ["la
 const body = Atkinson_Hyperlegible({ variable: "--font-body", subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
-  title: "GPUChain",
+  title: "Ekido",
   description: "Watch a training job survive a provider failure, and see who gets paid for what.",
 };
 

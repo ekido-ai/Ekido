@@ -62,3 +62,27 @@ When the final model is refused by the quality test, the job fails and everyone 
 | C. Full refund, plus a small payment for accepted checkpoints from a fee pool | Honest providers get something. | A new pool and a new place to cheat. |
 
 Decision: keep A. It matches the promise "pay only for what works" and needs no contract change; the README limitation says it plainly. Revisit B after the contracts are audited.
+
+## Decisions made on 15 Nov 2026
+
+### 1. Rename GPUChain to Ekido, everything except what is signed or deployed
+
+"GPUChain" was generic. **Ekido** comes from the Japanese *ekiden*, a relay where a sash passes from runner to runner, which is what a job does here.
+
+| Option | What it means | Cost |
+|---|---|---|
+| A. Rename the brand only | Only README, docs and UI change | Code keeps saying `gpuchain`, which confuses every new contributor |
+| B. Rename everything except what is signed or deployed (kept) | Packages, imports, env vars, CI, docs and UI all change. Signed identifiers stay | A short, documented list of leftovers |
+| C. Rename everything, contract included | The contract name and its EIP-712 domain change | Means redeploying the contract, and breaks every signature and hash that is already recorded |
+
+Decision: B.
+- **Changed:** packages are now `ekido_*`, env vars use the `EKIDO_` prefix, and the kit is `ekido-provider-kit.zip`.
+- **Kept, because they are signed, hashed or deployed:** `GPUChainEscrow`, its EIP-712 domain, `gpuchain.*.v1` and `gpuchain-replay/1`. A future protocol version can move to `ekido.*` with a version bump.
+- **Kept, because changing them would break users:** browser storage keys, and the `gpuchain_hf_cache` volume (renaming it would re-download every provider's models).
+- **Moving later, with the server migration:** the live domain, unit names, server paths and `~/.gpuchain/`.
+
+### 2. Product direction for Ekido
+
+The full set of landmark decisions is recorded in `docs/ekido/`: who we build for, selling results instead of compute, phones as providers, hidden providers, fiat by default with blockchain proofs, the AI assistant, and the roadmap. In short:
+- We build for small businesses, developers and personal users who want their own small model.
+- Payment is in normal money by default, the blockchain stores proof, and crypto is optional.

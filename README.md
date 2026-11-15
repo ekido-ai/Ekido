@@ -1,8 +1,10 @@
-# GPUChain
+# Ekido
 
 **Train on spare GPUs. Pay only for what works.**
 
-GPUChain is a prototype GPU network for model training with three guarantees:
+*Formerly GPUChain.* The name comes from the Japanese *ekiden*, a relay race where a sash passes from runner to runner: here, a training job passes from device to device without losing its work. The escrow contract deployed on Base Sepolia keeps its original name, `GPUChainEscrow`, because the name is part of its signatures. So do the signed message kinds (`gpuchain.*.v1`), so that earlier jobs and records still verify.
+
+Ekido is a prototype GPU network for model training with three guarantees:
 
 - **Survives:** when a provider's GPU dies mid-run, the job moves to another GPU from its last trusted checkpoint, adapting micro-batch, gradient accumulation and precision to the new GPU's memory while keeping every logical training step the same.
 - **Refuses:** a statistical quality test, fixed by hash before training starts, refuses bad work before anyone is paid. Two of three verifiers must sign.
@@ -27,7 +29,7 @@ Not shown: recovery between GPUs live on stage, independent (non-team) verifiers
 
 ## Reliability: what happens when a GPU fails
 
-Spare GPUs go away without warning: a laptop sleeps, a driver crashes, a cloud instance is reclaimed. GPUChain treats that as the normal case.
+Spare GPUs go away without warning: a laptop sleeps, a driver crashes, a cloud instance is reclaimed. Ekido treats that as the normal case.
 
 | Failure | How it is noticed | What the system does |
 |---|---|---|
@@ -64,7 +66,7 @@ The chain holds the money and the rules; the coordinator orchestrates recovery, 
 
 | Path | What it is |
 |---|---|
-| `packages/gpuchain_core/` | Shared Python library: schemas, canonical JSON, signing, checkpoints (GPCK), elastic compiler, quality statistics, protocol fee |
+| `packages/ekido_core/` | Shared Python library: schemas, canonical JSON, signing, checkpoints (GPCK), elastic compiler, quality statistics, protocol fee |
 | `contracts/` | Foundry project: `GPUChainEscrow` and `ProviderRegistry` |
 | `workers/runtime/` | Training runtime: logical-step training loop, checkpoints, memory probe |
 | `workers/agent/` | Provider agent: join, telemetry, process/Docker spawning, signing, on-chain listing |

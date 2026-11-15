@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <main className="page">
       <header className="top">
-        <p className="brand">GPUChain</p>
+        <p className="brand">Ekido</p>
         <div className="truth">
           {!isLive && <span className="badge badge-warn">Recorded run{replay.recording ? `, ${replay.recording.recorded_at}` : ""}</span>}
           {isLive && events.some((e) => e.provenance === "SYNTHETIC") && <span className="badge badge-warn">Synthetic CPU workload</span>}

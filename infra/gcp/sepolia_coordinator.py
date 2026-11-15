@@ -6,8 +6,8 @@ import sys
 import uvicorn
 from web3 import Web3
 
-from gpuchain_coordinator.chain import EscrowClient
-from gpuchain_coordinator.main import Settings, create_app
+from ekido_coordinator.chain import EscrowClient
+from ekido_coordinator.main import Settings, create_app
 
 BASE_SEPOLIA = 84532
 TEST_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"

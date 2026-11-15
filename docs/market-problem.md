@@ -1,10 +1,10 @@
-# The market problem GPUChain targets
+# The market problem Ekido targets
 
 Research done on 9 Nov 2026. Most sources are vendor blogs, docs and preprints, so treat their numbers as indicative, not measured by us. Our own numbers stay in `experiments/results/`.
 
 ## Renting spare GPUs
 
-| Problem | Evidence | What GPUChain does |
+| Problem | Evidence | What Ekido does |
 |---|---|---|
 | Hosts drop out mid-run, and resuming is the user's job | ClusterBid on Vast.ai: hosts "can be terminated at any time"; consumer sessions often last hours; workloads must be "designed for interruption tolerance" | Automatic recovery from the last accepted checkpoint, onto a different GPU if needed (`/recovery`) |
 | Billing is by time, not by outcome | RunPod bills every 5 minutes; Vast.ai: no refunds once credits are spent; no published rule for a host failing mid-job | Budget locked in escrow; pay per accepted step; the rest refunded (`/settlement`, `/chain`) |
@@ -13,9 +13,9 @@ Research done on 9 Nov 2026. Most sources are vendor blogs, docs and preprints, 
 
 ## Paying for compute on a blockchain
 
-| Problem | Evidence | What GPUChain does |
+| Problem | Evidence | What Ekido does |
 |---|---|---|
-| Providers paid in a volatile native token | Aethir launched a USD stablecoin because volatility "deters long-term participation" | USDC only. No GPUChain token |
+| Providers paid in a volatile native token | Aethir launched a USD stablecoin because volatility "deters long-term participation" | USDC only. No Ekido token |
 | Emissions reward existing, not working: fake nodes, demand far behind supply | Tokenomics guides on flat per-node rewards; Akash about $2M fees, Render about $1.9M job spend in a year | Nothing minted. Payouts come only from client budgets for accepted work, so a fake node earns zero |
 | The chain can't see off-chain work (oracle problem) | Cointelegraph op-ed: corrupted Render jobs in 2025, "no onchain way to detect it" | 2-of-3 EIP-712 verifier quorum over the result hash, lineage root on-chain, dispute window with a bond. Verifiers are team-run: permissioned, and we say so |
 | Funds depend on the operator staying alive | General escrow risk | `claimTimeoutRefund` is permissionless after deadline + grace |
