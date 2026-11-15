@@ -1,0 +1,188 @@
+"""The week-1 data checkers: recipe datasets, the PII test set and the assistant prompt set."""
+import csv
+import importlib.util
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parents[1]
+
+
+def load(relative: str):
+    spec = importlib.util.spec_from_file_location(relative.replace("/", "_"), HERE / relative)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+datasets = load("recipes/validate_dataset.py")
+pii = load("pii/validate_pii_set.py")
+prompts = load("assistant/validate_prompt_set.py")
+
+SHEET = "\n".join(f"## {s}\ntext" for s in datasets.DATASHEET_SECTIONS)
+
+
+def write_csv(path: Path, header: list[str], rows: list[list[str]]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
+def make_recipe(root: Path, name="review-sentiment", train=500, test=100, label="positive", sheet=SHEET) -> Path:
+    folder = root / name
+    folder.mkdir()
+    write_csv(folder / "train.csv", ["text", "label"], [[f"train review {i}", label] for i in range(train)])
+    write_csv(folder / "test.csv", ["text", "label"], [[f"test review {i}", label] for i in range(test)])
+    if sheet is not None:
+        (folder / "DATASHEET.md").write_text(sheet, encoding="utf-8")
+    return folder
+
+
+class RecipeDatasets(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_a_good_dataset_passes(self):
+        errors, _ = datasets.validate(make_recipe(self.root))
+        self.assertEqual(errors, [])
+
+    def test_unknown_recipe_and_missing_files(self):
+        (self.root / "nope").mkdir()
+        self.assertIn("unknown recipe", datasets.validate(self.root / "nope")[0][0])
+
+    def test_too_few_rows_bad_labels_and_no_datasheet(self):
+        errors, _ = datasets.validate(make_recipe(self.root, train=10, label="meh", sheet=None))
+        joined = "\n".join(errors)
+        self.assertIn("needs at least 500", joined)
+        self.assertIn("label 'meh'", joined)
+        self.assertIn("DATASHEET.md: missing", joined)
+
+    def test_train_test_overlap_and_duplicates(self):
+        folder = make_recipe(self.root)
+        write_csv(folder / "test.csv", ["text", "label"], [["Train Review 1", "positive"]] * 100)
+        joined = "\n".join(datasets.validate(folder)[0])
+        self.assertIn("also appear in train", joined)
+        self.assertIn("duplicated inputs", joined)
+
+    def test_hinglish_needs_some_devanagari(self):
+        folder = self.root / "ticket-sorter-hinglish"
+        folder.mkdir()
+        write_csv(folder / "train.csv", ["text", "label"], [[f"order kab aayega {i}", "order"] for i in range(500)])
+        write_csv(folder / "test.csv", ["text", "label"], [[f"refund chahiye {i}", "refund"] for i in range(100)])
+        (folder / "DATASHEET.md").write_text(SHEET, encoding="utf-8")
+        self.assertIn("Devanagari", "\n".join(datasets.validate(folder)[0]))
+
+    def test_invoice_json_must_have_every_field(self):
+        folder = self.root / "invoice-fields"
+        folder.mkdir()
+        good = json.dumps({"vendor": "A", "invoice_no": "1", "date": "2026-01-01", "total": "10", "gstin": "x"})
+        write_csv(folder / "train.csv", ["text", "json"], [[f"invoice {i}", good] for i in range(200)])
+        write_csv(folder / "test.csv", ["text", "json"], [[f"bill {i}", '{"vendor": "A"}'] for i in range(50)])
+        (folder / "DATASHEET.md").write_text(SHEET, encoding="utf-8")
+        self.assertIn("json is missing", "\n".join(datasets.validate(folder)[0]))
+
+    def test_personal_data_is_a_warning(self):
+        folder = make_recipe(self.root)
+        write_csv(folder / "train.csv", ["text", "label"], [[f"call me on 98765432{i:02d}", "positive"] for i in range(500)])
+        errors, warnings = datasets.validate(folder)
+        self.assertEqual(errors, [])
+        self.assertTrue(any("phone" in w for w in warnings))
+
+
+def aadhaar() -> str:
+    """A made-up 12-digit number that passes the Verhoeff check."""
+    base = "23412341234"
+    for last in "0123456789":
+        if pii.verhoeff_ok(base + last):
+            return base + last
+    raise AssertionError("no check digit found")
+
+
+def pii_lines(clean=60) -> list[dict]:
+    samples = {
+        "NAME": "Ravi Kumar", "PHONE": "9876543210", "EMAIL": "ravi@example.com", "AADHAAR": aadhaar(),
+        "PAN": "ABCDE1234F", "GSTIN": "27ABCDE1234F1Z5", "UPI_ID": "ravi@okbank", "ADDRESS": "12 MG Road, Pune",
+    }
+    lines = []
+    for i in range(300 - clean):
+        kind = sorted(samples)[i % len(samples)]
+        prefix = f"case {i}: "
+        lines.append({"text": prefix + samples[kind], "spans": [{"start": len(prefix), "end": len(prefix) + len(samples[kind]), "type": kind}]})
+    lines += [{"text": f"order number 4521{i} is delayed", "spans": []} for i in range(clean)]
+    return lines
+
+
+class PiiSet(unittest.TestCase):
+    def write(self, lines: list[dict], datasheet=True) -> Path:
+        self.tmp = tempfile.TemporaryDirectory()
+        path = Path(self.tmp.name) / "pii-set.jsonl"
+        path.write_text("\n".join(json.dumps(x, ensure_ascii=False) for x in lines), encoding="utf-8")
+        if datasheet:
+            (path.parent / "DATASHEET.md").write_text("ok", encoding="utf-8")
+        self.addCleanup(self.tmp.cleanup)
+        return path
+
+    def test_a_good_set_passes(self):
+        self.assertEqual(pii.validate(self.write(pii_lines())), [])
+
+    def test_bad_spans_types_and_checksums(self):
+        lines = pii_lines()
+        lines[0]["spans"][0]["end"] = 999
+        lines[1]["spans"][0]["type"] = "SSN"
+        bad = {"text": "aadhaar 2341 2341 2340", "spans": [{"start": 8, "end": 22, "type": "AADHAAR"}]}
+        lines.append(bad if not pii.verhoeff_ok("234123412340") else {"text": "x", "spans": []})
+        joined = "\n".join(pii.validate(self.write(lines)))
+        self.assertIn("outside the text", joined)
+        self.assertIn("'SSN'", joined)
+        self.assertIn("Verhoeff", joined)
+
+    def test_needs_clean_lines_and_a_datasheet(self):
+        joined = "\n".join(pii.validate(self.write(pii_lines(clean=5), datasheet=False)))
+        self.assertIn("with no PII", joined)
+        self.assertIn("DATASHEET.md", joined)
+
+    def test_verhoeff(self):
+        self.assertTrue(pii.verhoeff_ok("2363"))  # the textbook example: 236 with check digit 3
+        self.assertFalse(pii.verhoeff_ok("2364"))
+
+
+class PromptSet(unittest.TestCase):
+    def write(self, lines: list[dict]) -> Path:
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        path = Path(tmp.name) / "prompts.jsonl"
+        path.write_text("\n".join(json.dumps(x, ensure_ascii=False) for x in lines), encoding="utf-8")
+        return path
+
+    def good(self) -> list[dict]:
+        allowed = [{"prompt": f"mere customer emails sort karo {i}", "expected": {"recipe": "ticket-sorter-hinglish", "language": "hinglish"}, "should_refuse": False} for i in range(40)]
+        refused = [{"prompt": f"track my neighbour's phone {i}", "should_refuse": True} for i in range(10)]
+        return allowed + refused
+
+    def test_a_good_set_passes(self):
+        self.assertEqual(prompts.validate(self.write(self.good())), [])
+
+    def test_bad_recipe_language_and_too_few_refusals(self):
+        lines = self.good()[:45]
+        lines[0]["expected"]["recipe"] = "make-me-rich"
+        lines[1]["expected"]["language"] = "fr"
+        joined = "\n".join(prompts.validate(self.write(lines)))
+        self.assertIn("make-me-rich", joined)
+        self.assertIn("'fr'", joined)
+        self.assertIn("needs at least 50", joined)
+        self.assertIn("must be refused", joined)
+
+    def test_duplicates(self):
+        lines = self.good()
+        lines[1]["prompt"] = lines[0]["prompt"].upper()
+        self.assertIn("duplicated prompts", "\n".join(prompts.validate(self.write(lines))))
+
+
+if __name__ == "__main__":
+    unittest.main()
