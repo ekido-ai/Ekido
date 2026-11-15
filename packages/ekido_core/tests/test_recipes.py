@@ -14,7 +14,7 @@ def llm_spec(**overrides):
         "template": "llm-lora/v1",
         "recipe_id": "ticket-sorter-hinglish",
         "model": {"id": LLM_BASES[0], "revision": COMMIT},
-        "dataset": {"sha256": DIGEST, "train_rows": 500, "test_rows": 100},
+        "dataset": {"sha256": DIGEST, "bytes": 52_000, "train_rows": 500, "test_rows": 100},
         "lora": {"r": 16, "alpha": 32, "dropout": 0.05, "target_modules": ["q_proj", "v_proj"]},
         "max_seq_length": 256,
         "logical_batch_size": 16,
@@ -81,11 +81,12 @@ class LlmSpec(unittest.TestCase):
         self.assertTrue(any("model.id must be one of" in p for p in problems))
 
     def test_pinned_revision_and_dataset_fingerprint(self):
-        problems = spec_problems(llm_spec(model={"id": LLM_BASES[1], "revision": "main"}, dataset={"sha256": "nope", "train_rows": 500, "test_rows": 5}))
+        problems = spec_problems(llm_spec(model={"id": LLM_BASES[1], "revision": "main"}, dataset={"sha256": "nope", "bytes": 0, "train_rows": 500, "test_rows": 5}))
         joined = "\n".join(problems)
         self.assertIn("model.revision", joined)
         self.assertIn("dataset.sha256", joined)
         self.assertIn("test_rows", joined)
+        self.assertIn("bytes", joined)
 
     def test_recipe_and_length(self):
         joined = "\n".join(spec_problems(llm_spec(recipe_id="x", max_seq_length=10_000)))

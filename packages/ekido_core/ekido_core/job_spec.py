@@ -79,7 +79,8 @@ def _llm_problems(spec: dict, problems: list[str]) -> None:
     from .recipes import RECIPES
 
     _section(spec, "model", ("id", "revision"), problems)
-    _section(spec, "dataset", ("sha256", "train_rows", "test_rows"), problems)
+    # The rows travel as one JSONL blob in the artifact store; providers fetch it by hash and size, like checkpoints.
+    _section(spec, "dataset", ("sha256", "bytes", "train_rows", "test_rows"), problems)
     _section(spec, "lora", ("r", "alpha", "dropout", "target_modules"), problems)
     model, dataset = spec.get("model"), spec.get("dataset")
     if isinstance(model, dict) and "id" in model:
@@ -94,6 +95,7 @@ def _llm_problems(spec: dict, problems: list[str]) -> None:
             require_digest(dataset["sha256"], "dataset.sha256")
         except ValueError as exc:
             problems.append(str(exc))
+        _whole(dataset, "bytes", 1, problems)
         _whole(dataset, "train_rows", 1, problems)
         _whole(dataset, "test_rows", 20, problems)
     if spec.get("recipe_id") not in RECIPES:
