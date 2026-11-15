@@ -82,10 +82,26 @@ log "${SHA:0:7}: python=$PY web=$WEB web_dependencies=$DEPS"
 
 # ── 3. Python services ──────────────────────────────────────────────────────
 UNITS=(gpuchain-sepolia gpuchain-sepolia-verifier@1 gpuchain-sepolia-verifier@2 gpuchain-sepolia-smoke-provider)
+# A restart is refused only while a job has compute in flight: assigned, training, recovering or being evaluated, and
+# still inside its deadline. A COMPLETED job's settlement and an OPEN job's funding both resume after a restart.
+# Anything unreadable counts as busy.
+busy_jobs() {
+  local list id deadline n=0 now
+  list=$(curl -sf --max-time 10 'http://127.0.0.1:8003/jobs?limit=50') || { echo unknown; return; }
+  jq -e 'type == "array"' >/dev/null 2>&1 <<<"$list" || { echo unknown; return; }
+  now=$(date -u +%s)
+  for id in $(jq -r '.[] | select(.state as $s | ["ASSIGNED","RUNNING","RECOVERING","VALIDATING"] | index($s)) | .job_id' <<<"$list"); do
+    deadline=$(curl -sf --max-time 10 "http://127.0.0.1:8003/jobs/$id" | jq -r '.deadline // empty' 2>/dev/null)
+    [ -n "$deadline" ] || { echo unknown; return; }
+    deadline=$(date -u -d "$deadline" +%s 2>/dev/null) || { echo unknown; return; }
+    if [ "$deadline" -gt "$now" ]; then n=$((n + 1)); fi
+  done
+  echo "$n"
+}
 ready() { for _ in $(seq 1 60); do [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://127.0.0.1:8003/readyz)" = 200 ] && return 0; sleep 1; done; return 1; }
 if [ "$PY" = yes ]; then
-  BUSY=$(curl -s --max-time 10 'http://127.0.0.1:8003/jobs?limit=50' | jq '[.[] | select(.state as $s | ["SETTLED","REFUNDED","FAILED","CANCELLED"] | index($s) | not)] | length' 2>/dev/null || echo unknown)
-  if [ "$BUSY" != 0 ]; then log "${SHA:0:7}: $BUSY job(s) unfinished or coordinator unreachable; will retry"; exit 0; fi
+  BUSY=$(busy_jobs)
+  if [ "$BUSY" != 0 ]; then log "${SHA:0:7}: $BUSY job(s) still computing, or the coordinator is unreadable; will retry"; exit 0; fi
   K="$BACKUPS/auto-$(date -u +%Y%m%d-%H%M%S)-${LAST:0:7}"
   mkdir -p "$K"
   tar -czf "$K/code.tgz" -C "$APP" "${DIRS[@]}" infra/gcp/sepolia_coordinator.py
