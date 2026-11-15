@@ -104,8 +104,12 @@ if [ "$PY" = yes ]; then
   if [ "$BUSY" != 0 ]; then log "${SHA:0:7}: $BUSY job(s) still computing, or the coordinator is unreadable; will retry"; exit 0; fi
   K="$BACKUPS/auto-$(date -u +%Y%m%d-%H%M%S)-${LAST:0:7}"
   mkdir -p "$K"
-  tar -czf "$K/code.tgz" -C "$APP" "${DIRS[@]}" infra/gcp/sepolia_coordinator.py
+  # Back up only what exists: after a package rename the new folders aren't on the server yet.
+  HAVE=(infra/gcp/sepolia_coordinator.py)
+  for d in "${DIRS[@]}"; do if [ -e "$APP/$d" ]; then HAVE+=("$d"); fi; done
+  tar -czf "$K/code.tgz" -C "$APP" "${HAVE[@]}"
   for d in "${DIRS[@]}"; do
+    mkdir -p "$APP/$d"
     rsync -a --delete --exclude tests --exclude __pycache__ "$SRC/$d/" "$APP/$d/"
   done
   install -m 0644 "$SRC/infra/gcp/sepolia_coordinator.py" "$APP/infra/gcp/sepolia_coordinator.py"
