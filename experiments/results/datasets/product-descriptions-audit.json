@@ -1,0 +1,31 @@
+{
+  "train_rows": 300,
+  "test_rows": 60,
+  "train_by_product": {
+    "t-shirt": 30,
+    "kurti": 30,
+    "water bottle": 30,
+    "mug": 30,
+    "notebook": 30,
+    "cushion cover": 30,
+    "backpack": 30,
+    "scarf": 30,
+    "tote bag": 30,
+    "pencil pouch": 30
+  },
+  "test_by_product": {
+    "t-shirt": 6,
+    "kurti": 6,
+    "water bottle": 6,
+    "mug": 6,
+    "notebook": 6,
+    "cushion cover": 6,
+    "backpack": 6,
+    "scarf": 6,
+    "tote bag": 6,
+    "pencil pouch": 6
+  },
+  "missing_attribute_values_in_descriptions": 0,
+  "duplicate_or_overlapping_attributes": 0,
+  "reproduced_from_generator": true
+}
