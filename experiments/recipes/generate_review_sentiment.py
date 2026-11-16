@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import difflib
 import random
 from pathlib import Path
 
@@ -72,7 +73,22 @@ def main() -> None:
                                          ('test', TEST[label], 34 if label == 'positive' else 33)):
             choices = [{'text': pattern.format(product=product), 'label': label}
                        for pattern in patterns for product in PRODUCTS]
-            result[split].extend(rng.sample(choices, amount))
+            if split == 'train':
+                selected = rng.sample(choices, amount)
+            else:
+                # Keep near-identical held-out reviews from inflating test coverage.
+                rng.shuffle(choices)
+                selected = []
+                for candidate in choices:
+                    text = candidate['text'].casefold()
+                    if all(difflib.SequenceMatcher(None, text, prior['text'].casefold()).ratio() < 0.9
+                           for prior in selected):
+                        selected.append(candidate)
+                        if len(selected) == amount:
+                            break
+                if len(selected) != amount:
+                    raise ValueError(f'{label}: insufficient distinct test reviews')
+            result[split].extend(selected)
     for split, items in result.items():
         rng.shuffle(items)
         with (ROOT / f'{split}.csv').open('w', encoding='utf-8', newline='') as handle:

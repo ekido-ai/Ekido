@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import difflib
 import json
 import re
 import runpy
@@ -56,11 +57,20 @@ def main() -> None:
         for split in data:
             if data[split] != read(Path(tmp) / f'{split}.csv'):
                 raise ValueError(f'{split}: regenerated rows differ')
+    within_test = 0
+    for index, row in enumerate(data['test']):
+        for previous in data['test'][:index]:
+            if row['label'] == previous['label']:
+                score = difflib.SequenceMatcher(None, row['text'].casefold(), previous['text'].casefold()).ratio()
+                within_test += score >= .9
+    if within_test:
+        raise ValueError(f'{within_test} same-label test pairs have similarity >= 0.90')
     result = {'train_rows': len(data['train']), 'test_rows': len(data['test']),
               'train_labels': dict(Counter(row['label'] for row in data['train'])),
               'test_labels': dict(Counter(row['label'] for row in data['test'])),
               'train_reviews_with_devanagari': scripts['train'], 'test_reviews_with_devanagari': scripts['test'],
               'template_label_mismatches': 0, 'duplicate_or_overlapping_reviews': 0,
+              'same_label_test_pairs_similarity_ge_0_9': within_test,
               'reproduced_from_generator': True}
     out = ROOT.parent / 'results' / 'datasets' / 'review-sentiment-audit.json'
     out.parent.mkdir(parents=True, exist_ok=True)

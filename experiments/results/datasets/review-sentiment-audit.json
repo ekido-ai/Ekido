@@ -3,17 +3,18 @@
   "test_rows": 100,
   "train_labels": {
     "negative": 167,
-    "neutral": 166,
-    "positive": 167
+    "positive": 167,
+    "neutral": 166
   },
   "test_labels": {
     "positive": 34,
     "negative": 33,
     "neutral": 33
   },
-  "train_reviews_with_devanagari": 131,
-  "test_reviews_with_devanagari": 34,
+  "train_reviews_with_devanagari": 134,
+  "test_reviews_with_devanagari": 40,
   "template_label_mismatches": 0,
   "duplicate_or_overlapping_reviews": 0,
+  "same_label_test_pairs_similarity_ge_0_9": 0,
   "reproduced_from_generator": true
 }
