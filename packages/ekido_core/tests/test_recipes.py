@@ -3,7 +3,7 @@ import json
 import unittest
 
 from ekido_core.job_spec import LLM_BASES, spec_problems
-from ekido_core.recipes import RECIPES, recipe, rouge_l, score, score_one
+from ekido_core.recipes import RECIPES, eval_set_hash, passes, recipe, rouge_l, score, score_one
 
 COMMIT = "a" * 40
 DIGEST = "b" * 64
@@ -68,7 +68,25 @@ class Recipes(unittest.TestCase):
         with self.assertRaises(ValueError):
             recipe("make-me-rich")
 
+    def test_each_example_passes_or_fails(self):
+        self.assertTrue(passes("review-sentiment", "Positive!", "positive"))
+        self.assertFalse(passes("review-sentiment", "negative", "positive"))
+        want = json.dumps({"vendor": "A", "invoice_no": "1", "date": "d", "total": "5", "gstin": "g"})
+        self.assertTrue(passes("invoice-fields", want, want))
+        self.assertFalse(passes("invoice-fields", want.replace('"5"', '"6"'), want))  # One wrong field fails the document.
+        self.assertTrue(passes("faq-bot-hinglish", "clinic subah 9 baje khulta hai", "clinic subah 9 baje khulta hai roz"))
+        self.assertFalse(passes("faq-bot-hinglish", "pata nahi", "clinic subah 9 baje khulta hai"))
+
+    def test_the_test_set_fingerprint_changes_with_any_row(self):
+        rows = [{"text": "accha", "label": "positive"}, {"text": "bura", "label": "negative"}]
+        base = eval_set_hash("review-sentiment", rows)
+        self.assertEqual(base, eval_set_hash("review-sentiment", [dict(r, extra="ignored") for r in rows]))
+        self.assertNotEqual(base, eval_set_hash("review-sentiment", rows[::-1]))
+        self.assertNotEqual(base, eval_set_hash("review-sentiment", [dict(rows[0], label="neutral"), rows[1]]))
+
     def test_plain_words(self):
+        self.assertEqual(recipe("invoice-fields").plain_words(50), "At least 70% of your 50 test documents read with every field correct")
+        self.assertEqual(recipe("faq-bot-hinglish").plain_words(60), "At least 60% of the answers close to your 60 reference answers")
         self.assertEqual(recipe("ticket-sorter-hinglish").plain_words(100), "At least 80% of your 100 test examples answered correctly")
 
 
