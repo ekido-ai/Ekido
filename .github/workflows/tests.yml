@@ -86,13 +86,13 @@ jobs:
       - name: Install dependencies
         run: pip install "sqlalchemy>=2" "fastapi>=0.115" pydantic-settings eth-account web3 "alembic==1.20.1" "psycopg[binary]==3.3.6"
       - name: Apply every migration
-        run: python -m alembic -c alembic.ini upgrade head
+        run: python -m alembic -c alembic/alembic.ini upgrade head
       - name: The migrations match the models
-        run: python -m alembic -c alembic.ini check
+        run: python -m alembic -c alembic/alembic.ini check
       - name: Main write paths on Postgres
         run: python -m unittest -v tests.test_postgres
       - name: Migrations roll back cleanly
-        run: python -m alembic -c alembic.ini downgrade base
+        run: python -m alembic -c alembic/alembic.ini downgrade base
 
   web:
     name: Web app
