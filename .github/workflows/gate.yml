@@ -1,7 +1,7 @@
 name: Gate
 
 # The shared merge gate for every Ekido repo: the PR report ("no report, no merge") and a conventional PR title.
-# Other repos call it with:  uses: ekido-ai/Ekido/.github/workflows/gate.yml@main
+# Other repos call it with:  uses: ekido-ai/ekido-core/.github/workflows/gate.yml@main
 on:
   workflow_call:
 
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          repository: ekido-ai/Ekido
+          repository: ekido-ai/ekido-core
           ref: main
           sparse-checkout: .github/scripts
       - uses: actions/setup-python@v7
