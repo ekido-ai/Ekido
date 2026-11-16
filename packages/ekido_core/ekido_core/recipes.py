@@ -3,8 +3,11 @@
 Shared by the coordinator (quotes, validation), the training runtime and the verifiers, so all three agree on the
 prompt format and the metric. Dependency-free on purpose.
 
-The quality floors here are starting points. They are replaced by measured baselines (ticket V2: the base model's
-score with a prompt, no training) before a customer sees them, and every quote states its floor in plain words.
+Quality is judged per test example: each one passes or fails under its recipe's rule, and the floor is the share
+that must pass. Keeping every recipe to pass/fail lets one statistical check (ekido_core.quality) serve all of them.
+
+The floors here are starting points. They are replaced by measured baselines (ticket V2: the base model's score with
+a prompt, no training) before a customer sees them, and every quote states its floor in plain words.
 """
 
 from __future__ import annotations
@@ -24,9 +27,10 @@ class Recipe:
     input_name: str
     answer_name: str
     metric: str  # accuracy, field_f1 or rouge_l
-    floor: float
+    floor: float  # The share of test examples that must pass.
     labels: tuple[str, ...] = ()
     max_answer_tokens: int = 16
+    pass_score: float = 1.0  # An example passes when its score reaches this: 1.0 means fully correct.
 
     def prompt(self, value: str) -> str:
         return f"{self.instruction}\n{self.input_name}: {value.strip()}\n{self.answer_name}:"
@@ -40,8 +44,8 @@ class Recipe:
         if self.metric == "accuracy":
             return f"At least {self.floor:.0%} of your {test_rows} test examples answered correctly"
         if self.metric == "field_f1":
-            return f"At least {self.floor:.0%} of the fields in your {test_rows} test documents extracted correctly"
-        return f"An overlap score of at least {self.floor:.2f} with your {test_rows} reference answers"
+            return f"At least {self.floor:.0%} of your {test_rows} test documents read with every field correct"
+        return f"At least {self.floor:.0%} of the answers close to your {test_rows} reference answers"
 
 
 RECIPES: dict[str, Recipe] = {
@@ -55,17 +59,17 @@ RECIPES: dict[str, Recipe] = {
         Recipe(
             "invoice-fields", "Read invoices", "extraction", ("text", "json"),
             "Extract vendor, invoice_no, date, total and gstin from this invoice as JSON.",
-            "Invoice", "JSON", "field_f1", 0.80, (), 128,
+            "Invoice", "JSON", "field_f1", 0.70, (), 128,
         ),
         Recipe(
             "product-descriptions", "Write product descriptions", "generation", ("attributes", "description"),
             "Write a short, friendly product description from these details.",
-            "Product", "Description", "rouge_l", 0.30, (), 128,
+            "Product", "Description", "rouge_l", 0.60, (), 128, 0.4,
         ),
         Recipe(
             "faq-bot-hinglish", "Answer customer questions (Hinglish)", "qa", ("question", "answer"),
             "Answer the customer's question for the clinic, in the language they used.",
-            "Question", "Answer", "rouge_l", 0.30, (), 160,
+            "Question", "Answer", "rouge_l", 0.60, (), 160, 0.4,
         ),
         Recipe(
             "review-sentiment", "Review sentiment", "classification", ("text", "label"),
@@ -136,8 +140,24 @@ def score_one(recipe_id: str, prediction: str, reference: str) -> float:
     return rouge_l(prediction, reference)
 
 
+def passes(recipe_id: str, prediction: str, reference: str) -> bool:
+    """Whether one example counts as correct: its score reaches the recipe's pass mark."""
+    return score_one(recipe_id, prediction, reference) >= recipe(recipe_id).pass_score
+
+
 def score(recipe_id: str, predictions: list[str], references: list[str]) -> float:
-    """The mean score over a test set, which is what the quality floor is compared with."""
+    """The mean score over a test set. Reported next to the pass rate, which is what the floor is compared with."""
     if len(predictions) != len(references) or not references:
         raise ValueError("need one prediction per reference, and at least one reference")
     return sum(score_one(recipe_id, p, r) for p, r in zip(predictions, references)) / len(references)
+
+
+def eval_set_hash(recipe_id: str, test_rows: list[dict]) -> str:
+    """Fingerprint of a test set, fixed in the quality policy before training so it can't be swapped later."""
+    import hashlib
+
+    source, target = recipe(recipe_id).columns
+    digest = hashlib.sha256(recipe_id.encode())
+    for row in test_rows:
+        digest.update(json.dumps([row[source], row[target]], ensure_ascii=False, separators=(",", ":")).encode())
+    return digest.hexdigest()
