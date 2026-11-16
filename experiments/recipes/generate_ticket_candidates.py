@@ -32,10 +32,21 @@ def main():
     model = AutoModelForCausalLM.from_pretrained(MODEL, revision=revision, torch_dtype=torch.float16, device_map="auto")
     random.seed(20261116)
     torch.manual_seed(20261116)
-    seen = set()
-    rows = {"train": [], "test": []}
+    progress_file = OUT / "progress.json"
+    if progress_file.exists():
+        progress = json.loads(progress_file.read_text(encoding="utf-8"))
+        if progress["model"] != MODEL or progress["revision"] != revision:
+            raise RuntimeError("Existing candidates use a different model revision; use a fresh output folder.")
+    else:
+        progress = {"model": MODEL, "revision": revision, "completed": [], "rows": {"train": [], "test": []}}
+    rows = progress["rows"]
+    seen = {" ".join(row["text"].lower().split()) for items in rows.values() for row in items}
     for label, scenarios in LABELS.items():
         for index, scenario in enumerate(scenarios):
+            batch_id = f"{label}:{scenario}"
+            if batch_id in progress["completed"]:
+                print(f"Skipping saved batch: {batch_id}", flush=True)
+                continue
             split = "train" if index < 10 else "test"
             script = "a mix of Devanagari Hindi and English" if index % 4 == 0 else "Roman-script Hinglish"
             collected = []
@@ -53,6 +64,8 @@ def main():
                                         pad_token_id=tokenizer.eos_token_id)
                 text = tokenizer.decode(output[0][inputs.shape[1]:], skip_special_tokens=True)
                 for line in text.splitlines():
+                    if not re.match(r"^\s*(?:\d+[.)\-:]\s*|[-*]\s*)", line):
+                        continue
                     line = re.sub(r"^\s*(?:\d+[.)\-:]\s*|[-*]\s*)", "", line).strip(' \t\"\'')
                     key = " ".join(line.lower().split())
                     if 12 <= len(line) <= 250 and key not in seen:
@@ -63,6 +76,10 @@ def main():
             if len(collected) != 10:
                 raise RuntimeError(f"Insufficient candidates: {label}, {scenario}: {len(collected)}")
             rows[split].extend({"text": text, "label": label} for text in collected)
+            progress["completed"].append(batch_id)
+            tmp = progress_file.with_suffix(".tmp")
+            tmp.write_text(json.dumps(progress, ensure_ascii=False, indent=2), encoding="utf-8")
+            tmp.replace(progress_file)
             print(f"{split}: {label}: {scenario}: {len(collected)}", flush=True)
     for split, items in rows.items():
         random.shuffle(items)
