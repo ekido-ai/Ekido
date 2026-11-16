@@ -1,7 +1,8 @@
 """Run the ten recipe/model baselines after checking all five datasets.
 
 Datasets must already exist under --recipes-root, normally after their PRs are
-reviewed. A dry run validates inputs and prints commands without loading models
+reviewed. --runtime-path points to the separate ekido-workers/runtime checkout.
+A dry run validates inputs and prints commands without loading models
 or producing result files. Real runs require CUDA. Existing results are never
 overwritten: choose a new --out directory when retrying a partial run.
 """
@@ -57,6 +58,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--recipes-root', type=Path, default=ROOT / 'experiments' / 'recipes')
     parser.add_argument('--out', type=Path, default=ROOT / 'experiments' / 'results' / 'baselines')
+    parser.add_argument('--runtime-path', type=Path, default=ROOT.parent / 'ekido-workers' / 'runtime',
+                        help='path to the runtime directory in an ekido-workers checkout')
     parser.add_argument('--dry-run', action='store_true', help='validate inputs and show commands without generating scores')
     args = parser.parse_args(argv)
     source = args.recipes_root.resolve()
@@ -77,11 +80,14 @@ def main(argv: list[str] | None = None) -> int:
     existing = [str(target) for _, _, _, target in jobs if target.exists()]
     if existing:
         raise FileExistsError('Refusing to overwrite existing result files; choose a new --out: ' + ', '.join(existing))
+    runtime = args.runtime_path.resolve()
+    if not (runtime / 'ekido_runtime' / 'llm.py').is_file():
+        parser.error(f'--runtime-path must contain ekido_runtime/llm.py: {runtime}')
     for name, model, revision, _ in jobs:
         if not re.fullmatch(r'[0-9a-f]{40}', revision):
             raise ValueError(f'Invalid pinned revision for {model}')
         command = [sys.executable, '-I', str(baseline), str(source / name), '--model', model,
-                   '--revision', revision, '--device', 'cuda', '--out', str(out)]
+                   '--revision', revision, '--device', 'cuda', '--runtime-path', str(runtime), '--out', str(out)]
         print(shlex.join(command), flush=True)
         if not args.dry_run:
             subprocess.run(command, check=True)

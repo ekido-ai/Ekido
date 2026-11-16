@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import csv
+import contextlib
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
@@ -56,6 +58,28 @@ class BaselineMatrixTest(unittest.TestCase):
                 with self.assertRaises(FileExistsError):
                     matrix.main(['--recipes-root', str(root), '--out', str(out), '--dry-run'])
                 self.assertEqual(run.call_count, len(matrix.RECIPES))  # Validators only; no model command.
+
+    def test_split_runtime_is_checked_and_passed_to_baseline(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'inputs'
+            for name in matrix.RECIPES:
+                folder = root / name
+                folder.mkdir(parents=True)
+                columns = matrix.recipe(name).columns
+                with (folder / 'test.csv').open('w', encoding='utf-8', newline='') as handle:
+                    writer = csv.DictWriter(handle, fieldnames=columns)
+                    writer.writeheader()
+                    writer.writerow(dict.fromkeys(columns, 'example'))
+            runtime = Path(temp) / 'workers' / 'runtime'
+            args = ['--recipes-root', str(root), '--runtime-path', str(runtime), '--dry-run']
+            with mock.patch.object(matrix.subprocess, 'run'), contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit):
+                    matrix.main(args)
+                (runtime / 'ekido_runtime').mkdir(parents=True)
+                (runtime / 'ekido_runtime' / 'llm.py').touch()
+                with contextlib.redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(matrix.main(args), 0)
+                self.assertEqual(output.getvalue().count('--runtime-path'), 10)
 
 
 if __name__ == '__main__':
