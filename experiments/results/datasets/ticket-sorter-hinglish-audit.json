@@ -1,0 +1,24 @@
+{
+  "method": "casefold + whitespace normalization; difflib.SequenceMatcher ratio; all train/test pairs",
+  "train_rows": 500,
+  "test_rows": 100,
+  "train_labels": {
+    "refund": 100,
+    "other": 100,
+    "complaint": 100,
+    "question": 100,
+    "order": 100
+  },
+  "test_labels": {
+    "order": 20,
+    "refund": 20,
+    "complaint": 20,
+    "other": 20,
+    "question": 20
+  },
+  "train_devanagari_rows": 125,
+  "test_devanagari_rows": 25,
+  "train_test_exact_overlap": 0,
+  "max_train_test_similarity": 0.731707,
+  "test_rows_with_similarity_ge_0_8": 0
+}
