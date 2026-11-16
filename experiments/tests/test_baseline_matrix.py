@@ -8,8 +8,8 @@ import io
 import json
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
-from unittest import mock
 
 HERE = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('run_baseline_matrix', HERE / 'recipes' / 'run_baseline_matrix.py')
@@ -54,7 +54,7 @@ class BaselineMatrixTest(unittest.TestCase):
             out = Path(temp) / 'results'
             out.mkdir()
             matrix.result_path(out, self.recipe_id, self.model).write_text('existing', encoding='utf-8')
-            with mock.patch.object(matrix.subprocess, 'run') as run:
+            with unittest.mock.patch.object(matrix.subprocess, 'run') as run:
                 with self.assertRaises(FileExistsError):
                     matrix.main(['--recipes-root', str(root), '--out', str(out), '--dry-run'])
                 self.assertEqual(run.call_count, len(matrix.RECIPES))  # Validators only; no model command.
@@ -72,7 +72,7 @@ class BaselineMatrixTest(unittest.TestCase):
                     writer.writerow(dict.fromkeys(columns, 'example'))
             runtime = Path(temp) / 'workers' / 'runtime'
             args = ['--recipes-root', str(root), '--runtime-path', str(runtime), '--dry-run']
-            with mock.patch.object(matrix.subprocess, 'run'), contextlib.redirect_stderr(io.StringIO()):
+            with unittest.mock.patch.object(matrix.subprocess, 'run'), contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaises(SystemExit):
                     matrix.main(args)
                 (runtime / 'ekido_runtime').mkdir(parents=True)
