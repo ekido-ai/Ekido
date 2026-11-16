@@ -26,7 +26,13 @@ def valid_check_digit(gstin: str) -> str:
 
 def read(path: Path) -> list[dict[str, str]]:
     with path.open(encoding='utf-8', newline='') as handle:
-        return list(csv.DictReader(handle))
+        rows = list(csv.DictReader(handle))
+    # Git may check out CSV files with CRLF, including line breaks within a
+    # quoted invoice. Compare the same invoice content consistently on Windows
+    # and Unix without changing any fields or labels.
+    for row in rows:
+        row['text'] = row['text'].replace('\r\n', '\n').replace('\r', '\n')
+    return rows
 
 
 def main() -> None:
