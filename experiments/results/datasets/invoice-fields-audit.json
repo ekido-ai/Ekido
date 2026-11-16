@@ -1,0 +1,15 @@
+{
+  "train_rows": 200,
+  "test_rows": 50,
+  "label_fields": [
+    "date",
+    "gstin",
+    "invoice_no",
+    "total",
+    "vendor"
+  ],
+  "text_label_mismatches": 0,
+  "duplicate_or_overlapping_inputs": 0,
+  "structurally_valid_deliberately_bad_checksum_ids": 250,
+  "reproduced_from_generator": true
+}
