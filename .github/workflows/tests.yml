@@ -33,6 +33,9 @@ jobs:
           - suite: coordinator
             dir: apps/coordinator
             path: ".:../../packages/ekido_core"
+          - suite: platform
+            dir: apps/platform
+            path: ".:../../packages/ekido_core"
           - suite: verifier
             dir: workers/verifier
             path: ".:../../packages/ekido_core:../../workers/runtime"
@@ -64,20 +67,17 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: ekido
-          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci-only-admin
           POSTGRES_DB: ekido
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U ekido" --health-interval 5s --health-timeout 5s --health-retries 10
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
-      DATABASE_URL: postgresql+psycopg://ekido:ci-only-password@127.0.0.1:5432/ekido
-      TEST_DATABASE_URL: postgresql+psycopg://ekido:ci-only-password@127.0.0.1:5432/ekido
-      PYTHONPATH: ".:../../packages/ekido_core"
+      PGPASSWORD: ci-only-admin
+      COORDINATOR_URL: postgresql+psycopg://ekido_coordinator:ci-coordinator@127.0.0.1:5432/ekido?options=-csearch_path%3Dcoordinator
+      PLATFORM_URL: postgresql+psycopg://ekido_platform:ci-platform@127.0.0.1:5432/ekido?options=-csearch_path%3Dplatform
       PYTHONDONTWRITEBYTECODE: "1"
-    defaults:
-      run:
-        working-directory: apps/coordinator
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -85,14 +85,58 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install "sqlalchemy>=2" "fastapi>=0.115" pydantic-settings eth-account web3 "alembic==1.20.1" "psycopg[binary]==3.3.6"
-      - name: Apply every migration
-        run: python -m alembic -c alembic/alembic.ini upgrade head
-      - name: The migrations match the models
-        run: python -m alembic -c alembic/alembic.ini check
-      - name: Main write paths on Postgres
-        run: python -m unittest -v tests.test_postgres
+      - name: One user and one schema per service, as infra/server/postgres.sh sets up
+        run: |
+          psql -h 127.0.0.1 -U postgres -d ekido -v ON_ERROR_STOP=1 <<'SQL'
+          REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+          CREATE ROLE ekido_coordinator LOGIN PASSWORD 'ci-coordinator';
+          CREATE SCHEMA coordinator AUTHORIZATION ekido_coordinator;
+          ALTER ROLE ekido_coordinator IN DATABASE ekido SET search_path = coordinator;
+          REVOKE ALL ON SCHEMA coordinator FROM PUBLIC;
+          CREATE ROLE ekido_platform LOGIN PASSWORD 'ci-platform';
+          CREATE SCHEMA platform AUTHORIZATION ekido_platform;
+          ALTER ROLE ekido_platform IN DATABASE ekido SET search_path = platform;
+          REVOKE ALL ON SCHEMA platform FROM PUBLIC;
+          SQL
+      - name: Coordinator migrations, checks and write paths
+        working-directory: apps/coordinator
+        env:
+          PYTHONPATH: ".:../../packages/ekido_core"
+        run: |
+          DATABASE_URL="$COORDINATOR_URL" python -m alembic -c alembic/alembic.ini upgrade head
+          DATABASE_URL="$COORDINATOR_URL" python -m alembic -c alembic/alembic.ini check
+          TEST_DATABASE_URL="$COORDINATOR_URL" python -m unittest -v tests.test_postgres
+      - name: Platform migrations, checks and write paths (and no access to the coordinator's tables)
+        working-directory: apps/platform
+        env:
+          PYTHONPATH: ".:../../packages/ekido_core"
+        run: |
+          DATABASE_URL="$PLATFORM_URL" python -m alembic -c alembic/alembic.ini upgrade head
+          DATABASE_URL="$PLATFORM_URL" python -m alembic -c alembic/alembic.ini check
+          TEST_DATABASE_URL="$PLATFORM_URL" python -m unittest -v tests.test_postgres
       - name: Migrations roll back cleanly
-        run: python -m alembic -c alembic/alembic.ini downgrade base
+        run: |
+          (cd apps/platform && DATABASE_URL="$PLATFORM_URL" PYTHONPATH=".:../../packages/ekido_core" python -m alembic -c alembic/alembic.ini downgrade base)
+          (cd apps/coordinator && DATABASE_URL="$COORDINATOR_URL" PYTHONPATH=".:../../packages/ekido_core" python -m alembic -c alembic/alembic.ini downgrade base)
+
+  inference:
+    name: Inference (Rust)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/inference
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+        with:
+          workspaces: apps/inference
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
 
   web:
     name: Web app
