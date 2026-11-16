@@ -4,14 +4,14 @@ import unittest
 
 from fastapi.testclient import TestClient
 
-from ekido_coordinator.main import Settings, create_app
+from ekido_platform.main import Settings, create_app
 
 SITE = "https://ekido.example"
 
 
 def app(**overrides):
-    settings = dict(database_url="sqlite://", demo_mode=True, _env_file=None, email_sender="log", site_url=SITE,
-                    cors_origins=[SITE], session_cookie_secure=False, rate_limit_enabled=False)
+    settings = dict(database_url="sqlite://", _env_file=None, email_sender="log", site_url=SITE,
+                    cors_origins=[SITE], session_cookie_secure=False)
     settings.update(overrides)
     return create_app(Settings(**settings))
 
@@ -21,7 +21,7 @@ class V1Accounts(unittest.TestCase):
         self.client = TestClient(app())
 
     def link_token(self, email):
-        with self.assertLogs("ekido_coordinator.v1_accounts", level="WARNING") as logs:
+        with self.assertLogs("ekido_platform.v1_accounts", level="WARNING") as logs:
             self.assertEqual(self.client.post("/v1/auth/email/start", json={"email": email}).status_code, 202)
         return re.search(r"token=([\w-]+)", logs.output[-1]).group(1)
 
@@ -74,7 +74,7 @@ class V1Accounts(unittest.TestCase):
     def test_members_and_roles(self):
         self.sign_in("owner@x.co")
         org = self.client.post("/v1/orgs", json={"name": "Shop"}).json()["org_id"]
-        with self.assertLogs("ekido_coordinator.v1_accounts", level="WARNING"):
+        with self.assertLogs("ekido_platform.v1_accounts", level="WARNING"):
             invited = self.client.post(f"/v1/orgs/{org}/members", json={"email": "staff@x.co", "role": "member"})
         self.assertEqual(invited.status_code, 202)
         self.assertEqual(self.client.delete(f"/v1/orgs/{org}/members/{invited.json()['user_id']}").status_code, 204)

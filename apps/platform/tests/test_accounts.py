@@ -6,9 +6,9 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
-from ekido_coordinator import accounts
-from ekido_coordinator.accounts import AccountError, ApiKey, LoginToken, Principal, WebSession
-from ekido_coordinator.models import Base, utcnow
+from ekido_platform import accounts
+from ekido_platform.accounts import AccountError, ApiKey, LoginToken, Principal, WebSession
+from ekido_platform.models import Base, utcnow
 
 
 class AccountsTest(unittest.TestCase):

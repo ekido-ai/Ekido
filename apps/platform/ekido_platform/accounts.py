@@ -1,7 +1,7 @@
 """Accounts for people who don't use a wallet: email sign-in, web sessions, teams (orgs) and API keys.
 
-Only new tables, so they appear through create_all on any existing database without touching older tables. A
-user's email lives in `user_emails`; jobs are linked to a team through `job_owners`.
+Part of the Platform API, in its own schema. A user's email lives in `user_emails`; a Coordinator job is linked to
+a team through `job_owners`, which keeps the job's ID as a plain string (the job lives in the Coordinator).
 
 Secrets are never stored: login links, sessions and API keys are random tokens kept only as SHA-256 hashes, and
 looked up by that hash. They have 256 bits of entropy, so a fast hash is the right tool (no password stretching).
@@ -112,7 +112,7 @@ class Consent(Timestamped, Base):
 
 class JobOwner(Base):
     __tablename__ = "job_owners"
-    job_id: Mapped[str] = mapped_column(ForeignKey("jobs.id"), primary_key=True)
+    job_id: Mapped[str] = mapped_column(String(36), primary_key=True)  # The Coordinator's job ID.
     org_id: Mapped[str] = mapped_column(ForeignKey("orgs.id"), index=True)
 
 
