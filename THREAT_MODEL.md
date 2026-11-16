@@ -45,7 +45,7 @@
 
 ## Contract security pass (14 Nov 2026)
 
-Static analysis, fuzz and invariant results for `contracts/src/`. Not an audit. The full triage is in [`contracts/security/slither-report.md`](contracts/security/slither-report.md) and the raw output in `contracts/security/slither-output.txt`.
+Static analysis, fuzz and invariant results for `contracts/src/`. Not an audit. The full triage is in [`contracts/security/slither-report.md`](https://github.com/ekido-ai/ekido-contracts/blob/main/security/slither-report.md) and the raw output in `contracts/security/slither-output.txt`.
 
 | Check | Result |
 |---|---|
