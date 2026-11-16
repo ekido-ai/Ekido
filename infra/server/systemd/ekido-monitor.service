@@ -1,6 +1,0 @@
-[Unit]
-Description=Ekido health monitor
-
-[Service]
-Type=oneshot
-ExecStart=/opt/ekido-ops/ekido-monitor.sh

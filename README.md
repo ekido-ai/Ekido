@@ -12,6 +12,22 @@ Ekido is a prototype GPU network for model training with three guarantees:
 
 Live on the Base Sepolia testnet: <https://gpuchain.duckdns.org> (test USDC only; unaudited contracts).
 
+## Repositories
+
+Ekido is split into one public repository per part, all in the [`ekido-ai`](https://github.com/ekido-ai) organisation. This one holds the shared library (`packages/ekido_core`), the API contract and schemas (`docs/api`, `docs/schemas`), the design and security docs, and the evidence behind every number (`experiments/results`).
+
+| Repository | What it holds |
+|---|---|
+| [ekido-coordinator](https://github.com/ekido-ai/ekido-coordinator) | Schedules training across devices: recovery, checkpoints, quality checks, settlement |
+| [ekido-platform](https://github.com/ekido-ai/ekido-platform) | Accounts, teams, API keys, quotes, payments and plans |
+| [ekido-inference](https://github.com/ekido-ai/ekido-inference) | Serves finished models (Rust) |
+| [ekido-workers](https://github.com/ekido-ai/ekido-workers) | What providers run: the agent, the training runtime, the verifier, the provider kit |
+| [ekido-web](https://github.com/ekido-ai/ekido-web) | The web app |
+| [ekido-contracts](https://github.com/ekido-ai/ekido-contracts) | The escrow and anchoring contracts |
+| [ekido-infra](https://github.com/ekido-ai/ekido-infra) | Server setup, deploys, end-to-end tests, full-stack experiments, the RUNBOOK |
+
+Each service installs this library from a pinned tag. Their history up to `v0.4.0` is also in this repository's history.
+
 ## What has actually run
 
 Every number here traces to a raw file in [`experiments/results/`](experiments/results/).
@@ -84,7 +100,7 @@ The chain holds the money and the rules; the coordinator orchestrates recovery, 
 - **Rent out a GPU:** download the provider kit from the website's *Rent out your GPU* page, or build it with `python infra/provider-kit/build_kit.py`, then follow `infra/provider-kit/README.md`.
 - **Tests:** contracts with `forge test` in `contracts/`; Python packages with `pytest` in each package; the web app with `npx vitest run` in `apps/web-combined/`. On Windows, `infra/run-tests-host.ps1` runs the CPU suites with a memory watchdog.
 - **Local demo:** `python experiments/demo_stack.py --help` lists the GPU path and the CPU fallback (`--cpu --no-docker`).
-- **Deploys:** merging into `main` deploys itself once CI is green; see [`RUNBOOK.md`](RUNBOOK.md).
+- **Deploys:** merging into `main` deploys itself once CI is green; see the [RUNBOOK in ekido-infra](https://github.com/ekido-ai/ekido-infra/blob/main/RUNBOOK.md).
 
 Never commit `.env` files or private keys. Use testnet-only wallets.
 

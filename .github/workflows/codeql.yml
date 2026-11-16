@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python, javascript-typescript, actions]
+        language: [python, actions]
     steps:
       - uses: actions/checkout@v7
       - uses: github/codeql-action/init@v4

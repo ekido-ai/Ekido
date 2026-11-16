@@ -1,5 +1,7 @@
 name: Tests
 
+# ekido-core holds the shared library, the API contract and the evidence. Each service tests itself in its own repo
+# (ekido-coordinator, ekido-platform, ekido-workers, ekido-inference, ekido-web, ekido-contracts, ekido-infra).
 on:
   push:
     branches: [main]
@@ -16,7 +18,7 @@ jobs:
   python:
     name: Python (${{ matrix.suite }})
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -24,21 +26,6 @@ jobs:
           - suite: core
             dir: packages/ekido_core
             path: "."
-          - suite: runtime
-            dir: workers/runtime
-            path: ".:../../packages/ekido_core"
-          - suite: agent
-            dir: workers/agent
-            path: ".:../../packages/ekido_core"
-          - suite: coordinator
-            dir: apps/coordinator
-            path: ".:../../packages/ekido_core"
-          - suite: platform
-            dir: apps/platform
-            path: ".:../../packages/ekido_core"
-          - suite: verifier
-            dir: workers/verifier
-            path: ".:../../packages/ekido_core:../../workers/runtime"
           - suite: experiments
             dir: experiments
             path: "."
@@ -47,188 +34,14 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Install dependencies (CPU only)
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install safetensors numpy eth-account "sqlalchemy>=2" "fastapi>=0.115" httpx pydantic-settings websockets "uvicorn>=0.30" web3 "pyyaml==6.0.2" "transformers==5.22.1" "peft==0.21.2"
+          pip install safetensors numpy eth-account eth-utils jsonschema "pyyaml==6.0.2"
       - name: Run tests
         working-directory: ${{ matrix.dir }}
         env:
           PYTHONPATH: ${{ matrix.path }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s tests
-
-  postgres:
-    name: Postgres
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ci-only-admin
-          POSTGRES_DB: ekido
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
-    env:
-      PGPASSWORD: ci-only-admin
-      COORDINATOR_URL: postgresql+psycopg://ekido_coordinator:ci-coordinator@127.0.0.1:5432/ekido?options=-csearch_path%3Dcoordinator
-      PLATFORM_URL: postgresql+psycopg://ekido_platform:ci-platform@127.0.0.1:5432/ekido?options=-csearch_path%3Dplatform
-      PYTHONDONTWRITEBYTECODE: "1"
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-      - name: Install dependencies
-        run: pip install "sqlalchemy>=2" "fastapi>=0.115" pydantic-settings eth-account web3 "alembic==1.20.1" "psycopg[binary]==3.3.6"
-      - name: One user and one schema per service, as infra/server/postgres.sh sets up
-        run: |
-          psql -h 127.0.0.1 -U postgres -d ekido -v ON_ERROR_STOP=1 <<'SQL'
-          REVOKE CREATE ON SCHEMA public FROM PUBLIC;
-          CREATE ROLE ekido_coordinator LOGIN PASSWORD 'ci-coordinator';
-          CREATE SCHEMA coordinator AUTHORIZATION ekido_coordinator;
-          ALTER ROLE ekido_coordinator IN DATABASE ekido SET search_path = coordinator;
-          REVOKE ALL ON SCHEMA coordinator FROM PUBLIC;
-          CREATE ROLE ekido_platform LOGIN PASSWORD 'ci-platform';
-          CREATE SCHEMA platform AUTHORIZATION ekido_platform;
-          ALTER ROLE ekido_platform IN DATABASE ekido SET search_path = platform;
-          REVOKE ALL ON SCHEMA platform FROM PUBLIC;
-          SQL
-      - name: Coordinator migrations, checks and write paths
-        working-directory: apps/coordinator
-        env:
-          PYTHONPATH: ".:../../packages/ekido_core"
-        run: |
-          DATABASE_URL="$COORDINATOR_URL" python -m alembic -c alembic/alembic.ini upgrade head
-          DATABASE_URL="$COORDINATOR_URL" python -m alembic -c alembic/alembic.ini check
-          TEST_DATABASE_URL="$COORDINATOR_URL" python -m unittest -v tests.test_postgres
-      - name: Platform migrations, checks and write paths (and no access to the coordinator's tables)
-        working-directory: apps/platform
-        env:
-          PYTHONPATH: ".:../../packages/ekido_core"
-        run: |
-          DATABASE_URL="$PLATFORM_URL" python -m alembic -c alembic/alembic.ini upgrade head
-          DATABASE_URL="$PLATFORM_URL" python -m alembic -c alembic/alembic.ini check
-          TEST_DATABASE_URL="$PLATFORM_URL" python -m unittest -v tests.test_postgres
-      - name: Migrations roll back cleanly
-        run: |
-          (cd apps/platform && DATABASE_URL="$PLATFORM_URL" PYTHONPATH=".:../../packages/ekido_core" python -m alembic -c alembic/alembic.ini downgrade base)
-          (cd apps/coordinator && DATABASE_URL="$COORDINATOR_URL" PYTHONPATH=".:../../packages/ekido_core" python -m alembic -c alembic/alembic.ini downgrade base)
-
-  inference:
-    name: Inference (Rust)
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: apps/inference
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
-        with:
-          components: clippy, rustfmt
-      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
-        with:
-          workspaces: apps/inference
-      - run: cargo fmt --check
-      - run: cargo clippy --locked --all-targets -- -D warnings
-      - run: cargo test --locked
-
-  web:
-    name: Web app
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: apps/web-combined
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: apps/web-combined/package-lock.json
-      - run: npm ci
-      - name: Generate Next.js route types
-        run: npx next typegen
-      - run: npx tsc --noEmit
-      - run: npx vitest run
-      - name: Production build
-        run: npx next build
-
-  web-e2e:
-    name: Web e2e
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    defaults:
-      run:
-        working-directory: apps/web-combined
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: apps/web-combined/package-lock.json
-      - run: npm ci
-      - name: Install Chromium for Playwright
-        run: npx playwright install --with-deps chromium
-      - name: Browser tests against the mock coordinator
-        run: npm run e2e
-      - name: Keep the report when tests fail
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: apps/web-combined/playwright-report
-          retention-days: 7
-
-  contracts:
-    name: Contracts
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: contracts
-    steps:
-      - uses: actions/checkout@v7
-      - uses: foundry-rs/foundry-toolchain@dba66c27052e63476d886f22216e119ba7e615bf # v1
-      - name: Fetch libraries
-        run: |
-          git clone --depth 1 --branch v1.17.0 https://github.com/foundry-rs/forge-std lib/forge-std
-          git clone --depth 1 --branch v5.7.0 https://github.com/OpenZeppelin/openzeppelin-contracts lib/openzeppelin-contracts
-      - run: forge build --sizes
-      - run: forge test
-
-  slither:
-    name: Slither
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: contracts
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-      - uses: foundry-rs/foundry-toolchain@dba66c27052e63476d886f22216e119ba7e615bf # v1
-      - name: Fetch libraries
-        run: |
-          git clone --depth 1 --branch v1.17.0 https://github.com/foundry-rs/forge-std lib/forge-std
-          git clone --depth 1 --branch v5.7.0 https://github.com/OpenZeppelin/openzeppelin-contracts lib/openzeppelin-contracts
-      - run: pip install slither-analyzer==0.11.6
-      # Same filters as contracts/security/slither-report.md. Slither's exit code is ignored here;
-      # the check below decides, so a Low or Informational result does not fail the job.
-      - name: Run Slither
-        run: slither . --filter-paths "lib/|test/|script/" --json slither.json || true
-      # Fails on any High or Medium result except the two false positives triaged in
-      # slither-report.md (#1, #2): locals that deliberately start at their default value.
-      # They are matched by variable, function and contract, so the same detector firing
-      # anywhere else still fails the job.
-      - name: Fail on new Medium or High results
-        run: python security/check_slither.py slither.json
