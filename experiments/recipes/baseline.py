@@ -55,10 +55,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("folder", type=Path, help="experiments/recipes/<recipe>, holding test.csv")
     parser.add_argument("--model", required=True, choices=LLM_BASES)
     parser.add_argument("--revision", help="the model's commit; the current one is looked up and recorded if omitted")
+    parser.add_argument("--runtime-path", type=Path, help="path to ekido-workers/runtime after the repository split")
     parser.add_argument("--device", default=None, help="cuda or cpu; cuda is used when available")
     parser.add_argument("--max-seq-length", type=int, default=512)
     parser.add_argument("--out", type=Path, default=ROOT / "experiments" / "results" / "baselines")
     args = parser.parse_args(argv)
+
+    if args.runtime_path is not None:
+        runtime_path = args.runtime_path.resolve()
+        if not (runtime_path / "ekido_runtime" / "llm.py").is_file():
+            parser.error(f"--runtime-path must contain ekido_runtime/llm.py: {runtime_path}")
+        sys.path.insert(0, str(runtime_path))
 
     import torch
     from huggingface_hub import HfApi
