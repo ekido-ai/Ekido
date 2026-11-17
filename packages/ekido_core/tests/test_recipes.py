@@ -21,7 +21,7 @@ def llm_spec(**overrides):
         "total_logical_steps": 200,
         "seed": 7,
         "optimizer": {"name": "adamw", "lr": 2e-4, "weight_decay": 0.0, "betas": [0.9, 0.999], "eps": 1e-8, "max_grad_norm": 1.0},
-        "lr_schedule": {"name": "linear", "warmup_steps": 10},
+        "lr_schedule": {"name": "linear_warmup_linear_decay", "warmup_steps": 10},
     }
     spec.update(overrides)
     return spec
@@ -115,6 +115,22 @@ class LlmSpec(unittest.TestCase):
         spec = llm_spec()
         del spec["lora"]
         self.assertIn("lora is missing", spec_problems(spec))
+
+    def test_invalid_training_parameters_are_rejected(self):
+        valid = llm_spec()
+        cases = [
+            ("optimizer", "name", "other"), ("optimizer", "lr", "bad"),
+            ("optimizer", "eps", float("nan")), ("optimizer", "betas", [1, 0.9]),
+            ("optimizer", "weight_decay", -1), ("lora", "r", True),
+            ("lora", "alpha", 0), ("lora", "dropout", 1), ("lora", "target_modules", []),
+            ("lr_schedule", "name", "linear"), ("lr_schedule", "warmup_steps", -1),
+        ]
+        for section, key, value in cases:
+            with self.subTest(section=section, key=key, value=value):
+                invalid = {**valid, section: {**valid[section], key: value}}
+                self.assertTrue(any(p.startswith(section + "." + key) for p in spec_problems(invalid)))
+        self.assertIn("logical_batch_size cannot exceed dataset.train_rows",
+                      spec_problems(llm_spec(logical_batch_size=501)))
 
 
 if __name__ == "__main__":

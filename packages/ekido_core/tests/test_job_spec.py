@@ -21,6 +21,17 @@ REAL = {
 
 
 class SpecProblems(unittest.TestCase):
+    def test_non_object_specs_are_refused_without_crashing(self):
+        for value in (None, True, 1, "text", [], [1]):
+            with self.subTest(value=value):
+                self.assertEqual(spec_problems(value), ["spec must be a JSON object"])
+
+    def test_unhashable_recipe_ids_are_refused_without_crashing(self):
+        for value in ([], {}, ["review-sentiment"]):
+            with self.subTest(value=value):
+                problems = spec_problems({**SYNTHETIC, "template": "llm-lora/v1", "recipe_id": value})
+                self.assertTrue(any(problem.startswith("recipe_id must be one of") for problem in problems))
+
     def test_complete_specs_pass(self):
         self.assertEqual(spec_problems(SYNTHETIC), [])
         self.assertEqual(spec_problems(REAL), [])

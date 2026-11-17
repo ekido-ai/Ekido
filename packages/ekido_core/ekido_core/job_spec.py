@@ -7,6 +7,8 @@ quality_policy.schema.json. This checks what the workers really read, and is dep
 
 from __future__ import annotations
 
+import math
+
 from .data_identity import require_commit, require_digest, validate_spec_identity
 
 TEMPLATES = ("distilbert-lora-agnews/v1", "synthetic-linear/v1", "custom-python/v1", "llm-lora/v1")
@@ -33,6 +35,8 @@ def _section(spec: dict, name: str, fields: tuple[str, ...], problems: list[str]
 
 def spec_problems(spec: dict) -> list[str]:
     """Everything wrong with a workload, in words a client can act on. Empty means it's acceptable."""
+    if not isinstance(spec, dict):
+        return ["spec must be a JSON object"]
     template = spec.get("template")
     if template not in TEMPLATES:
         return [f"template must be one of {', '.join(TEMPLATES)}"]
@@ -98,11 +102,54 @@ def _llm_problems(spec: dict, problems: list[str]) -> None:
         _whole(dataset, "bytes", 1, problems)
         _whole(dataset, "train_rows", 1, problems)
         _whole(dataset, "test_rows", 20, problems)
-    if spec.get("recipe_id") not in RECIPES:
+        batch, rows = spec.get("logical_batch_size"), dataset.get("train_rows")
+        if type(batch) is int and type(rows) is int and batch > rows:
+            problems.append("logical_batch_size cannot exceed dataset.train_rows")
+    lora = spec.get("lora")
+    if isinstance(lora, dict):
+        if "r" in lora and (type(lora["r"]) is not int or lora["r"] < 1):
+            problems.append("lora.r must be a positive integer")
+        if "alpha" in lora and (not _finite_number(lora["alpha"]) or lora["alpha"] <= 0):
+            problems.append("lora.alpha must be a positive finite number")
+        if "dropout" in lora and (not _finite_number(lora["dropout"]) or not 0 <= lora["dropout"] < 1):
+            problems.append("lora.dropout must be a finite number from 0 up to but not including 1")
+        if "target_modules" in lora and (not isinstance(lora["target_modules"], list) or not lora["target_modules"]
+                                         or not all(isinstance(x, str) and x.strip() for x in lora["target_modules"])):
+            problems.append("lora.target_modules must be a non-empty list of names")
+    optimizer = spec.get("optimizer")
+    if isinstance(optimizer, dict):
+        if "name" in optimizer and optimizer["name"] != "adamw":
+            problems.append("optimizer.name must be adamw")
+        for field in ("lr", "eps", "max_grad_norm"):
+            if field in optimizer and (not _finite_number(optimizer[field]) or optimizer[field] <= 0):
+                problems.append(f"optimizer.{field} must be a positive finite number")
+        if "weight_decay" in optimizer and (not _finite_number(optimizer["weight_decay"]) or optimizer["weight_decay"] < 0):
+            problems.append("optimizer.weight_decay must be a non-negative finite number")
+        if "betas" in optimizer:
+            betas = optimizer["betas"]
+            if not isinstance(betas, list) or len(betas) != 2 or not all(_finite_number(v) and 0 <= v < 1 for v in betas):
+                problems.append("optimizer.betas must contain two finite numbers in [0, 1)")
+    schedule = spec.get("lr_schedule")
+    if isinstance(schedule, dict):
+        if "name" in schedule and schedule["name"] not in ("constant", "linear_warmup_linear_decay"):
+            problems.append("lr_schedule.name must be constant or linear_warmup_linear_decay")
+        if "warmup_steps" in schedule and (type(schedule["warmup_steps"]) is not int or schedule["warmup_steps"] < 0):
+            problems.append("lr_schedule.warmup_steps must be a non-negative integer")
+    recipe_id = spec.get("recipe_id")
+    if not isinstance(recipe_id, str) or recipe_id not in RECIPES:
         problems.append(f"recipe_id must be one of {', '.join(sorted(RECIPES))}")
     length = spec.get("max_seq_length")
     if isinstance(length, bool) or not isinstance(length, int) or not 32 <= length <= 2048:
         problems.append("max_seq_length must be a whole number from 32 to 2048")
+
+
+def _finite_number(value) -> bool:
+    if type(value) not in (int, float):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
 
 
 def _is_sha256(value) -> bool:
