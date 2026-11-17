@@ -1,0 +1,131 @@
+{
+  "workload": "distill/v1",
+  "recipe_id": "ticket-sorter-hinglish",
+  "teacher": "Qwen/Qwen2.5-7B-Instruct",
+  "student": "Qwen/Qwen2.5-0.5B-Instruct",
+  "seed_rows": 10,
+  "generated_rows": 20,
+  "test_rows": 100,
+  "student_eval": {
+    "pass_rate": 0.48,
+    "score": 0.48,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order\n\nThe customer",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund\n\nThe customer",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "refund\n\nThe customer",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "refund\n\nThe customer",
+        "passed": false
+      },
+      {
+        "reference": "question",
+        "answer": "question\n\nThe ticket",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint\n\nThe ticket",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "complaint\n\nThe ticket",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "question\n\nThe customer",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint\n\nThe ticket",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint\n\nThe customer",
+        "passed": true
+      }
+    ]
+  },
+  "student_base_eval": {
+    "pass_rate": 0.35,
+    "score": 0.35,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order. \n\nThe",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint. \n\nReason",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "question",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "complaint. \n\nReason",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint. \n\nReason",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "Complaint\n\nThe customer",
+        "passed": true
+      }
+    ]
+  }
+}
