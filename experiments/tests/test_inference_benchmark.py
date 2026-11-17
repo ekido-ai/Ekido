@@ -62,6 +62,27 @@ class LocalBenchmark(unittest.TestCase):
         self.assertEqual(result['successful'], 0)
         self.assertIsNone(result['p95_ms'])
 
+    def test_does_not_follow_engine_redirects(self):
+        class Redirect(Handler):
+            calls = 0
+
+            def do_POST(self):
+                type(self).calls += 1
+                self.send_response(307)
+                self.send_header('Location', f'http://127.0.0.1:{self.server.server_port}/elsewhere')
+                self.end_headers()
+
+        server = ThreadingHTTPServer(('127.0.0.1', 0), Redirect)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        with tempfile.TemporaryDirectory() as temp:
+            dataset = Path(temp) / 'test.csv'
+            dataset.write_text('text\none\n', encoding='utf-8')
+            result = benchmark.run(f'http://127.0.0.1:{server.server_port}', 'fake', dataset, 1, 8, 3)
+        self.assertEqual(result['successful'], 0)
+        self.assertEqual(Redirect.calls, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -21,6 +21,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def endpoint(value: str) -> str:
     url = urllib.parse.urlsplit(value)
     try:
@@ -42,13 +47,14 @@ def run(base_url: str, model: str, dataset: Path, count: int, max_tokens: int, t
     if count < 1 or count > len(rows) or not 1 <= max_tokens <= 1024 or not math.isfinite(timeout) or timeout <= 0:
         raise ValueError('invalid request count, token limit or timeout')
     records = []
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
     for row in rows[:count]:
         payload = json.dumps({'model': model, 'messages': [{'role': 'user', 'content': row['text']}],
                               'temperature': 0, 'max_tokens': max_tokens}).encode('utf-8')
         request = urllib.request.Request(url, data=payload, headers={'Content-Type': 'application/json'})
         start = time.perf_counter()
         try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
+            with opener.open(request, timeout=timeout) as response:
                 body = response.read(1_000_001)
                 if len(body) > 1_000_000:
                     raise ValueError('response too large')
