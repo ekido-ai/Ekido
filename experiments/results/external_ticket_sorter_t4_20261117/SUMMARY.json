@@ -1,0 +1,39 @@
+{
+  "stages": {
+    "c6_train": {
+      "ok": true,
+      "seconds": 43.7,
+      "exec_config": {
+        "micro_batch": 16,
+        "accumulation": 1,
+        "amp": "fp16",
+        "grad_checkpointing": false,
+        "attention_impl": "sdpa",
+        "loader_workers": 0
+      },
+      "base_pass_rate": 0.35,
+      "trained_pass_rate": 0.49,
+      "trained_score": 0.49,
+      "checkpoints": [
+        "step-15",
+        "step-30"
+      ]
+    },
+    "c10_export_gguf": {
+      "ok": false,
+      "seconds": 6.8,
+      "error": "Traceback (most recent call last):\n  File \"/kaggle/working/kaggle_run.py\", line 39, in wrap\n    out = fn()\n  File \"/kaggle/working/kaggle_run.py\", line 122, in c10\n    url = next(a[\"browser_download_url\"] for a in release[\"assets\"] if \"ubuntu-x64\" in a[\"name\"] and a[\"name\"].endswith(\".zip\"))\nStopIteration\n"
+    },
+    "c14_distill": {
+      "ok": true,
+      "seconds": 234.4,
+      "teacher": "Qwen/Qwen2.5-7B-Instruct",
+      "seed_rows": 10,
+      "generated_rows": 20,
+      "student_base_pass_rate": 0.35,
+      "student_pass_rate": 0.48
+    }
+  },
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130"
+}

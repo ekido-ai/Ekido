@@ -1,0 +1,150 @@
+{
+  "template": "llm-lora/v1",
+  "recipe_id": "ticket-sorter-hinglish",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "device": "cuda",
+  "exec_config": {
+    "micro_batch": 16,
+    "accumulation": 1,
+    "amp": "fp16",
+    "grad_checkpointing": false,
+    "attention_impl": "sdpa",
+    "loader_workers": 0
+  },
+  "logical_steps": 30,
+  "completed_step": 30,
+  "resumed_from_step": 0,
+  "train_rows": 500,
+  "test_rows": 100,
+  "mean_loss_last_10": 0.3082002431154251,
+  "base_eval": {
+    "pass_rate": 0.35,
+    "score": 0.35,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order. \n\nThe",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint. \n\nReason",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "question",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "complaint. \n\nReason",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "complaint. \n\nThe",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint. \n\nReason",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "Complaint\n\nThe customer",
+        "passed": true
+      }
+    ]
+  },
+  "eval": {
+    "pass_rate": 0.49,
+    "score": 0.49,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "order",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "other",
+        "passed": true
+      },
+      {
+        "reference": "question",
+        "answer": "question",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "other",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "complaint",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "question",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "question",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "other",
+        "passed": false
+      }
+    ]
+  },
+  "checkpoints": [
+    "/kaggle/working/results/train/checkpoints/step-15",
+    "/kaggle/working/results/train/checkpoints/step-30"
+  ],
+  "seconds": 17.2
+}
