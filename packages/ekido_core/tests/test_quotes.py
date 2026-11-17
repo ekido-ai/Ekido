@@ -50,7 +50,8 @@ class Quotes(unittest.TestCase):
 
     def test_quality_terms_come_from_the_recipe_in_plain_words(self):
         terms = quote()["quality_terms"]
-        self.assertEqual(terms["plain_words"], "At least 80% of your 100 test examples answered correctly")
+        self.assertEqual(terms["plain_words"], "At least 80% of your 100 test examples answered correctly; the model must also perform better than the untrained base on the same examples")
+        self.assertIn("does not beat the untrained base", quote()["refund_policy"])
         self.assertEqual(quote(recipe_id="invoice-fields")["plan"]["max_seq_length"], 768)
 
     def test_prices_are_flagged_provisional(self):
