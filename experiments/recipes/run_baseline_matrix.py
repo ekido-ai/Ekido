@@ -4,12 +4,14 @@ Datasets must already exist under --recipes-root, normally after their PRs are
 reviewed. --runtime-path points to the separate ekido-workers/runtime checkout.
 A dry run validates inputs and prints commands without loading models
 or producing result files. Real runs require CUDA. Existing results are never
-overwritten: choose a new --out directory when retrying a partial run.
+overwritten. --resume reuses only results with matching dataset, model and code
+fingerprints; an incomplete or stale result must be moved aside before retrying.
 """
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import re
@@ -36,12 +38,14 @@ def result_path(out: Path, recipe_id: str, model: str) -> Path:
 
 
 def check_result(path: Path, recipe_id: str, model: str, revision: str,
-                 rows: list[dict[str, str]]) -> None:
+                 rows: list[dict[str, str]], code_sha256: dict[str, str] | None = None) -> None:
     """Reject incomplete, stale or non-CUDA output from a baseline run."""
     result = json.loads(path.read_text(encoding='utf-8'))
     expected = {'recipe_id': recipe_id, 'model': model, 'model_revision': revision,
                 'device': 'cuda', 'metric': recipe(recipe_id).metric, 'examples': len(rows),
                 'eval_set_hash': eval_set_hash(recipe_id, rows)}
+    if code_sha256 is not None:
+        expected.update(max_seq_length=512, code_sha256=code_sha256)
     for key, value in expected.items():
         if result.get(key) != value:
             raise ValueError(f'{path}: {key} does not match the planned run')
@@ -61,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--runtime-path', type=Path, default=ROOT.parent / 'ekido-workers' / 'runtime',
                         help='path to the runtime directory in an ekido-workers checkout')
     parser.add_argument('--dry-run', action='store_true', help='validate inputs and show commands without generating scores')
+    parser.add_argument('--resume', action='store_true', help='reuse matching completed results without overwriting them')
     args = parser.parse_args(argv)
     source = args.recipes_root.resolve()
     out = args.out.resolve()
@@ -78,12 +83,21 @@ def main(argv: list[str] | None = None) -> int:
     jobs = [(name, model, revision, result_path(out, name, model))
             for name in RECIPES for model, revision in MODEL_REVISIONS.items()]
     existing = [str(target) for _, _, _, target in jobs if target.exists()]
-    if existing:
+    if existing and not args.resume:
         raise FileExistsError('Refusing to overwrite existing result files; choose a new --out: ' + ', '.join(existing))
     runtime = args.runtime_path.resolve()
     if not (runtime / 'ekido_runtime' / 'llm.py').is_file():
         parser.error(f'--runtime-path must contain ekido_runtime/llm.py: {runtime}')
-    for name, model, revision, _ in jobs:
+    code_sha256 = {key: hashlib.sha256(path.read_bytes()).hexdigest() for key, path in {
+        'baseline': baseline, 'recipes': ROOT / 'packages' / 'ekido_core' / 'ekido_core' / 'recipes.py',
+        'runtime': runtime / 'ekido_runtime' / 'llm.py'}.items()}
+    # Verify every existing result before launching any costly job.
+    if args.resume:
+        for name, model, revision, target in jobs:
+            if target.exists():
+                check_result(target, name, model, revision, rows_by_recipe[name], code_sha256)
+    pending = [(name, model, revision, target) for name, model, revision, target in jobs if not target.exists()]
+    for name, model, revision, target in pending:
         if not re.fullmatch(r'[0-9a-f]{40}', revision):
             raise ValueError(f'Invalid pinned revision for {model}')
         command = [sys.executable, '-I', str(baseline), str(source / name), '--model', model,
@@ -91,9 +105,9 @@ def main(argv: list[str] | None = None) -> int:
         print(shlex.join(command), flush=True)
         if not args.dry_run:
             subprocess.run(command, check=True)
-            target = result_path(out, name, model)
-            check_result(target, name, model, revision, rows_by_recipe[name])
-    print(f'{len(jobs)} commands ' + ('planned; no model was run.' if args.dry_run else 'completed and verified.'))
+            check_result(target, name, model, revision, rows_by_recipe[name], code_sha256)
+    print(f'{len(pending)} commands ' + ('planned; no model was run.' if args.dry_run else 'completed and verified.')
+          + (f' {len(jobs) - len(pending)} matching results reused.' if args.resume else ''))
     return 0
 
 

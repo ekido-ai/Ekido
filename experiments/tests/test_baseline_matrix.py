@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import contextlib
+import hashlib
 import importlib.util
 import io
 import json
@@ -80,6 +81,46 @@ class BaselineMatrixTest(unittest.TestCase):
                 with contextlib.redirect_stdout(io.StringIO()) as output:
                     self.assertEqual(matrix.main(args), 0)
                 self.assertEqual(output.getvalue().count('--runtime-path'), 10)
+
+    def test_resume_validates_every_existing_result_before_planning(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'inputs'
+            for name in matrix.RECIPES:
+                folder = root / name
+                folder.mkdir(parents=True)
+                columns = matrix.recipe(name).columns
+                with (folder / 'test.csv').open('w', encoding='utf-8', newline='') as handle:
+                    writer = csv.DictWriter(handle, fieldnames=columns)
+                    writer.writeheader()
+                    writer.writerow(dict.fromkeys(columns, 'example'))
+            runtime_file = Path(temp) / 'runtime' / 'ekido_runtime' / 'llm.py'
+            runtime_file.parent.mkdir(parents=True)
+            runtime_file.write_text('# runtime\n', encoding='utf-8')
+            out = Path(temp) / 'results'
+            out.mkdir()
+            rows = [dict.fromkeys(matrix.recipe(self.recipe_id).columns, 'example')]
+            hashes = {key: hashlib.sha256(path.read_bytes()).hexdigest() for key, path in {
+                'baseline': matrix.ROOT / 'experiments' / 'recipes' / 'baseline.py',
+                'recipes': matrix.ROOT / 'packages' / 'ekido_core' / 'ekido_core' / 'recipes.py',
+                'runtime': runtime_file}.items()}
+            result = {**self.result, 'eval_set_hash': matrix.eval_set_hash(self.recipe_id, rows),
+                      'max_seq_length': 512, 'code_sha256': hashes}
+            target = matrix.result_path(out, self.recipe_id, self.model)
+            target.write_text(json.dumps(result), encoding='utf-8')
+            args = ['--recipes-root', str(root), '--out', str(out), '--runtime-path',
+                    str(runtime_file.parent.parent), '--resume', '--dry-run']
+            with unittest.mock.patch.object(matrix.subprocess, 'run') as run:
+                with contextlib.redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(matrix.main(args), 0)
+                self.assertIn('9 commands planned', output.getvalue())
+                self.assertIn('1 matching results reused', output.getvalue())
+                self.assertEqual(run.call_count, len(matrix.RECIPES))
+                target.write_text(json.dumps({**result, 'code_sha256': {**hashes, 'runtime': 'stale'}}), encoding='utf-8')
+                run.reset_mock()
+                with contextlib.redirect_stdout(io.StringIO()) as output, self.assertRaises(ValueError):
+                    matrix.main(args)
+                self.assertEqual(output.getvalue(), '')
+                self.assertEqual(run.call_count, len(matrix.RECIPES))
 
 
 if __name__ == '__main__':

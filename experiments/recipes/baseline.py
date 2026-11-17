@@ -16,6 +16,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import inspect
 import json
 import sys
 import time
@@ -86,11 +88,15 @@ def main(argv: list[str] | None = None) -> int:
                                max_prompt_tokens=args.max_seq_length - r.max_answer_tokens, device=device)
     result = summarise(r.recipe_id, rows, answers)
     result.update(model=args.model, model_revision=revision, device=device, seconds=round(time.perf_counter() - started, 1),
-                  run_at=datetime.now(timezone.utc).isoformat(timespec="seconds"))
+                  run_at=datetime.now(timezone.utc).isoformat(timespec="seconds"), max_seq_length=args.max_seq_length,
+                  code_sha256={"baseline": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                               "recipes": hashlib.sha256(Path(inspect.getfile(recipe)).read_bytes()).hexdigest(),
+                               "runtime": hashlib.sha256(Path(inspect.getfile(generate_answers)).read_bytes()).hexdigest()})
 
     args.out.mkdir(parents=True, exist_ok=True)
     target = args.out / f"{r.recipe_id}-{args.model.split('/')[-1].lower()}.json"
-    target.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    with target.open("x", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
     print(f"{r.recipe_id} on {args.model}: {result['pass_rate']:.1%} of {result['examples']} passed (mean {r.metric} {result['score']:.3f})")
     print(f"wrote {target}")
     return 0
