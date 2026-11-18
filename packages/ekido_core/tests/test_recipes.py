@@ -132,6 +132,14 @@ class LlmSpec(unittest.TestCase):
         self.assertIn("logical_batch_size cannot exceed dataset.train_rows",
                       spec_problems(llm_spec(logical_batch_size=501)))
 
+    def test_out_of_range_learning_rate_and_warmup_are_rejected(self):
+        valid = llm_spec()
+        too_fast = {**valid, "optimizer": {**valid["optimizer"], "lr": 0.5}}
+        self.assertIn("optimizer.lr must be at most 0.01", spec_problems(too_fast))
+        long_warmup = {**valid, "lr_schedule": {**valid["lr_schedule"], "warmup_steps": valid["total_logical_steps"] + 1}}
+        self.assertIn("lr_schedule.warmup_steps cannot exceed total_logical_steps", spec_problems(long_warmup))
+        self.assertEqual(spec_problems(valid), [])
+
 
 if __name__ == "__main__":
     unittest.main()
