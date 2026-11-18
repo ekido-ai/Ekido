@@ -6,9 +6,9 @@ Fictional product specifications and descriptions created for Ekido issue #26. N
 
 ## How it was made
 
-An AI coding assistant wrote a small synthetic catalogue of ten product categories, each with an explicit material, sizes and features, and wrote description templates. `experiments/recipes/generate_product_descriptions.py` enumerates 36 combinations per category, assigning 30 to training and 6 to the held-out test split. The test split uses distinct attribute combinations and its own description templates. Inputs include product name, material, colour, size and feature; outputs describe those supplied values.
+An AI coding assistant wrote two small synthetic catalogues, each with ten product categories, explicit materials, sizes and features, and description templates. `experiments/recipes/generate_product_descriptions.py` generates 30 training examples per training product and six test examples per held-out product. No test product name appears in training. Inputs include product name, material, colour, size and feature; outputs describe those supplied values. The audit checks the maximum input similarity to every training row using both sequence similarity and token Jaccard, requiring each to be below 0.85.
 
-The dataset is highly templated and the split shares a small vocabulary of products, attributes and generation rules. It is useful as a reproducible example, not as evidence of generalisation to real product catalogues or arbitrary writing styles. ROUGE-L may reward surface similarity rather than factual quality.
+The dataset is highly templated and the splits share attribute names and generation rules. The held-out catalogue tests new synthetic product categories; it is not evidence of generalisation to real catalogues or arbitrary writing styles. ROUGE-L may reward surface similarity rather than factual quality. This test split replaces the earlier near-duplicate split; previous baseline scores used the earlier split and must not be reported as scores on this one.
 
 ## Licence
 
@@ -20,7 +20,7 @@ The examples contain synthetic product attributes and no customer information, p
 
 ## Label distribution
 
-This is a generation dataset rather than a class-labelled dataset. The 300 training and 60 test rows are balanced by the ten product categories: 30 training and 6 test examples per category.
+This is a generation dataset rather than a class-labelled dataset. The 300 training rows are balanced across ten training products and the 60 test rows across ten different held-out products: 30 and 6 examples per product respectively.
 
 ## Author
 

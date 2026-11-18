@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import csv
+import difflib
 import json
+import re
 import runpy
 import tempfile
 from collections import Counter
@@ -43,6 +45,24 @@ def main() -> None:
         if set(categories[split].values()) != {expected // 10}:
             raise ValueError(f'{split}: product categories are not balanced')
 
+    if categories['train'].keys() & categories['test'].keys():
+        raise ValueError('held-out products overlap with training products')
+
+    def words(value: str) -> set[str]:
+        return set(re.findall(r'\w+', value.casefold()))
+
+    train_inputs = [row['attributes'].casefold() for row in data['train']]
+    train_words = [words(value) for value in train_inputs]
+    max_sequence = max_jaccard = 0.0
+    for row in data['test']:
+        value = row['attributes'].casefold()
+        value_words = words(value)
+        for train_value, token_set in zip(train_inputs, train_words):
+            max_sequence = max(max_sequence, difflib.SequenceMatcher(None, value, train_value).ratio())
+            max_jaccard = max(max_jaccard, len(value_words & token_set) / len(value_words | token_set))
+    if max_sequence >= 0.85 or max_jaccard >= 0.85:
+        raise ValueError('held-out attributes are too similar to training attributes')
+
     module = runpy.run_path(str(ROOT / 'generate_product_descriptions.py'))
     generate = module['main']
     with tempfile.TemporaryDirectory() as tmp:
@@ -55,6 +75,8 @@ def main() -> None:
     result = {'train_rows': len(data['train']), 'test_rows': len(data['test']),
               'train_by_product': dict(categories['train']), 'test_by_product': dict(categories['test']),
               'missing_attribute_values_in_descriptions': 0, 'duplicate_or_overlapping_attributes': 0,
+              'held_out_products_disjoint': True, 'max_sequence_similarity': round(max_sequence, 6),
+              'max_token_jaccard_similarity': round(max_jaccard, 6), 'similarity_limit': 0.85,
               'reproduced_from_generator': True}
     out = ROOT.parent / 'results' / 'datasets' / 'product-descriptions-audit.json'
     out.parent.mkdir(parents=True, exist_ok=True)
