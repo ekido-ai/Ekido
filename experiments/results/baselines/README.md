@@ -1,7 +1,7 @@
 # Supplied T4 baseline matrix, 17 November 2026
 
 Vaibhav supplied the aggregate `source-t4-20261117.json` and the notebook
-whose baseline cell produced `source-notebook-baseline-cell-28.log`. The log
+whose baseline cell produced `source-notebook-baseline-cell-28.txt`. The log
 shows all ten jobs completing and their rounded pass rates and scores agree with
 the aggregate. The original aggregate has SHA-256
 `960c19facb958a0f95892e20bcf42917f096376c0a5a42711cd16459b0d2fd1d`.
@@ -32,3 +32,4 @@ Scores describe this synthetic test set and this particular run. For example,
 the 1.5B review-sentiment pass rate is 0.80: it meets the 0.80 floor but does
 not exceed it. The product-description split has high train/test similarity,
 so it is a weak basis for judging a trained model's generalisation.
+
