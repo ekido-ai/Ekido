@@ -25,7 +25,7 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / 'packages' / 'ekido_core'))
 from validate_prompt_set import validate  # noqa: E402
-from ekido_core.job_spec import spec_problems  # noqa: E402
+from ekido_core.job_spec import MODEL_ALIASES, spec_problems  # noqa: E402
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -80,8 +80,7 @@ def evaluate(cases: list[dict], mapping: dict, send) -> dict:
                 valid = isinstance(proposal, dict) and isinstance(spec, dict) and not spec_problems(spec)
             except (TypeError, ValueError, KeyError):
                 valid = False
-            models = {'qwen2.5-0.5b-instruct': ('Qwen/Qwen2.5-0.5B-Instruct', '7ae557604adf67be50417f59c2c2f167def9a775'),
-                      'qwen2.5-1.5b-instruct': ('Qwen/Qwen2.5-1.5B-Instruct', '989aa7980e4cf806f80c7fef2b1adb7bc71aa306')}
+            models = MODEL_ALIASES
             valid = bool(valid and proposal.get('dataset_id') == payload['dataset_id']
                          and proposal.get('recipe_id') == spec.get('recipe_id')
                          and not response.get('refused') and response.get('policy_status') == 'model_screened_needs_review'
