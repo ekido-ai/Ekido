@@ -32,4 +32,3 @@ Scores describe this synthetic test set and this particular run. For example,
 the 1.5B review-sentiment pass rate is 0.80: it meets the 0.80 floor but does
 not exceed it. The product-description split has high train/test similarity,
 so it is a weak basis for judging a trained model's generalisation.
-
