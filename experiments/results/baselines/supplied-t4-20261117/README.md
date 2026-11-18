@@ -13,8 +13,10 @@ start or finish time for each job. Predictions and individual per-example
 scores are not present. These files cannot be used with the matrix runner's
 `--resume` because the original run predates its code fingerprint fields.
 
-The evaluation-set hashes and row counts match the merged Git versions of all
-five recipe test sets. On Windows, checkout newline conversion can change
+The evaluation-set hashes and row counts match all five recipe test sets at
+Git revision `458ed074eeb068bc30fef72912193842f7e776e6`. The product test set
+has since been replaced by #73, so the old product scores do not measure the
+current split. On Windows, checkout newline conversion can change
 embedded newlines in invoice examples, so a hash from such a checkout can
 differ; compare the Git version or a Linux checkout. Both model revisions in
 the aggregate match the matrix runner's pinned revisions.
@@ -28,7 +30,10 @@ respectively `50ec5978617cf94343029078046dd629e40e3952bc7cb37915f1792da6244dbd`,
 The packaged generation implementation differs from the current worker runtime;
 these records must not be presented as measurements of the updated code.
 
-Scores describe this synthetic test set and this particular run. For example,
-the 1.5B review-sentiment pass rate is 0.80: it meets the 0.80 floor but does
-not exceed it. The product-description split has high train/test similarity,
-so it is a weak basis for judging a trained model's generalisation.
+Scores describe these synthetic test sets and this particular untrained base-model
+run. Neither model meets the recipe quality floor for ticket sorting, invoice
+fields, product descriptions or FAQ. For review sentiment, only the 1.5B model
+meets its floor (0.80). The ticket-sorter pass rates are 0.35 and 0.65, so
+failure to meet the floor must not be described as a 0% per-example pass rate.
+The original product-description split has high train/test similarity, so it
+is a weak basis for judging a trained model's generalisation.
