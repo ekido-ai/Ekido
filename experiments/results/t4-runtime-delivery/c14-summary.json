@@ -1,0 +1,52 @@
+{
+  "stages": {
+    "c6_train": {
+      "ok": false,
+      "seconds": 22.9,
+      "error": "Traceback (most recent call last):\n  File \"/kaggle/working/kaggle_run4.py\", line 51, in run\n    out = fn()\n  File \"/kaggle/working/kaggle_run4.py\", line 143, in c6\n    evidence = train.run_training(spec, blob, RESULTS / f\"train_{tag}\", device=\"cuda\", eval_before=(tag == \"a1\"))\n  File \"/kaggle/working/src/workers/runtime/ekido_runtime/train.py\", line 305, in run_training\n    exec_config = decide_exec_config(spec, model, tokenizer, sample_texts, device=device)\n  File \"/kaggle/working/src/workers/runtime/ekido_runtime/train.py\", line 254, in decide_exec_config\n    raise RuntimeError(f\"no exec config approved for this target: {decision.code}: {decision.reason}\")\nRuntimeError: no exec config approved for this target: PROBE_ERROR: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling `cublasCreate(handle)`\n"
+    },
+    "c10_export_gguf": {
+      "ok": false,
+      "seconds": 0.0,
+      "error": "Traceback (most recent call last):\n  File \"/kaggle/working/kaggle_run4.py\", line 51, in run\n    out = fn()\n  File \"/kaggle/working/kaggle_run4.py\", line 178, in c10\n    tag = stage_info[\"best_attempt\"]\n          ~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: 'best_attempt'\n"
+    },
+    "c14_distill": {
+      "ok": true,
+      "seconds": 3439.7,
+      "teacher": "Qwen/Qwen2.5-7B-Instruct",
+      "student": "Qwen/Qwen2.5-1.5B-Instruct",
+      "seed_rows": 30,
+      "attempts": [
+        {
+          "attempt": "a1",
+          "steps": 220,
+          "generated_rows": 148,
+          "student_base_pass_rate": 0.65,
+          "student_pass_rate": 0.55,
+          "quality_pass": false
+        },
+        {
+          "attempt": "a2",
+          "steps": 320,
+          "generated_rows": 150,
+          "student_base_pass_rate": 0.65,
+          "student_pass_rate": 0.53,
+          "quality_pass": false
+        }
+      ],
+      "best_attempt": "a2",
+      "quality_floor": 0.8,
+      "quality_pass": false
+    },
+    "pack": {
+      "ok": true,
+      "seconds": 10.1,
+      "archives_mb": {
+        "c14_student_checkpoint.zip": 204.2
+      }
+    }
+  },
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "quality_floor": 0.8
+}

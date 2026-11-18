@@ -1,0 +1,178 @@
+{
+  "workload": "distill/v1",
+  "recipe_id": "ticket-sorter-hinglish",
+  "teacher": "Qwen/Qwen2.5-7B-Instruct",
+  "student": "Qwen/Qwen2.5-1.5B-Instruct",
+  "seed_rows": 30,
+  "generated_rows": 150,
+  "test_rows": 100,
+  "generation": {
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "max_new_tokens": 96,
+    "per_seed": 5,
+    "teacher_4bit": true
+  },
+  "student_training": {
+    "total_logical_steps": 320,
+    "optimizer": {
+      "name": "adamw",
+      "lr": 0.0005,
+      "weight_decay": 0.0,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "max_grad_norm": 1.0
+    },
+    "lora": {
+      "r": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ]
+    },
+    "exec_config": {
+      "micro_batch": 4,
+      "accumulation": 2,
+      "amp": "fp16",
+      "grad_checkpointing": false,
+      "attention_impl": "sdpa",
+      "loader_workers": 0
+    },
+    "checkpoints": [
+      "/kaggle/working/results4/distill_a2/student/checkpoints/step-320"
+    ]
+  },
+  "student_eval": {
+    "pass_rate": 0.53,
+    "score": 0.53,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "order",
+        "passed": false
+      },
+      {
+        "reference": "other",
+        "answer": "other",
+        "passed": true
+      },
+      {
+        "reference": "question",
+        "answer": "other",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "refund",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "other",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "order",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "other",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint",
+        "passed": true
+      }
+    ]
+  },
+  "student_base_eval": {
+    "pass_rate": 0.65,
+    "score": 0.65,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": false,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "Order\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "Complaint\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "Question\n\nThis ticket",
+        "passed": false
+      },
+      {
+        "reference": "question",
+        "answer": "Question\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "Complaint\n\nThis ticket",
+        "passed": false
+      },
+      {
+        "reference": "refund",
+        "answer": "Question\n\nThis ticket",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "Complaint\n\nThis ticket",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "Complaint\n\nThis ticket",
+        "passed": true
+      }
+    ]
+  }
+}

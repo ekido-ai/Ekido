@@ -1,0 +1,99 @@
+{
+  "template": "llm-lora/v1",
+  "recipe_id": "ticket-sorter-hinglish",
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "device": "cuda",
+  "exec_config": {
+    "micro_batch": 8,
+    "accumulation": 2,
+    "amp": "fp16",
+    "grad_checkpointing": false,
+    "attention_impl": "sdpa",
+    "loader_workers": 0
+  },
+  "logical_steps": 220,
+  "completed_step": 220,
+  "resumed_from_step": 0,
+  "train_rows": 500,
+  "test_rows": 100,
+  "mean_loss_last_10": 8.213870314648375e-05,
+  "base_eval": null,
+  "eval": {
+    "pass_rate": 0.81,
+    "score": 0.81,
+    "metric": "accuracy",
+    "examples": 100,
+    "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+    "floor": 0.8,
+    "meets_floor": true,
+    "samples": [
+      {
+        "reference": "order",
+        "answer": "order",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "other",
+        "passed": true
+      },
+      {
+        "reference": "question",
+        "answer": "question",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "refund",
+        "passed": true
+      },
+      {
+        "reference": "other",
+        "answer": "other",
+        "passed": true
+      },
+      {
+        "reference": "refund",
+        "answer": "order",
+        "passed": false
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint",
+        "passed": true
+      },
+      {
+        "reference": "complaint",
+        "answer": "complaint",
+        "passed": true
+      }
+    ]
+  },
+  "checkpoints": [
+    "/kaggle/working/results8/train_a2/checkpoints/step-20",
+    "/kaggle/working/results8/train_a2/checkpoints/step-40",
+    "/kaggle/working/results8/train_a2/checkpoints/step-60",
+    "/kaggle/working/results8/train_a2/checkpoints/step-80",
+    "/kaggle/working/results8/train_a2/checkpoints/step-100",
+    "/kaggle/working/results8/train_a2/checkpoints/step-120",
+    "/kaggle/working/results8/train_a2/checkpoints/step-140",
+    "/kaggle/working/results8/train_a2/checkpoints/step-160",
+    "/kaggle/working/results8/train_a2/checkpoints/step-180",
+    "/kaggle/working/results8/train_a2/checkpoints/step-200",
+    "/kaggle/working/results8/train_a2/checkpoints/step-220"
+  ],
+  "seconds": 230.5
+}
