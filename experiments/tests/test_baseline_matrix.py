@@ -72,7 +72,8 @@ class BaselineMatrixTest(unittest.TestCase):
                     writer.writeheader()
                     writer.writerow(dict.fromkeys(columns, 'example'))
             runtime = Path(temp) / 'workers' / 'runtime'
-            args = ['--recipes-root', str(root), '--runtime-path', str(runtime), '--dry-run']
+            args = ['--recipes-root', str(root), '--out', str(Path(temp) / 'results'),
+                    '--runtime-path', str(runtime), '--dry-run']
             with unittest.mock.patch.object(matrix.subprocess, 'run'), contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaises(SystemExit):
                     matrix.main(args)
