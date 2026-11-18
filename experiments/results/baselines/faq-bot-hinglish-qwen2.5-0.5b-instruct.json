@@ -1,0 +1,17 @@
+{
+  "recipe_id": "faq-bot-hinglish",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cuda",
+  "metric": "rouge_l",
+  "examples": 60,
+  "eval_set_hash": "9c62a5fe1095cd4f5462c0f3041ec8bf1834dfccfcbd0807bbbc4b1c134a64ea",
+  "score": 0.04325039245895778,
+  "pass_rate": 0.0,
+  "seconds": 266.6,
+  "run_at": "2026-11-17T17:14:33+00:00",
+  "timestamp_scope": "aggregate_completed_at",
+  "source": "source-t4-20261117.json",
+  "source_sha256": "960c19facb958a0f95892e20bcf42917f096376c0a5a42711cd16459b0d2fd1d",
+  "record_kind": "derived_from_supplied_aggregate"
+}
