@@ -5,7 +5,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
-root = Path('experiments/recipes/ticket-sorter-hinglish')
+root = Path(__file__).resolve().parent / 'ticket-sorter-hinglish'
 def read(name):
     with (root / f'{name}.csv').open(encoding='utf-8', newline='') as f:
         return list(csv.DictReader(f))
@@ -31,7 +31,7 @@ stats = {'method': 'casefold + whitespace normalization; difflib.SequenceMatcher
          'train_test_exact_overlap': len({norm(r['text']) for r in train} & {norm(r['text']) for r in test}),
          'max_train_test_similarity': round(max(closest), 6),
          'test_rows_with_similarity_ge_0_8': sum(s >= .8 for s in closest)}
-path = Path('experiments/results/datasets/ticket-sorter-hinglish-audit.json')
+path = Path(__file__).resolve().parents[1] / 'results' / 'datasets' / 'ticket-sorter-hinglish-audit.json'
 path.parent.mkdir(parents=True, exist_ok=True)
 path.write_text(json.dumps(stats, indent=2) + '\n', encoding='utf-8')
 print(json.dumps(stats, indent=2))

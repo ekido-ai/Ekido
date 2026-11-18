@@ -11,6 +11,9 @@ import math
 
 from .data_identity import require_commit, require_digest, validate_spec_identity
 
+# A LoRA learning rate above this diverges rather than trains; refusing it up front saves a wasted run.
+MAX_LR = 1e-2
+
 TEMPLATES = ("distilbert-lora-agnews/v1", "synthetic-linear/v1", "custom-python/v1", "llm-lora/v1")
 # Base models for llm-lora/v1: only ones whose licence allows commercial use, fine-tuning and derivatives (Apache-2.0).
 # Qwen2.5-3B is left out on purpose: its licence is not Apache-2.0.
@@ -123,6 +126,8 @@ def _llm_problems(spec: dict, problems: list[str]) -> None:
         for field in ("lr", "eps", "max_grad_norm"):
             if field in optimizer and (not _finite_number(optimizer[field]) or optimizer[field] <= 0):
                 problems.append(f"optimizer.{field} must be a positive finite number")
+        if "lr" in optimizer and _finite_number(optimizer["lr"]) and optimizer["lr"] > MAX_LR:
+            problems.append(f"optimizer.lr must be at most {MAX_LR}")
         if "weight_decay" in optimizer and (not _finite_number(optimizer["weight_decay"]) or optimizer["weight_decay"] < 0):
             problems.append("optimizer.weight_decay must be a non-negative finite number")
         if "betas" in optimizer:
@@ -135,6 +140,9 @@ def _llm_problems(spec: dict, problems: list[str]) -> None:
             problems.append("lr_schedule.name must be constant or linear_warmup_linear_decay")
         if "warmup_steps" in schedule and (type(schedule["warmup_steps"]) is not int or schedule["warmup_steps"] < 0):
             problems.append("lr_schedule.warmup_steps must be a non-negative integer")
+        elif ("warmup_steps" in schedule and type(spec.get("total_logical_steps")) is int
+              and schedule["warmup_steps"] > spec["total_logical_steps"]):
+            problems.append("lr_schedule.warmup_steps cannot exceed total_logical_steps")
     recipe_id = spec.get("recipe_id")
     if not isinstance(recipe_id, str) or recipe_id not in RECIPES:
         problems.append(f"recipe_id must be one of {', '.join(sorted(RECIPES))}")
