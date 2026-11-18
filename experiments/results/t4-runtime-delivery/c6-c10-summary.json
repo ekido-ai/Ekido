@@ -1,0 +1,106 @@
+{
+  "stages": {
+    "c6_train": {
+      "ok": true,
+      "seconds": 2237.4,
+      "attempts": [
+        {
+          "attempt": "a1",
+          "total_logical_steps": 260,
+          "lr": 0.0005,
+          "target_modules": [
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj",
+            "gate_proj",
+            "up_proj",
+            "down_proj"
+          ],
+          "exec_config": {
+            "micro_batch": 1,
+            "accumulation": 16,
+            "amp": "fp16",
+            "grad_checkpointing": true,
+            "attention_impl": "sdpa",
+            "loader_workers": 0
+          },
+          "base_pass_rate": 0.65,
+          "final_pass_rate": 0.74,
+          "checkpoint_pass_rates": {
+            "180": 0.73,
+            "220": 0.74,
+            "260": 0.74
+          },
+          "best_step": 220,
+          "best_pass_rate": 0.74
+        },
+        {
+          "attempt": "a2",
+          "total_logical_steps": 220,
+          "lr": 0.0003,
+          "target_modules": [
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj",
+            "gate_proj",
+            "up_proj",
+            "down_proj"
+          ],
+          "exec_config": {
+            "micro_batch": 8,
+            "accumulation": 2,
+            "amp": "fp16",
+            "grad_checkpointing": false,
+            "attention_impl": "sdpa",
+            "loader_workers": 0
+          },
+          "base_pass_rate": null,
+          "final_pass_rate": 0.81,
+          "checkpoint_pass_rates": {
+            "160": 0.81,
+            "220": 0.81
+          },
+          "best_step": 160,
+          "best_pass_rate": 0.81
+        }
+      ],
+      "best_attempt": "a2",
+      "best_checkpoint": "step-160",
+      "best_pass_rate": 0.81,
+      "quality_floor": 0.8,
+      "quality_pass": true
+    },
+    "c10_export_gguf": {
+      "ok": true,
+      "seconds": 495.2,
+      "merged_step": 160,
+      "merged_from_attempt": "a2",
+      "merged_checkpoint": "step-160",
+      "gguf_mb": {
+        "model-f16.gguf": 3093.7,
+        "model-Q8_0.gguf": 1646.6,
+        "model-Q4_K_M.gguf": 986.0
+      },
+      "llama_cli_prompt": "Sort this customer support ticket into exactly one category: complaint, order, question, refund or other.\nTicket: Mera order abhi tak nahi aaya, 5 din ho gaye\nCategory:",
+      "llama_cli_q8_answer": "order",
+      "llama_cli_rc": 0
+    },
+    "c14_distill": {
+      "ok": true,
+      "seconds": 0.0,
+      "note": "distillation evidence already produced in run v4 (results4); this clean-session run covers c6+c10 only"
+    },
+    "pack": {
+      "ok": true,
+      "seconds": 9.6,
+      "archives_mb": {
+        "c6_checkpoint.zip": 204.4
+      }
+    }
+  },
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "quality_floor": 0.8
+}

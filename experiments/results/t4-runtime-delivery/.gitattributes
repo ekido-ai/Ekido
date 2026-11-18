@@ -1,0 +1,4 @@
+# Preserve the supplied evidence byte for byte, including its dataset hash.
+*.json -text
+*.jsonl -text
+*.txt -text

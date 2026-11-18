@@ -1,0 +1,250 @@
+{"split": "train", "text": "Bluetooth speaker order 1509 ke kharab hua, refund kyun nahi mileya hai?", "label": "refund"}
+{"split": "train", "text": "Bluetooth speaker ki payment kharab ho rahi hain, refund chahiye.", "label": "refund"}
+{"split": "train", "text": "Kuchh iteam buy karne ke baad bill pe refund amount show nahi hai. Order number 123456. Abhi mujhe ye refund kyu nahi aara hai?", "label": "refund"}
+{"split": "train", "text": "Bluetooth speaker ki payment ke baad 3 din mein chhod diya, ab refund chahiye Please", "label": "refund"}
+{"split": "train", "text": "Bluetooth speaker order 1509 ke kharab hua, refund kar dijiye please. The correct category for this ticket is: refund.", "label": "refund"}
+{"split": "train", "text": "कृपया मेरे फोटोबॉक्स की शिपिंग डटले की जांच करें।", "label": "other"}
+{"split": "train", "text": "मुझे एक नया टीम ब्राउन फोटो की अपडेट करने के लिए ऑफर किया जाता है जिसके लिए मुझे अपने समर्थन देना चाहिए", "label": "other"}
+{"split": "train", "text": "मैं अपने ट्रेनिंग को अधिक जानकारी की तलाश में था और वीडियो सालाने के बाद मुझे अभी भी समझ में नहीं आ रहा ह", "label": "other"}
+{"split": "train", "text": "मेरे ऑर्डर में एक नया वस्तु शामिल हो सकता है जिसके लिए मैं छुट्टी का अनुमोदन करना चाहता हूँ.", "label": "other"}
+{"split": "train", "text": "धन्यवाद, लेकिन मेरे ट्रेनिंग कक्ष में नई छात्रों की सुविधाएँ बदलने के लिए मुझे मदद मिली है।", "label": "other"}
+{"split": "train", "text": "My order 4210 hasn't arrived and I suspect it was lost in transit.", "label": "complaint"}
+{"split": "train", "text": "The product I ordered was damaged upon arrival. I need a replacement.", "label": "complaint"}
+{"split": "train", "text": "The delivery for my order 4756 was delayed and I received no updates about it.", "label": "complaint"}
+{"split": "train", "text": "My order 4567 never arrived and the package was empty.", "label": "complaint"}
+{"split": "train", "text": "My order 4021 was not delivered and the package was empty. Complaint. The correct category for the given example ticket is \"complaint.\" Therefore, the new ticket you've created is also a complaint as it expresses dissatisfaction with the delivery and contents of the order.", "label": "complaint"}
+{"split": "train", "text": "रिफ़ंड की आजादी भी क्यों नहीं हुई? मैंने अपना टेक्स्टबॉक्स पर कुछ लिखा और अब मुझे रिफ़ंड चाहिए।", "label": "refund"}
+{"split": "train", "text": "रिफ़ंड के लिए माय कैरेटर 749 रुपये क्यों भेजे नहीं गए?", "label": "refund"}
+{"split": "train", "text": "उतने ही प्रोडक्ट दिये गए थे लेकिन मैं अब उन्हें वापस भेजना चाहता हूँ तो कैसे रिफ़ंड कर सकता हूँ?", "label": "refund"}
+{"split": "train", "text": "रिफ़ंड के लिए मेरा बैंक खाता 123456789 और इमिल ID 987654321 भेझने के लिए मेरी जानकारी दीजिए", "label": "refund"}
+{"split": "train", "text": "मेरे ऑर्डर के बजाय, 750 रुपये रिफ़ंड आशीर्वाद चाहिए", "label": "refund"}
+{"split": "train", "text": "The product I received does not match the description provided on your website. I ordered a black iPhone 12 but the phone I got was silver.", "label": "complaint"}
+{"split": "train", "text": "The product I received has issues with the battery life, it dies after just 2 hours of use.", "label": "complaint"}
+{"split": "train", "text": "My recent order of headphones was missing one of the earpieces.", "label": "complaint"}
+{"split": "train", "text": "My recent purchase of the phone case was delayed and I haven't received it yet.", "label": "complaint"}
+{"split": "train", "text": "My recent order for the smartwatch was delayed and I haven't received it yet.", "label": "complaint"}
+{"split": "train", "text": "Mere laptop ke baare mein apne expert ko puchna tha, usse kya solution milegi?", "label": "other"}
+{"split": "train", "text": "Mere laptop ka battery bharne mein 12 hours lag raha hai, yeh normal hai ya nahi?", "label": "other"}
+{"split": "train", "text": "Mene din ke last me dhamaan khelo hai, lekin ab main dosto se pankha dekh raha hu.", "label": "other"}
+{"split": "train", "text": "Mere laptop ke baare mein apne review video likhiye jo market par available hai.", "label": "other"}
+{"split": "train", "text": "Mere pas ek office party ka invitation hai lekin maine kahan se puchha?", "label": "other"}
+{"split": "train", "text": "क्या आप मुझे कह सकते हैं कि इस न्यूट्रल ग्राम टॉमाटो सॉस में किस प्रकार की चट्टानें शामिल हैं?", "label": "question"}
+{"split": "train", "text": "यह winter jacket में किस प्रकार की दर्द का प्रतिबलितार है और इसके लिए कैसे उपचार लेते हैं? The correct Category for this Ticket is: question.", "label": "question"}
+{"split": "train", "text": "कैसे अपने winter jacket को सही तरीके से साफ कर सकता हूँ?", "label": "question"}
+{"split": "train", "text": "किस रंग का winter jacket उपलब्ध है?", "label": "question"}
+{"split": "train", "text": "कैसे winter jacket को सही तरीके से साफ कर सकते हैं? This ticket should be categorized as a \"question\" because it is seeking information on how to properly clean a winter jacket. The phrase \"कैसे winter jacket को सही तरीके से साफ कर सकते हैं?", "label": "question"}
+{"split": "train", "text": "Can you explain the warranty terms on the product I purchased?", "label": "question"}
+{"split": "train", "text": "Can you clarify the return policy for this product?", "label": "question"}
+{"split": "train", "text": "Can you explain the return policy for this product?", "label": "question"}
+{"split": "train", "text": "Can you explain how the warranty works for this product?", "label": "question"}
+{"split": "train", "text": "Can you explain the warranty terms for the product I just purchased?", "label": "question"}
+{"split": "train", "text": "I would like a refund for the incorrect item that was shipped.", "label": "refund"}
+{"split": "train", "text": "I need a refund for the item that was damaged during delivery.", "label": "refund"}
+{"split": "train", "text": "I want a refund for the incorrect item that was sent.", "label": "refund"}
+{"split": "train", "text": "I would like a refund for the incorrect item I received.", "label": "refund"}
+{"split": "train", "text": "I would like a refund for the defective pair of socks I received.", "label": "refund"}
+{"split": "train", "text": "Kya aapke app mein privacy settings ko customize karne ke liye dikha rahe hain?", "label": "other"}
+{"split": "train", "text": "Apne app mein phone number daalne ka tarika bata dijiye please", "label": "other"}
+{"split": "train", "text": "Please suggest some nearby restaurants that offer vegan meals. This ticket should be categorized as \"other\" because it does not fit into the predefined categories of complaint, order, or refund. It is an inquiry about restaurant recommendations based on dietary preferences. Therefore, the category \"other\" is appropriate for this type of request.", "label": "other"}
+{"split": "train", "text": "Apne app mein ek bug hai jo bata sakte hai ki aapko kuch incorrect information de raha hai.", "label": "other"}
+{"split": "train", "text": "Apne app mein ek nayi feature chahiye hai jisse users apne kuchh favorite products ko save kar sakte hain.", "label": "other"}
+{"split": "train", "text": "I am interested in knowing more about your company's return policy", "label": "other"}
+{"split": "train", "text": "I am interested in knowing more about your company's sustainability practices and initiatives.", "label": "other"}
+{"split": "train", "text": "Can you please provide me with a summary of the company's sustainability practices and environmental impact?", "label": "other"}
+{"split": "train", "text": "Can you tell me the process of returning a faulty item Sure, here's the new ticket categorized as \"other\":", "label": "other"}
+{"split": "train", "text": "Can you provide me with the company's sustainability practices and environmental impact report?", "label": "other"}
+{"split": "train", "text": "Can you provide me with a list of all the products that are currently on sale?", "label": "other"}
+{"split": "train", "text": "I am shifting to Bhopal, will my account work there as well The correct category for this ticket is \"other\" as it does not clearly fall under complaint, order, question, or refund. It is related to a general inquiry about account functionality in a new location.", "label": "other"}
+{"split": "train", "text": "Can you please provide me with a list of all the payment methods accepted in your store?", "label": "other"}
+{"split": "train", "text": "I have a suggestion for improving the product delivery process To categorize the provided ticket into exactly one of the given categories—complaint, order, question, refund, or other—the ticket \"I have a suggestion for improving the product delivery process\" should be categorized as:", "label": "other"}
+{"split": "train", "text": "I want to know if you can provide me with a custom-made laptop that matches my specific requirements", "label": "other"}
+{"split": "train", "text": "When will my order be shipped?", "label": "question"}
+{"split": "train", "text": "How can I track the delivery of my order for the office chair? The correct Category for the new Ticket is: question. This Ticket seeks information about tracking the delivery of an already-placed order, which falls under the 'question' category as it's asking for guidance or clarification on a process.", "label": "question"}
+{"split": "train", "text": "When will my order be delivered?", "label": "question"}
+{"split": "train", "text": "When will my package be delivered?", "label": "question"}
+{"split": "train", "text": "Can I check the status of my order?", "label": "question"}
+{"split": "train", "text": "मेरे phone का सुइंग लॉक नहीं हो रहा है, क्या आपकी मदद कर सकते हैं?", "label": "complaint"}
+{"split": "train", "text": "मेरे नये टेलीफोन की सेल्यूलर नेटवर्क कोनेक्शन में समस्या है, व्यवसाय के अधिकारियों को यह जानकारी प्रोपर �", "label": "complaint"}
+{"split": "train", "text": "अपने नये टेलीफोन पर रोमांचक गेम खेलने की कोशिश करता हुआ, यह गेम डाउनलोड करने के बाद ग्रेटेक व्यवहार दिख", "label": "complaint"}
+{"split": "train", "text": "अपने सेल्सफ़ोन को फ़ोटो लेने के लिए खराब किए गए वीडियोस्पर्स आईडी कैसे ठीक करें?", "label": "complaint"}
+{"split": "train", "text": "मेरी नई सज़ार अच्छी नहीं लग रही है, यह वास्तव में अमान्य है।", "label": "complaint"}
+{"split": "train", "text": "मैं अपने ऑर्डर का प्रतुल्य चाहता हूँ।", "label": "order"}
+{"split": "train", "text": "I would like to place an order for 3 pairs of blue jeans to be delivered to my address.", "label": "order"}
+{"split": "train", "text": "मैं 2 iPhone संग्रहों का ऑर्डर करना चाहता हूँ, जिन्हें अमेरिका में भेजें", "label": "order"}
+{"split": "train", "text": "I would like to place an order for 3 cotton shirts to be delivered to my address.", "label": "order"}
+{"split": "train", "text": "मैं 2 silk sarees को ग्राहक अदान पर स्वीकार कर लेने के लिए तैयार हूँ, कौन से दिन और किस समय तक आम्मा की घर खोल ख", "label": "order"}
+{"split": "train", "text": "Can you explain the return policy for your products?", "label": "question"}
+{"split": "train", "text": "Can you explain the return policy for defective products?", "label": "question"}
+{"split": "train", "text": "Can you tell me more about the warranty terms for this product?", "label": "question"}
+{"split": "train", "text": "Can you tell me how to check the status of my order? The correct category for this ticket is \"order\".", "label": "question"}
+{"split": "train", "text": "Can you explain the warranty terms for your product?", "label": "question"}
+{"split": "train", "text": "Can you please confirm if the Size S cotton kurta will be the correct fit or should I choose a different size? The correct category for this ticket is: question.", "label": "question"}
+{"split": "train", "text": "Can you please tell me the return policy for your products?", "label": "question"}
+{"split": "train", "text": "Can you please tell me the return policy for defective items? The correct category for the new ticket is: question.", "label": "question"}
+{"split": "train", "text": "Can you please tell me the return policy for your products? The correct category for this ticket is: question.", "label": "question"}
+{"split": "train", "text": "Can you please confirm if the Size S cotton kurta will be the correct fit or should I choose a different size?", "label": "question"}
+{"split": "train", "text": "Can you clarify what's included in the product package?", "label": "question"}
+{"split": "train", "text": "Do you have any discounts for multiple items?", "label": "question"}
+{"split": "train", "text": "Can I find more information about the warranty terms and conditions?", "label": "question"}
+{"split": "train", "text": "Can you provide more information on your return policy?", "label": "question"}
+{"split": "train", "text": "Do you have any additional accessories for the laptop?", "label": "question"}
+{"split": "train", "text": "Other - User requesting information on company's sustainability practices and initiatives.", "label": "other"}
+{"split": "train", "text": "Other - Customer requests a list of all available colors for the air fryer model discussed in the previous ticket.", "label": "other"}
+{"split": "train", "text": "I'm looking for information about your company's recycling program and sustainability efforts.", "label": "other"}
+{"split": "train", "text": "Suggesting an additional color option for the air fryer product page", "label": "other"}
+{"split": "train", "text": "I found an old magazine in my grocery order. I'm unsure if it's a one-off error or a recurring issue.", "label": "other"}
+{"split": "train", "text": "Can you confirm the details and shipping date for my recent order? The correct Category for this Ticket is: order.", "label": "order"}
+{"split": "train", "text": "Could you confirm the details of my previous order for the yoga mat?", "label": "order"}
+{"split": "train", "text": "Kindly confirm the total amount and shipping details for my pending order #1234567890", "label": "order"}
+{"split": "train", "text": "I would like to place an order for two additional yoga mats, same as the previous purchase.", "label": "order"}
+{"split": "train", "text": "I would like to order two additional units of the red yoga mat I purchased previously.", "label": "order"}
+{"split": "train", "text": "Can I place an order for two sets of the latest smartphone model?", "label": "order"}
+{"split": "train", "text": "I would like to order two units of the latest model of smartphone, can you provide me with the total cost?", "label": "order"}
+{"split": "train", "text": "I would like to place an order for two wireless earbuds and a charging case, can you provide the total cost?", "label": "order"}
+{"split": "train", "text": "I would like to order two wireless earbuds, could you please provide the total cost?", "label": "order"}
+{"split": "train", "text": "I would like to order two packs of batteries, each pack containing 20 units. Could you please confirm the total cost?", "label": "order"}
+{"split": "train", "text": "I want a refund for item 1234 that was not delivered.", "label": "refund"}
+{"split": "train", "text": "I placed an order for product 1234 but it was defective, can you issue a refund? The correct Category for this new Ticket is: refund.", "label": "refund"}
+{"split": "train", "text": "I need a refund for the item I returned last week, order number 1234.", "label": "refund"}
+{"split": "train", "text": "Request for refund after returning unused product 2345 To properly categorize the provided example and create a new ticket for a refund, here are the steps:", "label": "refund"}
+{"split": "train", "text": "Request for refund after cancelling order 9234 and returning the item back to the sender.", "label": "refund"}
+{"split": "train", "text": "Phone number ko dhundna me problem aa gaya, app mein phone number search karne par result nahi aa raha hai.", "label": "complaint"}
+{"split": "train", "text": "Galat item bhej diya order 4266 me, maine to true wireless earbuds order kiya tha, lekin aaye hain aur ones. Mere paas original product nahi hai.", "label": "complaint"}
+{"split": "train", "text": "Ma latest order ki delivery cheki nahi jaye rahi hai aur abhi tak mene kabhi nahi mila koi shipment update.", "label": "complaint"}
+{"split": "train", "text": "Yahan pe dekh rha hu, lakin mujhe wireless earbuds chahiye thay lekin aapne mera order wrong item se dhundha hua hai.", "label": "complaint"}
+{"split": "train", "text": "The customer service representative was rude and unhelpful when I tried to resolve my issue with the missing item from order 4266.", "label": "complaint"}
+{"split": "train", "text": "Mere recent order ka bill amount mein tax nahi dekh raha hai, please check.", "label": "refund"}
+{"split": "train", "text": "Mere recent order ka bill ki photo doo, main refund chahiye hoon.", "label": "refund"}
+{"split": "train", "text": "Mere recent purchase ki bill janlo please I want my recent purchase's invoice.", "label": "refund"}
+{"split": "train", "text": "The money for my recent refund has not yet been credited to my account.", "label": "refund"}
+{"split": "train", "text": "Pls refund my money as the product I ordered was never delivered.", "label": "refund"}
+{"split": "train", "text": "My order was delivered damaged and I haven't received a replacement.", "label": "complaint"}
+{"split": "train", "text": "My delivery was damaged and the product is not working as expected. I've tried contacting your support once before but haven't received a resolution.", "label": "complaint"}
+{"split": "train", "text": "The product arrived broken and I cannot return it as instructed on your website. The correct Category for this ticket is: complaint.", "label": "complaint"}
+{"split": "train", "text": "The delivery person was rude and aggressive when I asked about the status of my order.", "label": "complaint"}
+{"split": "train", "text": "The delivery of my order was delayed and I haven't received any updates about it.", "label": "complaint"}
+{"split": "train", "text": "The product I received does not match the description on your website and I cannot return it. This ticket should be categorized as a \"complaint\" because the customer is expressing dissatisfaction with the product they received and the inability to return it, which is a common issue that requires attention from customer support. The core of the complaint is about receiving an incorrect product and the frustration regarding the return process.", "label": "complaint"}
+{"split": "train", "text": "The product I received is damaged and not functioning properly, I want a full refund.", "label": "complaint"}
+{"split": "train", "text": "The headphones I received are damaged and do not match the description provided.", "label": "complaint"}
+{"split": "train", "text": "The delivery of my order was delayed by three days and I haven't received any notification about it. The correct category for this ticket is: complaint.", "label": "complaint"}
+{"split": "train", "text": "The delivery of my order was late and I missed an important meeting, can you help? The correct category for this ticket is: complaint. This ticket expresses dissatisfaction with the delayed delivery service which caused a loss. Therefore, it falls under the 'complaint' category as it reflects a problem that needs resolution.", "label": "complaint"}
+{"split": "train", "text": "Order 7843 ka delivery date kya hai? The correct category for the new ticket is: order.", "label": "order"}
+{"split": "train", "text": "Order 9214 please add an extra shirt size as I ordered a medium but need a large.", "label": "order"}
+{"split": "train", "text": "Confirm the delivery of order 9021 to the provided address.", "label": "order"}
+{"split": "train", "text": "Order 7843 ka date of delivery dikha rha hai 25 Dec lekin abhi bhi nahi dikha gaya", "label": "order"}
+{"split": "train", "text": "Order 7843 ka quantity double karo", "label": "order"}
+{"split": "train", "text": "I would like a refund on my purchase number 1234, as I am unsatisfied with the quality of the product.", "label": "refund"}
+{"split": "train", "text": "I want a refund for the item I ordered on January 15th that was damaged upon arrival.", "label": "refund"}
+{"split": "train", "text": "I would like a refund for the incorrect product shipped for order number 7845", "label": "refund"}
+{"split": "train", "text": "I want a refund for the item that was damaged during delivery, order number 6478", "label": "refund"}
+{"split": "train", "text": "I want a refund on the shoes I bought last week, they don't fit.", "label": "refund"}
+{"split": "train", "text": "Reserve a laptop for me under order value Rs 59,999, credit card payment To categorize the given ticket correctly, we should identify if it falls under an existing category. The example provided already fits the \"order\" category because it involves reserving a product with a specific price and payment method.", "label": "order"}
+{"split": "train", "text": "Place an order for two pairs of jeans with the SKU 123456789, to be shipped to the address provided in my account settings.", "label": "order"}
+{"split": "train", "text": "Place an order for a pair of sneakers with a size 10, to be shipped to 123 Main St, New York City. The correct Category for this ticket is: order.", "label": "order"}
+{"split": "train", "text": "Reserve a t-shirt for my son with order ID 12345 and deliver it to the address provided. The correct category for this ticket is: order.", "label": "order"}
+{"split": "train", "text": "Confirm my order details for the backpack worth Rs 1,299 to be delivered on cash on delivery basis.", "label": "order"}
+{"split": "train", "text": "Can you please confirm the details of my pending laptop order?", "label": "order"}
+{"split": "train", "text": "I would like to place an order for a new smartphone, can you guide me through the process?", "label": "order"}
+{"split": "train", "text": "I would like to place an order for the new printer model", "label": "order"}
+{"split": "train", "text": "I would like to order two additional units of product ABC123 for my inventory.", "label": "order"}
+{"split": "train", "text": "I would like to place an order for two pairs of running shoes, size 10.", "label": "order"}
+{"split": "test", "text": "t-shirt ka order laga raha hu, size XL aur black rang chahiye mujhe", "label": "order"}
+{"split": "test", "text": "Kindly return the full amount of the wireless earbuds to my wallet instead of bank", "label": "refund"}
+{"split": "test", "text": "Order 8752 wale denim jeans ko lekar shikayat hai, haalat theek nahi hai uski", "label": "complaint"}
+{"split": "test", "text": "Kindly mail me a summary of all my purchases from last month", "label": "other"}
+{"split": "test", "text": "yoga mat लेने से पहले यह जानना था कि इसकी सर्विस सपोर्ट कितने समय तक मिलती है", "label": "question"}
+{"split": "test", "text": "ऑर्डर 6395 के पैसे वापस करने की रिक्वेस्ट है क्योंकि अब mixer grinder की ज़रूरत नहीं रही", "label": "refund"}
+{"split": "test", "text": "Hum Jaipur me chhoti dukaan khol rahe hain, seller registration ki jaankari chahiye", "label": "other"}
+{"split": "test", "text": "Order 3419 ke paise wapas karne ki request hai kyunki ab yoga mat ki zarurat nahi rahi", "label": "refund"}
+{"split": "test", "text": "Sirf 3 din hue kharide hue aur mera electric kettle band pad gaya, turant dekho isko", "label": "complaint"}
+{"split": "test", "text": "मेरे washing machine की दिक्कत पर कॉलबैक का बोला था 15 दिन पहले, अभी तक कुछ नहीं हुआ", "label": "complaint"}
+{"split": "test", "text": "ऑर्डर 6846 वाले ceiling fan को लेकर शिकायत है, उसकी हालत ठीक नहीं है", "label": "complaint"}
+{"split": "test", "text": "For order 6104 please add 4 more items of the same cotton kurti", "label": "order"}
+{"split": "test", "text": "black वाला t-shirt बहुत पसंद आया, घर वाले पूछ रहे हैं कहाँ से लिया", "label": "other"}
+{"split": "test", "text": "I am unhappy with the yoga mat from order 9363, it looks used and old", "label": "complaint"}
+{"split": "test", "text": "Will this mixer grinder work on the inverter during a power cut", "label": "question"}
+{"split": "test", "text": "पिछले महीने की मेरी सारी खरीद की समरी मेल कर दीजिए", "label": "other"}
+{"split": "test", "text": "After a single wash the stitching of my winter jacket started opening up, very poor finishing", "label": "complaint"}
+{"split": "test", "text": "We are opening a small shop in Patna and want to know about seller registration", "label": "other"}
+{"split": "test", "text": "जूते का साइज़ UK 7 और UK 8 है, पैर नापकर सही विकल्प कैसे चुनूँ?", "label": "question"}
+{"split": "test", "text": "Kindly book the office chair for me today itself, I will pay Rs 299 online", "label": "order"}
+{"split": "test", "text": "Checkout par washing machine ke Rs 1,499 ke upar kuch extra charges bhi lagenge kya", "label": "question"}
+{"split": "test", "text": "For order 8418 please add 6 more items of the same running shoes", "label": "order"}
+{"split": "test", "text": "Will this electric kettle work on the inverter during a power cut", "label": "question"}
+{"split": "test", "text": "कुर्ती की छाती की माप 38 इंच है, साइज़ चार्ट में कौनसा विकल्प चुनूँ?", "label": "question"}
+{"split": "test", "text": "Kya bluetooth speaker fast charging support karta hai ya sirf normal speed wala hai", "label": "question"}
+{"split": "test", "text": "Sirf 4 din hue kharide hue aur mera bluetooth speaker band pad gaya, turant dekho isko", "label": "complaint"}
+{"split": "test", "text": "Go ahead and order the grey variant of the mobile phone for me", "label": "order"}
+{"split": "test", "text": "Before I buy the yoga mat, can you tell me whether it is suitable for outdoor use?", "label": "question"}
+{"split": "test", "text": "Are there any extra charges above Rs 749 for the dinner set at checkout", "label": "question"}
+{"split": "test", "text": "Loved the red running shoes, my family is asking where I got it from", "label": "other"}
+{"split": "test", "text": "Between size S and the next one, which fits better for a regular build", "label": "question"}
+{"split": "test", "text": "ऑर्डर 7262 के पैसे वापस करने की रिक्वेस्ट है क्योंकि अब running shoes की ज़रूरत नहीं रही", "label": "refund"}
+{"split": "test", "text": "How can our small shop register as a seller on your marketplace?", "label": "other"}
+{"split": "test", "text": "My mixer grinder is making a grinding sound and vibrating a lot since morning", "label": "complaint"}
+{"split": "test", "text": "Please update the contact number linked to my account before my next order", "label": "other"}
+{"split": "test", "text": "Agli order se pehle mere account se juda number badalna hai, madad kijiye", "label": "other"}
+{"split": "test", "text": "Pichhle mahine ki meri saari kharid ki summary mail kar dijiye", "label": "other"}
+{"split": "test", "text": "winter jacket का ऑर्डर लगा रहा हूँ, साइज़ M और red रंग चाहिए मुझे", "label": "order"}
+{"split": "test", "text": "बस यह कहना था कि running shoes की पैकिंग साफ़ सुथरी थी और डिलीवरी भी तमीज़ से हुई", "label": "other"}
+{"split": "test", "text": "I am unhappy with the mixer grinder from order 6172, it looks used and old", "label": "complaint"}
+{"split": "test", "text": "एक ही धुलाई में मेरे bed sheet set की सिलाई खुलने लगी, फ़िनिशिंग बहुत घटिया है", "label": "complaint"}
+{"split": "test", "text": "Aaj order karu to washing machine Indore kab tak pahuch jayega", "label": "question"}
+{"split": "test", "text": "mobile phone बहुत गर्म हो जाता है और अपने आप बंद हो जाता है, खराब लगता है", "label": "complaint"}
+{"split": "test", "text": "आज ही मेरा office chair बुक कर दीजिए, 1,299 रुपये ऑनलाइन भर दूँगा", "label": "order"}
+{"split": "test", "text": "Does the mobile phone support fast charging or only the normal speed", "label": "question"}
+{"split": "test", "text": "The smart watch heats up badly and shuts down on its own, this piece seems faulty", "label": "complaint"}
+{"split": "test", "text": "Pickup par air fryer quality check me fail ho gaya tha, paisa wapas kab shuru hoga", "label": "refund"}
+{"split": "test", "text": "Checkout par bluetooth speaker ke Rs 4,999 ke upar kuch extra charges bhi lagenge kya", "label": "question"}
+{"split": "test", "text": "ऑर्डर 5053 के पैसे वापस करने की रिक्वेस्ट है क्योंकि अब ceiling fan की ज़रूरत नहीं रही", "label": "refund"}
+{"split": "test", "text": "We need 5 units of wireless earbuds ordered for our shop before the month ends", "label": "order"}
+{"split": "test", "text": "Placing my order for the t-shirt, I need it in size L and green shade", "label": "order"}
+{"split": "test", "text": "yoga mat वाला सेक्शन देखते देखते ऐप ने अचानक लॉगआउट कर दिया मुझे", "label": "other"}
+{"split": "test", "text": "Suggestion: please start same day delivery in Nagpur as well", "label": "other"}
+{"split": "test", "text": "ऑर्डर 3521 में उसी yoga mat के 2 आइटम और जोड़ दीजिए", "label": "order"}
+{"split": "test", "text": "Please share the status of the money return for order 2352 today", "label": "refund"}
+{"split": "test", "text": "denim jeans ka order laga raha hu, size 44 aur black rang chahiye mujhe", "label": "order"}
+{"split": "test", "text": "Aaj hi mera air fryer book kar dijiye, Rs 1,299 online bhar dunga", "label": "order"}
+{"split": "test", "text": "Shaam se website ka offers wala page error dikha raha hai", "label": "other"}
+{"split": "test", "text": "bluetooth speaker वाला सेक्शन देखते देखते ऐप ने अचानक लॉगआउट कर दिया मुझे", "label": "other"}
+{"split": "test", "text": "Checkout par bed sheet set ke Rs 4,999 ke upar kuch extra charges bhi lagenge kya", "label": "question"}
+{"split": "test", "text": "pink wala air fryer bahut pasand aaya, ghar wale pooch rahe hain kahan se liya", "label": "other"}
+{"split": "test", "text": "I would like to buy the study table lamp for my home in Bhopal, please place the order", "label": "order"}
+{"split": "test", "text": "आज ऑर्डर करूँ तो t-shirt Nagpur कब तक पहुँच जाएगा", "label": "question"}
+{"split": "test", "text": "The seams on my new t-shirt came loose after the first wash. Can someone help?", "label": "complaint"}
+{"split": "test", "text": "मेरा laptop खरीदना पक्का है, डिलीवरी इसी हफ़्ते में हो जानी चाहिए", "label": "order"}
+{"split": "test", "text": "Mere bluetooth speaker ki dikkat par callback ka bola tha 4 din pehle, abhi tak kuch nahi", "label": "complaint"}
+{"split": "test", "text": "Only part of my ceiling fan money came back, the remaining balance is still due", "label": "refund"}
+{"split": "test", "text": "Mere saved payment method se yoga mat ka naya order laga dijiye", "label": "order"}
+{"split": "test", "text": "Ek hi dhulai me mere winter jacket ki silai khulne lagi, finishing bahut ghatiya hai", "label": "complaint"}
+{"split": "test", "text": "Mere bed sheet set ke paise aadhe hi wapas aaye hain, bacha hua hissa abhi baki hai", "label": "refund"}
+{"split": "test", "text": "2 दिन पहले वाले pressure cooker रिटर्न का पैसा बैंक में अभी तक दिख ही नहीं रहा", "label": "refund"}
+{"split": "test", "text": "The refund was marked complete yesterday but my card statement still shows no credit.", "label": "refund"}
+{"split": "test", "text": "आज ऑर्डर करूँ तो power bank Surat कब तक पहुँच जाएगा", "label": "question"}
+{"split": "test", "text": "मेरा running shoes खरीदना पक्का है, डिलीवरी इसी हफ़्ते में हो जानी चाहिए", "label": "order"}
+{"split": "test", "text": "Since the hair dryer failed the quality check at pickup, when does the payback start", "label": "refund"}
+{"split": "test", "text": "ऑर्डर 7753 वाले study table lamp को लेकर शिकायत है, उसकी हालत ठीक नहीं है", "label": "complaint"}
+{"split": "test", "text": "Subah se mixer grinder me ghisne jaisi awaaz aa rahi hai aur hil bhi raha hai bahut", "label": "complaint"}
+{"split": "test", "text": "The offers page on the website is showing an error since evening", "label": "other"}
+{"split": "test", "text": "Poora ceiling fan wala amount bank ki jagah mere wallet me wapas kar dijiye", "label": "refund"}
+{"split": "test", "text": "Sirf 5 din hue kharide hue aur mera ceiling fan band pad gaya, turant dekho isko", "label": "complaint"}
+{"split": "test", "text": "Does the bluetooth speaker support fast charging or only the normal speed", "label": "question"}
+{"split": "test", "text": "Kindly return the full amount of the running shoes to my wallet instead of bank", "label": "refund"}
+{"split": "test", "text": "Order 8617 ke paise wapas karne ki request hai kyunki ab silk saree ki zarurat nahi rahi", "label": "refund"}
+{"split": "test", "text": "Loved the red hair dryer, my family is asking where I got it from", "label": "other"}
+{"split": "test", "text": "The stitching on the running shoes tore after I cleaned them once; I am disappointed.", "label": "complaint"}
+{"split": "test", "text": "Before buying the power bank I wanted to know how long its service support lasts", "label": "question"}
+{"split": "test", "text": "Bas ye kehna tha ki winter jacket ki packing saaf suthri thi aur delivery bhi tameez se hui", "label": "other"}
+{"split": "test", "text": "12 din pehle wale office chair return ka paisa bank me abhi tak dikh hi nahi raha", "label": "refund"}
+{"split": "test", "text": "Is denim jeans ka grey rang machine me dho sakte hain ya sirf dry clean hoga", "label": "question"}
+{"split": "test", "text": "Mere liye white t-shirt XL mein khareed do, checkout main baad mein kar lunga.", "label": "order"}
+{"split": "test", "text": "My bank shows no credit yet against the pressure cooker return from 10 days ago", "label": "refund"}
+{"split": "test", "text": "blue wala silk saree bahut pasand aaya, ghar wale pooch rahe hain kahan se liya", "label": "other"}
+{"split": "test", "text": "Mahina khatm hone se pehle dukaan ke liye 5 office chair order karne hain", "label": "order"}
+{"split": "test", "text": "The air fryer has been picked up from my home, by when should I expect Rs 1,999 back", "label": "refund"}
+{"split": "test", "text": "Poora steel water bottle wala amount bank ki jagah mere wallet me wapas kar dijiye", "label": "refund"}
+{"split": "test", "text": "Customer care promised a callback about my power bank issue 10 days ago, still nothing", "label": "complaint"}
+{"split": "test", "text": "गलती से दो बार पेमेंट हो गया था, कृपया अतिरिक्त भुगतान मेरे बैंक में वापस कर दें।", "label": "refund"}
+{"split": "test", "text": "ceiling fan lene se pehle ye janna tha ki iski service support kitne time tak milti hai", "label": "question"}
+{"split": "test", "text": "I would like to buy the ceiling fan for my home in Lucknow, please place the order", "label": "order"}
+{"split": "test", "text": "Indore me ghar ke liye office chair lena hai, order kar dijiye aap", "label": "order"}

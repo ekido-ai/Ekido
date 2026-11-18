@@ -1,0 +1,13 @@
+{
+  "merged_step": 160,
+  "merged_from_attempt": "a2",
+  "merged_checkpoint": "step-160",
+  "gguf_mb": {
+    "model-f16.gguf": 3093.7,
+    "model-Q8_0.gguf": 1646.6,
+    "model-Q4_K_M.gguf": 986.0
+  },
+  "llama_cli_prompt": "Sort this customer support ticket into exactly one category: complaint, order, question, refund or other.\nTicket: Mera order abhi tak nahi aaya, 5 din ho gaye\nCategory:",
+  "llama_cli_q8_answer": "order",
+  "llama_cli_rc": 0
+}
