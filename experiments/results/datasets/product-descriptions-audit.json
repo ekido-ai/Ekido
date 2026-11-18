@@ -14,18 +14,22 @@
     "pencil pouch": 30
   },
   "test_by_product": {
-    "t-shirt": 6,
-    "kurti": 6,
-    "water bottle": 6,
-    "mug": 6,
-    "notebook": 6,
-    "cushion cover": 6,
-    "backpack": 6,
-    "scarf": 6,
-    "tote bag": 6,
-    "pencil pouch": 6
+    "desk lamp": 6,
+    "yoga mat": 6,
+    "storage basket": 6,
+    "picture frame": 6,
+    "lunch box": 6,
+    "plant pot": 6,
+    "door mat": 6,
+    "bed sheet": 6,
+    "travel umbrella": 6,
+    "serving tray": 6
   },
   "missing_attribute_values_in_descriptions": 0,
   "duplicate_or_overlapping_attributes": 0,
+  "held_out_products_disjoint": true,
+  "max_sequence_similarity": 0.781609,
+  "max_token_jaccard_similarity": 0.363636,
+  "similarity_limit": 0.85,
   "reproduced_from_generator": true
 }
