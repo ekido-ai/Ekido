@@ -1,0 +1,300 @@
+{"text": "5 aur steel bottle bhej do, Rs 909 wale.", "spans": []}
+{"text": "बिल karangupta91@example.com पर भेज दो, कुल रकम Rs 519।", "spans": [{"start": 4, "end": 28, "type": "EMAIL"}]}
+{"text": "पार्सल नेहा पटेल के नाम से भेजना, पता फ्लैट 180, सिविल लाइन्स, भोपाल 462001।", "spans": [{"start": 7, "end": 16, "type": "NAME"}, {"start": 38, "end": 75, "type": "ADDRESS"}]}
+{"text": "Invoice INV-2026-12631 me Priya Nair ka PAN DJXPV7851P aur GSTIN 09KRMPR4369T6ZZ daal diya hai.", "spans": [{"start": 26, "end": 36, "type": "NAME"}, {"start": 44, "end": 54, "type": "PAN"}, {"start": 65, "end": 80, "type": "GSTIN"}]}
+{"text": "Hamari firm ka GSTIN 24RMMPC5258B7ZR hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "Our GSTIN is 09ZYUPN3539T8Z6. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "Mera address badal do: House No. 262, Model Town, Kochi, 682001.", "spans": [{"start": 23, "end": 63, "type": "ADDRESS"}]}
+{"text": "Please change my delivery address to Flat 434, Green Park, Jaipur 302001.", "spans": [{"start": 37, "end": 72, "type": "ADDRESS"}]}
+{"text": "My Aadhaar is 683810055154, please update the KYC for my account.", "spans": [{"start": 14, "end": 26, "type": "AADHAAR"}]}
+{"text": "Refund of Rs 530 should go back to 8006729021@oksbi.", "spans": [{"start": 35, "end": 51, "type": "UPI_ID"}]}
+{"text": "Invoice INV-2025-62487 total is Rs 525, due in 15 days.", "spans": []}
+{"text": "Mera address badal do: Flat 58, Lake View Colony, Lucknow 226001.", "spans": [{"start": 23, "end": 64, "type": "ADDRESS"}]}
+{"text": "Suresh Chauhan bol raha hoon, email suresh.chauhan11@example.net, number 76332-07625. phone cover toota hua aaya.", "spans": [{"start": 0, "end": 14, "type": "NAME"}, {"start": 36, "end": 64, "type": "EMAIL"}, {"start": 73, "end": 84, "type": "PHONE"}]}
+{"text": "Invoice INV-2026-44080 me Neha Gupta ka PAN SZHPN7016W aur GSTIN 33KZKPE5472Z1Z2 daal diya hai.", "spans": [{"start": 26, "end": 36, "type": "NAME"}, {"start": 44, "end": 54, "type": "PAN"}, {"start": 65, "end": 80, "type": "GSTIN"}]}
+{"text": "I paid through UPI arjun70@ybl, order ORD896661 still shows unpaid.", "spans": [{"start": 19, "end": 30, "type": "UPI_ID"}]}
+{"text": "I paid through UPI isha2455@okhdfcbank, order ORD613927 still shows unpaid.", "spans": [{"start": 19, "end": 38, "type": "UPI_ID"}]}
+{"text": "Please change my delivery address to Flat 320, Sector 14, Nagpur 440001.", "spans": [{"start": 37, "end": 71, "type": "ADDRESS"}]}
+{"text": "Customer Kavita Bansal (arjun_bansal@example.com) asked to cancel order ORD996048.", "spans": [{"start": 9, "end": 22, "type": "NAME"}, {"start": 24, "end": 48, "type": "EMAIL"}]}
+{"text": "Refund of Rs 1265 should go back to 3869401921@okaxis.", "spans": [{"start": 36, "end": 53, "type": "UPI_ID"}]}
+{"text": "PAN HSMPZ1433F hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "I paid through UPI rahul@oksbi, order ORD010864 still shows unpaid.", "spans": [{"start": 19, "end": 30, "type": "UPI_ID"}]}
+{"text": "Mera address badal do: Flat 384, Model Town, Surat 395003.", "spans": [{"start": 23, "end": 57, "type": "ADDRESS"}]}
+{"text": "Courier ne return pickup ke liye reference 776255449813 diya hai.", "spans": []}
+{"text": "UPI se vikram@okaxis se paisa bheja tha par order ORD392580 abhi bhi pending hai.", "spans": [{"start": 7, "end": 20, "type": "UPI_ID"}]}
+{"text": "Reach the owner, Suresh Mehta, on +91 88717 35999 or divyayadav@example.com.", "spans": [{"start": 17, "end": 29, "type": "NAME"}, {"start": 34, "end": 49, "type": "PHONE"}, {"start": 53, "end": 75, "type": "EMAIL"}]}
+{"text": "रिफंड ravi@ibl पर वापस कर दो।", "spans": [{"start": 6, "end": 14, "type": "UPI_ID"}]}
+{"text": "Loan form ke liye Arjun Das ka Aadhaar 8890 2012 4017 aur PAN SBAPY3908J laga diya.", "spans": [{"start": 18, "end": 27, "type": "NAME"}, {"start": 39, "end": 53, "type": "AADHAAR"}, {"start": 62, "end": 72, "type": "PAN"}]}
+{"text": "12 aur leather wallet bhej do, Rs 4016 wale.", "spans": []}
+{"text": "Hamari firm ka GSTIN 29AGPPF3117A9ZJ hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "Our GSTIN is 23JTBPA3667P1ZC. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "Neha Singh here, email amit.verma25@example.com, phone +91 94986 17841. My steel bottle arrived damaged.", "spans": [{"start": 0, "end": 10, "type": "NAME"}, {"start": 23, "end": 47, "type": "EMAIL"}, {"start": 55, "end": 70, "type": "PHONE"}]}
+{"text": "Hi, my name is Sunita Reddy and my number is 89309-67588. Please call me about order ORD230567.", "spans": [{"start": 15, "end": 27, "type": "NAME"}, {"start": 45, "end": 56, "type": "PHONE"}]}
+{"text": "Mera naam Suresh Yadav hai, mujhe +91 96798 54800 pe call karo, order ORD526861 ka kya hua?", "spans": [{"start": 10, "end": 22, "type": "NAME"}, {"start": 34, "end": 49, "type": "PHONE"}]}
+{"text": "Customer Rahul Kulkarni (manoj_iyer@example.org) asked to cancel order ORD111607.", "spans": [{"start": 9, "end": 23, "type": "NAME"}, {"start": 25, "end": 47, "type": "EMAIL"}]}
+{"text": "Aadhaar 3824-4196-7612 and PAN LJRPF2218H attached for the loan form of Divya Kulkarni.", "spans": [{"start": 8, "end": 22, "type": "AADHAAR"}, {"start": 31, "end": 41, "type": "PAN"}, {"start": 72, "end": 86, "type": "NAME"}]}
+{"text": "Malik Kavita Reddy se +91 79315 30095 ya deepakiyer@example.org pe baat kar lo.", "spans": [{"start": 6, "end": 18, "type": "NAME"}, {"start": 22, "end": 37, "type": "PHONE"}, {"start": 41, "end": 63, "type": "EMAIL"}]}
+{"text": "UPI se deepak@ybl se paisa bheja tha par order ORD883548 abhi bhi pending hai.", "spans": [{"start": 7, "end": 17, "type": "UPI_ID"}]}
+{"text": "Invoice INV-2025-41978 me Arjun Bansal ka PAN HEKPV5488Z aur GSTIN 07ENKPF1790T4Z2 daal diya hai.", "spans": [{"start": 26, "end": 38, "type": "NAME"}, {"start": 46, "end": 56, "type": "PAN"}, {"start": 67, "end": 82, "type": "GSTIN"}]}
+{"text": "Mera order ORD505646 kab aayega? Kal tak aana tha.", "spans": []}
+{"text": "Malik Vikram Kulkarni se +917994874185 ya manojchauhan62@example.org pe baat kar lo.", "spans": [{"start": 6, "end": 21, "type": "NAME"}, {"start": 25, "end": 38, "type": "PHONE"}, {"start": 42, "end": 68, "type": "EMAIL"}]}
+{"text": "Courier ne return pickup ke liye reference 712366537449 diya hai.", "spans": []}
+{"text": "Bill neha.verma@example.org pe bhej do, leather wallet ka Rs 929 ka.", "spans": [{"start": 5, "end": 27, "type": "EMAIL"}]}
+{"text": "डिलीवरी फ्लैट 127, लेक व्यू कॉलोनी, नागपुर 440001 पर करना। फ़ोन +91 81255 27874।", "spans": [{"start": 8, "end": 49, "type": "ADDRESS"}, {"start": 64, "end": 79, "type": "PHONE"}]}
+{"text": "Customer Vikram Nair (kavita.chauhan@example.net) asked to cancel order ORD561561.", "spans": [{"start": 9, "end": 20, "type": "NAME"}, {"start": 22, "end": 48, "type": "EMAIL"}]}
+{"text": "पार्सल रवि गुप्ता के नाम से भेजना, पता फ्लैट 315, सेक्टर 14, पुणे 411001।", "spans": [{"start": 7, "end": 17, "type": "NAME"}, {"start": 39, "end": 72, "type": "ADDRESS"}]}
+{"text": "Mera address badal do: House No. 357, Civil Lines, Surat, 395003.", "spans": [{"start": 23, "end": 64, "type": "ADDRESS"}]}
+{"text": "Refund Rs 378 mere UPI isha83@oksbi pe wapas karo.", "spans": [{"start": 23, "end": 35, "type": "UPI_ID"}]}
+{"text": "डिलीवरी फ्लैट 58, मॉडल टाउन, नागपुर 440001 पर करना। फ़ोन +917869053989।", "spans": [{"start": 8, "end": 42, "type": "ADDRESS"}, {"start": 57, "end": 70, "type": "PHONE"}]}
+{"text": "मेरा नाम पूजा रेड्डी है, मुझे +91 79152 31266 पर फ़ोन करो।", "spans": [{"start": 9, "end": 20, "type": "NAME"}, {"start": 30, "end": 45, "type": "PHONE"}]}
+{"text": "The cotton bedsheet is great, delivery was fast, will order again.", "spans": []}
+{"text": "Mera Aadhaar number 295050510015 hai, KYC update kar do.", "spans": [{"start": 20, "end": 32, "type": "AADHAAR"}]}
+{"text": "Customer Meena Mehta (suresh_nair@example.net) asked to cancel order ORD820395.", "spans": [{"start": 9, "end": 20, "type": "NAME"}, {"start": 22, "end": 45, "type": "EMAIL"}]}
+{"text": "Parcel Kavita Reddy ke naam pe bhejna, pata hai Flat 46, Model Town, Pune 411001. Phone +916245559726.", "spans": [{"start": 7, "end": 19, "type": "NAME"}, {"start": 48, "end": 80, "type": "ADDRESS"}, {"start": 88, "end": 101, "type": "PHONE"}]}
+{"text": "पूजा गुप्ता बोल रहा हूँ, ईमेल meena_patel91@example.net, फ़ोन +916829950110।", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 30, "end": 55, "type": "EMAIL"}, {"start": 62, "end": 75, "type": "PHONE"}]}
+{"text": "Refund Rs 909 mere UPI sneha@paytm pe wapas karo.", "spans": [{"start": 23, "end": 34, "type": "UPI_ID"}]}
+{"text": "Do you have blue kurta in stock in Nagpur?", "spans": []}
+{"text": "चेकआउट पर कूपन RCUCS9571M लगाओ, 10 प्रतिशत छूट मिलेगी।", "spans": []}
+{"text": "Neha Chauhan bol raha hoon, email anjalimehta@example.net, number 9663363880. cotton bedsheet toota hua aaya.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 34, "end": 57, "type": "EMAIL"}, {"start": 66, "end": 76, "type": "PHONE"}]}
+{"text": "Our GSTIN is 09JEFPU7967S4ZP. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "Supplier ka GSTIN 23AJUPW8150Y3ZK, mail rohanmehta@example.org, 8 leather wallet ke Rs 2524.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 62, "type": "EMAIL"}]}
+{"text": "मैंने UPI neha1199@okaxis से पैसे भेजे थे, ऑर्डर ORD495868 अभी भी पेंडिंग है।", "spans": [{"start": 10, "end": 25, "type": "UPI_ID"}]}
+{"text": "UPI se 7096917234@ybl se paisa bheja tha par order ORD567903 abhi bhi pending hai.", "spans": [{"start": 7, "end": 21, "type": "UPI_ID"}]}
+{"text": "हमारी फर्म का GSTIN 33RKRPK7789S7Z4 है।", "spans": [{"start": 20, "end": 35, "type": "GSTIN"}]}
+{"text": "Invoice INV-2025-17862 ka total Rs 1263 hai, 15 din me dena hai.", "spans": []}
+{"text": "Hi, my name is Vikram Sharma and my number is +91 73354 35700. Please call me about order ORD447186.", "spans": [{"start": 15, "end": 28, "type": "NAME"}, {"start": 46, "end": 61, "type": "PHONE"}]}
+{"text": "सुनीता पटेल का आधार 4239-9760-8466 और पैन CBFPU3458Y लगा दिया है।", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 20, "end": 34, "type": "AADHAAR"}, {"start": 42, "end": 52, "type": "PAN"}]}
+{"text": "मेरा पैन APPPW6505F है, जीएसटी बिल में लिख देना।", "spans": [{"start": 9, "end": 19, "type": "PAN"}]}
+{"text": "Ship it to Anjali Kulkarni, Flat 418, Model Town, Surat 395003. Contact +91 99430 49004.", "spans": [{"start": 11, "end": 26, "type": "NAME"}, {"start": 28, "end": 62, "type": "ADDRESS"}, {"start": 72, "end": 87, "type": "PHONE"}]}
+{"text": "Hamari firm ka GSTIN 08TNHPY3658V9ZT hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "I paid through UPI neha72@okaxis, order ORD763501 still shows unpaid.", "spans": [{"start": 19, "end": 32, "type": "UPI_ID"}]}
+{"text": "Manoj Gupta ji ne order ORD808591 cancel karne ko kaha hai, unka mail meena_verma05@example.org.", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 70, "end": 95, "type": "EMAIL"}]}
+{"text": "इंदौर में स्टॉक है क्या?", "spans": []}
+{"text": "Invoice INV-2026-84523 ka total Rs 4032 hai, 15 din me dena hai.", "spans": []}
+{"text": "Invoice INV-2026-86506: bill to Suresh Singh, GSTIN 08DVYPU0520Z5ZX, PAN WRKPC6644F.", "spans": [{"start": 32, "end": 44, "type": "NAME"}, {"start": 52, "end": 67, "type": "GSTIN"}, {"start": 73, "end": 83, "type": "PAN"}]}
+{"text": "Sunita Mehta ji ne order ORD700226 cancel karne ko kaha hai, unka mail anjalisharma@example.net.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 71, "end": 95, "type": "EMAIL"}]}
+{"text": "Mera naam Sneha Mehta hai, mujhe 87061-59598 pe call karo, order ORD070767 ka kya hua?", "spans": [{"start": 10, "end": 21, "type": "NAME"}, {"start": 33, "end": 44, "type": "PHONE"}]}
+{"text": "Mera Aadhaar number 524765993183 hai, KYC update kar do.", "spans": [{"start": 20, "end": 32, "type": "AADHAAR"}]}
+{"text": "Loan form ke liye Sneha Iyer ka Aadhaar 493960093732 aur PAN FAPPL7946F laga diya.", "spans": [{"start": 18, "end": 28, "type": "NAME"}, {"start": 40, "end": 52, "type": "AADHAAR"}, {"start": 61, "end": 71, "type": "PAN"}]}
+{"text": "मैंने UPI amit6923@ybl से पैसे भेजे थे, ऑर्डर ORD169505 अभी भी पेंडिंग है।", "spans": [{"start": 10, "end": 22, "type": "UPI_ID"}]}
+{"text": "Invoice INV-2025-81080: bill to Priya Yadav, GSTIN 23VLTPE1538P2Z3, PAN KELPE8674B.", "spans": [{"start": 32, "end": 43, "type": "NAME"}, {"start": 51, "end": 66, "type": "GSTIN"}, {"start": 72, "end": 82, "type": "PAN"}]}
+{"text": "Aadhaar 5509 6203 5694 and PAN RTZPP8795J attached for the loan form of Meena Das.", "spans": [{"start": 8, "end": 22, "type": "AADHAAR"}, {"start": 31, "end": 41, "type": "PAN"}, {"start": 72, "end": 81, "type": "NAME"}]}
+{"text": "Pooja Bansal ji ne order ORD591542 cancel karne ko kaha hai, unka mail sneha.chauhan03@example.net.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 71, "end": 98, "type": "EMAIL"}]}
+{"text": "Tracking number 8828588420 dikha raha hai out for delivery, 12 cotton bedsheet ka.", "spans": []}
+{"text": "Pooja Reddy ji ne order ORD845220 cancel karne ko kaha hai, unka mail arjun.verma@example.com.", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 70, "end": 93, "type": "EMAIL"}]}
+{"text": "I paid through UPI pooja43@ybl, order ORD075092 still shows unpaid.", "spans": [{"start": 19, "end": 30, "type": "UPI_ID"}]}
+{"text": "Use coupon HLYES7202C at checkout to get 10 percent off.", "spans": []}
+{"text": "Refund of Rs 2531 should go back to 4611281721@okaxis.", "spans": [{"start": 36, "end": 53, "type": "UPI_ID"}]}
+{"text": "Hi, my name is Anjali Kulkarni and my number is +919739993951. Please call me about order ORD220513.", "spans": [{"start": 15, "end": 30, "type": "NAME"}, {"start": 48, "end": 61, "type": "PHONE"}]}
+{"text": "Bill priya_sharma74@example.net pe bhej do, phone cover ka Rs 4022 ka.", "spans": [{"start": 5, "end": 31, "type": "EMAIL"}]}
+{"text": "मेरा पैन CUXPW6752T है, जीएसटी बिल में लिख देना।", "spans": [{"start": 9, "end": 19, "type": "PAN"}]}
+{"text": "Aadhaar 9748 8194 9223 and PAN BTMPK7892F attached for the loan form of Priya Nair.", "spans": [{"start": 8, "end": 22, "type": "AADHAAR"}, {"start": 31, "end": 41, "type": "PAN"}, {"start": 72, "end": 82, "type": "NAME"}]}
+{"text": "Deliver to House No. 232, Sector 14, Lucknow, 226001. If I am out, call 82945-47148.", "spans": [{"start": 11, "end": 52, "type": "ADDRESS"}, {"start": 72, "end": 83, "type": "PHONE"}]}
+{"text": "Please confirm the price of the leather wallet before I pay.", "spans": []}
+{"text": "Seller GSTIN 24ZVLPA6731C4Z9, contact meenachauhan@example.com, Rs 1275 for 3 cotton bedsheet.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 62, "type": "EMAIL"}]}
+{"text": "PAN WYBPE0002X hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Refund of Rs 210 should go back to priya56@okhdfcbank.", "spans": [{"start": 35, "end": 53, "type": "UPI_ID"}]}
+{"text": "Isha Mehta here, email karan_bansal74@example.com, phone 9850408178. My desk lamp arrived damaged.", "spans": [{"start": 0, "end": 10, "type": "NAME"}, {"start": 23, "end": 49, "type": "EMAIL"}, {"start": 57, "end": 67, "type": "PHONE"}]}
+{"text": "Our GSTIN is 27NMGPP5670H5Z8. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "Refund of Rs 937 should go back to divya@okhdfcbank.", "spans": [{"start": 35, "end": 51, "type": "UPI_ID"}]}
+{"text": "ट्रैकिंग नंबर 8819019447 आउट फ़ॉर डिलीवरी दिखा रहा है।", "spans": []}
+{"text": "Bill rohan.sharma@example.com pe bhej do, phone cover ka Rs 1273 ka.", "spans": [{"start": 5, "end": 29, "type": "EMAIL"}]}
+{"text": "Delivery Flat 409, Model Town, Bhopal 462001 pe karna, ghar pe na mile to +91 66375 59166 pe call karna.", "spans": [{"start": 9, "end": 44, "type": "ADDRESS"}, {"start": 74, "end": 89, "type": "PHONE"}]}
+{"text": "Supplier ka GSTIN 27NWPPH3251M6ZM, mail rohankulkarni36@example.net, 11 cotton bedsheet ke Rs 4001.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 67, "type": "EMAIL"}]}
+{"text": "Malik Deepak Singh se 64328-03986 ya kavitareddy53@example.org pe baat kar lo.", "spans": [{"start": 6, "end": 18, "type": "NAME"}, {"start": 22, "end": 33, "type": "PHONE"}, {"start": 37, "end": 62, "type": "EMAIL"}]}
+{"text": "Invoice INV-2025-09542: bill to Pooja Mehta, GSTIN 24KGWPS6680B2ZM, PAN KJMPX7596B.", "spans": [{"start": 32, "end": 43, "type": "NAME"}, {"start": 51, "end": 66, "type": "GSTIN"}, {"start": 72, "end": 82, "type": "PAN"}]}
+{"text": "डिलीवरी फ्लैट 59, सेक्टर 14, भोपाल 462001 पर करना। फ़ोन 99433-48689।", "spans": [{"start": 8, "end": 41, "type": "ADDRESS"}, {"start": 56, "end": 67, "type": "PHONE"}]}
+{"text": "Order ORD686422 ka pickup lag gaya, courier reference 7115553248.", "spans": []}
+{"text": "Hamari firm ka GSTIN 33PZHPP5112A8ZC hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "Where is my order ORD299490? It was supposed to arrive yesterday.", "spans": []}
+{"text": "मेरा नाम दिव्या रेड्डी है, मुझे 96908-16043 पर फ़ोन करो।", "spans": [{"start": 9, "end": 22, "type": "NAME"}, {"start": 32, "end": 43, "type": "PHONE"}]}
+{"text": "Please send the invoice to sunita.das38@example.com for cotton bedsheet, total Rs 1278.", "spans": [{"start": 27, "end": 51, "type": "EMAIL"}]}
+{"text": "UPI se meena06@okaxis se paisa bheja tha par order ORD180794 abhi bhi pending hai.", "spans": [{"start": 7, "end": 21, "type": "UPI_ID"}]}
+{"text": "मेरा पता बदल दो: फ्लैट 330, शांति नगर, नागपुर 440001।", "spans": [{"start": 17, "end": 52, "type": "ADDRESS"}]}
+{"text": "Please send 5 more phone cover for Rs 1268 each.", "spans": []}
+{"text": "Aadhaar 511896002993 and PAN PVHPP3374K attached for the loan form of Karan Iyer.", "spans": [{"start": 8, "end": 20, "type": "AADHAAR"}, {"start": 29, "end": 39, "type": "PAN"}, {"start": 70, "end": 80, "type": "NAME"}]}
+{"text": "Pickup scheduled for order ORD085706, courier reference 9110643680.", "spans": []}
+{"text": "Parcel Ravi Reddy ke naam pe bhejna, pata hai House No. 38, Model Town, Surat, 395003. Phone 6943794885.", "spans": [{"start": 7, "end": 17, "type": "NAME"}, {"start": 46, "end": 85, "type": "ADDRESS"}, {"start": 93, "end": 103, "type": "PHONE"}]}
+{"text": "मेरा पता बदल दो: फ्लैट 91, नेहरू पार्क, भोपाल 462001।", "spans": [{"start": 17, "end": 52, "type": "ADDRESS"}]}
+{"text": "PAN MVCPZ7226U is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Deliver to Flat 27, Green Park, Lucknow 226001. If I am out, call 7718509004.", "spans": [{"start": 11, "end": 46, "type": "ADDRESS"}, {"start": 66, "end": 76, "type": "PHONE"}]}
+{"text": "Tracking number 6936593677 shows out for delivery for 12 leather wallet.", "spans": []}
+{"text": "My Aadhaar is 360176343125, please update the KYC for my account.", "spans": [{"start": 14, "end": 26, "type": "AADHAAR"}]}
+{"text": "हमारी फर्म का GSTIN 24RGMPF5209E7Z4 है।", "spans": [{"start": 20, "end": 35, "type": "GSTIN"}]}
+{"text": "The phone cover is great, delivery was fast, will order again.", "spans": []}
+{"text": "Please send the invoice to divya.sharma79@example.org for blue kurta, total Rs 2499.", "spans": [{"start": 27, "end": 53, "type": "EMAIL"}]}
+{"text": "Parcel Divya Singh ke naam pe bhejna, pata hai House No. 237, Shanti Nagar, Nagpur, 440001. Phone 72067-39061.", "spans": [{"start": 7, "end": 18, "type": "NAME"}, {"start": 47, "end": 90, "type": "ADDRESS"}, {"start": 98, "end": 109, "type": "PHONE"}]}
+{"text": "Aadhaar 771230014805 and PAN ZCWPH1546A attached for the loan form of Anjali Joshi.", "spans": [{"start": 8, "end": 20, "type": "AADHAAR"}, {"start": 29, "end": 39, "type": "PAN"}, {"start": 70, "end": 82, "type": "NAME"}]}
+{"text": "रिफंड 1821125619@paytm पर वापस कर दो।", "spans": [{"start": 6, "end": 22, "type": "UPI_ID"}]}
+{"text": "PAN KMWPF3664P is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "My Aadhaar is 647134939392, please update the KYC for my account.", "spans": [{"start": 14, "end": 26, "type": "AADHAAR"}]}
+{"text": "PAN RMZPU2488R hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Ship it to Meena Bansal, House No. 191, Shanti Nagar, Nagpur, 440001. Contact +916792269402.", "spans": [{"start": 11, "end": 23, "type": "NAME"}, {"start": 25, "end": 68, "type": "ADDRESS"}, {"start": 78, "end": 91, "type": "PHONE"}]}
+{"text": "Invoice INV-2025-05438 ka total Rs 4020 hai, 15 din me dena hai.", "spans": []}
+{"text": "Delivery Flat 358, Green Park, Kochi 682001 pe karna, ghar pe na mile to 8925935218 pe call karna.", "spans": [{"start": 9, "end": 43, "type": "ADDRESS"}, {"start": 73, "end": 83, "type": "PHONE"}]}
+{"text": "Please confirm the price of the cotton bedsheet before I pay.", "spans": []}
+{"text": "Invoice INV-2026-42441 me Rahul Bansal ka PAN DZXPK3738V aur GSTIN 07BDEPY4422L2Z4 daal diya hai.", "spans": [{"start": 26, "end": 38, "type": "NAME"}, {"start": 46, "end": 56, "type": "PAN"}, {"start": 67, "end": 82, "type": "GSTIN"}]}
+{"text": "रवि वर्मा बोल रहा हूँ, ईमेल sunitadas@example.net, फ़ोन +91 74950 88110।", "spans": [{"start": 0, "end": 9, "type": "NAME"}, {"start": 28, "end": 49, "type": "EMAIL"}, {"start": 56, "end": 71, "type": "PHONE"}]}
+{"text": "Parcel Suresh Bansal ke naam pe bhejna, pata hai House No. 430, Green Park, Lucknow, 226001. Phone +919784680820.", "spans": [{"start": 7, "end": 20, "type": "NAME"}, {"start": 49, "end": 91, "type": "ADDRESS"}, {"start": 99, "end": 112, "type": "PHONE"}]}
+{"text": "मेरा आधार नंबर 906727701454 है, केवाईसी अपडेट कर दो।", "spans": [{"start": 15, "end": 27, "type": "AADHAAR"}]}
+{"text": "Reference 553092291821 was issued by the courier for return pickup.", "spans": []}
+{"text": "Order ORD729694 ka pickup lag gaya, courier reference 9811193253.", "spans": []}
+{"text": "Please send 7 more leather wallet for Rs 933 each.", "spans": []}
+{"text": "Ravi Singh here, email snehaiyer46@example.net, phone +91 61067 95560. My cotton bedsheet arrived damaged.", "spans": [{"start": 0, "end": 10, "type": "NAME"}, {"start": 23, "end": 46, "type": "EMAIL"}, {"start": 54, "end": 69, "type": "PHONE"}]}
+{"text": "Mera address badal do: Flat 24, Green Park, Indore 452001.", "spans": [{"start": 23, "end": 57, "type": "ADDRESS"}]}
+{"text": "Invoice INV-2025-17924 total is Rs 219, due in 15 days.", "spans": []}
+{"text": "Invoice INV-2025-45172: bill to Rahul Chauhan, GSTIN 08WYTPX3024V9Z9, PAN SDWPD8974E.", "spans": [{"start": 32, "end": 45, "type": "NAME"}, {"start": 53, "end": 68, "type": "GSTIN"}, {"start": 74, "end": 84, "type": "PAN"}]}
+{"text": "PAN LJMPE0072X hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Invoice INV-2026-84303 total is Rs 212, due in 15 days.", "spans": []}
+{"text": "Deliver to House No. 193, Sector 14, Bhopal, 462001. If I am out, call 9976038811.", "spans": [{"start": 11, "end": 51, "type": "ADDRESS"}, {"start": 71, "end": 81, "type": "PHONE"}]}
+{"text": "My Aadhaar is 4804 8811 7032, please update the KYC for my account.", "spans": [{"start": 14, "end": 28, "type": "AADHAAR"}]}
+{"text": "Please change my delivery address to Flat 146, Green Park, Jaipur 302001.", "spans": [{"start": 37, "end": 72, "type": "ADDRESS"}]}
+{"text": "Supplier ka GSTIN 33XZLPD3295H2ZO, mail rohan.joshi12@example.org, 4 blue kurta ke Rs 379.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 65, "type": "EMAIL"}]}
+{"text": "Customer Sneha Kulkarni (manoj.iyer@example.net) asked to cancel order ORD255671.", "spans": [{"start": 9, "end": 23, "type": "NAME"}, {"start": 25, "end": 47, "type": "EMAIL"}]}
+{"text": "Ship it to Deepak Yadav, Flat 255, Nehru Park, Surat 395003. Contact +918830919807.", "spans": [{"start": 11, "end": 23, "type": "NAME"}, {"start": 25, "end": 59, "type": "ADDRESS"}, {"start": 69, "end": 82, "type": "PHONE"}]}
+{"text": "Deliver to Flat 440, Civil Lines, Surat 395003. If I am out, call +91 60214 12946.", "spans": [{"start": 11, "end": 46, "type": "ADDRESS"}, {"start": 66, "end": 81, "type": "PHONE"}]}
+{"text": "Arjun Nair here, email arjun_joshi03@example.org, phone 71200-24750. My phone cover arrived damaged.", "spans": [{"start": 0, "end": 10, "type": "NAME"}, {"start": 23, "end": 48, "type": "EMAIL"}, {"start": 56, "end": 67, "type": "PHONE"}]}
+{"text": "Rohan Kulkarni bol raha hoon, email amit.reddy21@example.com, number 9992184466. desk lamp toota hua aaya.", "spans": [{"start": 0, "end": 14, "type": "NAME"}, {"start": 36, "end": 60, "type": "EMAIL"}, {"start": 69, "end": 79, "type": "PHONE"}]}
+{"text": "Deliver to Flat 238, Nehru Park, Indore 452001. If I am out, call +918555862154.", "spans": [{"start": 11, "end": 46, "type": "ADDRESS"}, {"start": 66, "end": 79, "type": "PHONE"}]}
+{"text": "मेरा ऑर्डर ORD475606 कब आएगा? कल तक आना था।", "spans": []}
+{"text": "Tracking number 6753928909 shows out for delivery for 3 phone cover.", "spans": []}
+{"text": "Delivery Flat 310, Lake View Colony, Lucknow 226001 pe karna, ghar pe na mile to 65881-29118 pe call karna.", "spans": [{"start": 9, "end": 51, "type": "ADDRESS"}, {"start": 81, "end": 92, "type": "PHONE"}]}
+{"text": "Do you have blue kurta in stock in Surat?", "spans": []}
+{"text": "Seller GSTIN 24SBZPK2083D4ZY, contact manoj.joshi@example.org, Rs 1258 for 10 cotton bedsheet.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 61, "type": "EMAIL"}]}
+{"text": "Ship it to Divya Verma, House No. 79, Civil Lines, Nagpur, 440001. Contact +916170278560.", "spans": [{"start": 11, "end": 22, "type": "NAME"}, {"start": 24, "end": 65, "type": "ADDRESS"}, {"start": 75, "end": 88, "type": "PHONE"}]}
+{"text": "cotton bedsheet bahut badhiya hai, delivery fast thi, dobara lunga.", "spans": []}
+{"text": "Parcel Sunita Reddy ke naam pe bhejna, pata hai Flat 236, Gandhi Road, Pune 411001. Phone +91 94188 52491.", "spans": [{"start": 7, "end": 19, "type": "NAME"}, {"start": 48, "end": 82, "type": "ADDRESS"}, {"start": 90, "end": 105, "type": "PHONE"}]}
+{"text": "Our GSTIN is 24FFCPT1420J8ZD. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "PAN DFNPW8473L is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "रिफंड meena13@okhdfcbank पर वापस कर दो।", "spans": [{"start": 6, "end": 24, "type": "UPI_ID"}]}
+{"text": "UPI se ravi20@ybl se paisa bheja tha par order ORD906896 abhi bhi pending hai.", "spans": [{"start": 7, "end": 17, "type": "UPI_ID"}]}
+{"text": "बिल anjaligupta40@example.com पर भेज दो, कुल रकम Rs 217।", "spans": [{"start": 4, "end": 29, "type": "EMAIL"}]}
+{"text": "Refund Rs 503 mere UPI 3963759412@okaxis pe wapas karo.", "spans": [{"start": 23, "end": 40, "type": "UPI_ID"}]}
+{"text": "Mera Aadhaar number 2896-2476-0982 hai, KYC update kar do.", "spans": [{"start": 20, "end": 34, "type": "AADHAAR"}]}
+{"text": "मेरा पता बदल दो: फ्लैट 339, गांधी रोड, लखनऊ 226001।", "spans": [{"start": 17, "end": 50, "type": "ADDRESS"}]}
+{"text": "Where is my order ORD079823? It was supposed to arrive yesterday.", "spans": []}
+{"text": "Refund Rs 351 mere UPI rohan1833@paytm pe wapas karo.", "spans": [{"start": 23, "end": 38, "type": "UPI_ID"}]}
+{"text": "बिल meena_reddy@example.net पर भेज दो, कुल रकम Rs 510।", "spans": [{"start": 4, "end": 27, "type": "EMAIL"}]}
+{"text": "सामान बहुत अच्छा है, डिलीवरी तेज़ थी।", "spans": []}
+{"text": "मेरा पैन RWEPF2998T है, जीएसटी बिल में लिख देना।", "spans": [{"start": 9, "end": 19, "type": "PAN"}]}
+{"text": "Please send the invoice to sunita_nair@example.net for phone cover, total Rs 1262.", "spans": [{"start": 27, "end": 50, "type": "EMAIL"}]}
+{"text": "Our GSTIN is 09SFFPB1960J7ZV. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "चालान INV-2026-31211 का कुल योग Rs 1251 है।", "spans": []}
+{"text": "Rahul Sharma bol raha hoon, email snehamehta@example.net, number +91 73751 44693. phone cover toota hua aaya.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 34, "end": 56, "type": "EMAIL"}, {"start": 65, "end": 80, "type": "PHONE"}]}
+{"text": "Reach the owner, Isha Iyer, on +91 95743 57447 or priya_reddy@example.com.", "spans": [{"start": 17, "end": 26, "type": "NAME"}, {"start": 31, "end": 46, "type": "PHONE"}, {"start": 50, "end": 73, "type": "EMAIL"}]}
+{"text": "UPI se meena@okhdfcbank se paisa bheja tha par order ORD260044 abhi bhi pending hai.", "spans": [{"start": 7, "end": 23, "type": "UPI_ID"}]}
+{"text": "मीना यादव का आधार 284741451275 और पैन BKXPH3926T लगा दिया है।", "spans": [{"start": 0, "end": 9, "type": "NAME"}, {"start": 18, "end": 30, "type": "AADHAAR"}, {"start": 38, "end": 48, "type": "PAN"}]}
+{"text": "Malik Divya Nair se 8609633572 ya arjun_kulkarni@example.net pe baat kar lo.", "spans": [{"start": 6, "end": 16, "type": "NAME"}, {"start": 20, "end": 30, "type": "PHONE"}, {"start": 34, "end": 60, "type": "EMAIL"}]}
+{"text": "I paid through UPI isha5511@okaxis, order ORD342093 still shows unpaid.", "spans": [{"start": 19, "end": 34, "type": "UPI_ID"}]}
+{"text": "Bill ravi.yadav@example.com pe bhej do, cotton bedsheet ka Rs 218 ka.", "spans": [{"start": 5, "end": 27, "type": "EMAIL"}]}
+{"text": "Seller GSTIN 33FGFPX1809B1ZK, contact karanyadav@example.org, Rs 524 for 4 steel bottle.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 60, "type": "EMAIL"}]}
+{"text": "Reference 738915383996 was issued by the courier for return pickup.", "spans": []}
+{"text": "मेरा आधार नंबर 734023262796 है, केवाईसी अपडेट कर दो।", "spans": [{"start": 15, "end": 27, "type": "AADHAAR"}]}
+{"text": "Isha Bansal here, email ravidas27@example.net, phone 7048449129. My phone cover arrived damaged.", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 24, "end": 45, "type": "EMAIL"}, {"start": 53, "end": 63, "type": "PHONE"}]}
+{"text": "Seller GSTIN 08AHHPA0398F1ZJ, contact karaniyer@example.net, Rs 924 for 7 phone cover.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 59, "type": "EMAIL"}]}
+{"text": "Please change my delivery address to House No. 133, Nehru Park, Surat, 395003.", "spans": [{"start": 37, "end": 77, "type": "ADDRESS"}]}
+{"text": "Invoice INV-2025-54769 me Manoj Gupta ka PAN GZVPM8823E aur GSTIN 29FDUPK3707D2Z7 daal diya hai.", "spans": [{"start": 26, "end": 37, "type": "NAME"}, {"start": 45, "end": 55, "type": "PAN"}, {"start": 66, "end": 81, "type": "GSTIN"}]}
+{"text": "Reach the owner, Vikram Nair, on 8194105947 or priya_nair@example.net.", "spans": [{"start": 17, "end": 28, "type": "NAME"}, {"start": 33, "end": 43, "type": "PHONE"}, {"start": 47, "end": 69, "type": "EMAIL"}]}
+{"text": "Hi, my name is Isha Patel and my number is +91 88734 81049. Please call me about order ORD232040.", "spans": [{"start": 15, "end": 25, "type": "NAME"}, {"start": 43, "end": 58, "type": "PHONE"}]}
+{"text": "Mera Aadhaar number 623958503529 hai, KYC update kar do.", "spans": [{"start": 20, "end": 32, "type": "AADHAAR"}]}
+{"text": "Invoice INV-2025-60135: bill to Vikram Patel, GSTIN 08AUFPJ1767S9ZN, PAN BGWPW5602Z.", "spans": [{"start": 32, "end": 44, "type": "NAME"}, {"start": 52, "end": 67, "type": "GSTIN"}, {"start": 73, "end": 83, "type": "PAN"}]}
+{"text": "Mera order ORD462581 kab aayega? Kal tak aana tha.", "spans": []}
+{"text": "कूरियर ने वापसी के लिए संदर्भ 350620411272 दिया है।", "spans": []}
+{"text": "Please send the invoice to karan.joshi@example.com for desk lamp, total Rs 2520.", "spans": [{"start": 27, "end": 50, "type": "EMAIL"}]}
+{"text": "मेरा आधार नंबर 269664755176 है, केवाईसी अपडेट कर दो।", "spans": [{"start": 15, "end": 27, "type": "AADHAAR"}]}
+{"text": "दीपक बंसल का आधार 6400 5514 3434 और पैन STXPY3293V लगा दिया है।", "spans": [{"start": 0, "end": 9, "type": "NAME"}, {"start": 18, "end": 32, "type": "AADHAAR"}, {"start": 40, "end": 50, "type": "PAN"}]}
+{"text": "Loan form ke liye Priya Joshi ka Aadhaar 675461243507 aur PAN UNRPF9459A laga diya.", "spans": [{"start": 18, "end": 29, "type": "NAME"}, {"start": 41, "end": 53, "type": "AADHAAR"}, {"start": 62, "end": 72, "type": "PAN"}]}
+{"text": "Paisa dene se pehle leather wallet ka rate confirm kar do.", "spans": []}
+{"text": "Hamari firm ka GSTIN 09FUTPN7374C1ZW hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "Parcel Karan Gupta ke naam pe bhejna, pata hai House No. 231, Sector 14, Bhopal, 462001. Phone 60795-89814.", "spans": [{"start": 7, "end": 18, "type": "NAME"}, {"start": 47, "end": 87, "type": "ADDRESS"}, {"start": 95, "end": 106, "type": "PHONE"}]}
+{"text": "Mera naam Divya Gupta hai, mujhe 65168-32895 pe call karo, order ORD686281 ka kya hua?", "spans": [{"start": 10, "end": 21, "type": "NAME"}, {"start": 33, "end": 44, "type": "PHONE"}]}
+{"text": "Where is my order ORD351736? It was supposed to arrive yesterday.", "spans": []}
+{"text": "Mera address badal do: House No. 50, Nehru Park, Pune, 411001.", "spans": [{"start": 23, "end": 61, "type": "ADDRESS"}]}
+{"text": "Please send the invoice to divya.gupta@example.net for steel bottle, total Rs 4034.", "spans": [{"start": 27, "end": 50, "type": "EMAIL"}]}
+{"text": "Bill rohankulkarni@example.net pe bhej do, desk lamp ka Rs 1274 ka.", "spans": [{"start": 5, "end": 30, "type": "EMAIL"}]}
+{"text": "Seller GSTIN 07HBEPR2903X4ZL, contact sneha.bansal@example.org, Rs 202 for 7 cotton bedsheet.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 62, "type": "EMAIL"}]}
+{"text": "Our GSTIN is 07NWCPF7099X9ZS. Please raise the bill in the company name.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}]}
+{"text": "Reach the owner, Manoj Das, on +917835513511 or suresh.nair19@example.com.", "spans": [{"start": 17, "end": 26, "type": "NAME"}, {"start": 31, "end": 44, "type": "PHONE"}, {"start": 48, "end": 73, "type": "EMAIL"}]}
+{"text": "Refund Rs 1277 mere UPI amit3566@okaxis pe wapas karo.", "spans": [{"start": 24, "end": 39, "type": "UPI_ID"}]}
+{"text": "हमारी फर्म का GSTIN 29NVCPV2670C4Z1 है।", "spans": [{"start": 20, "end": 35, "type": "GSTIN"}]}
+{"text": "Use coupon JJZHT6479M at checkout to get 10 percent off.", "spans": []}
+{"text": "Manoj Bansal bol raha hoon, email suresh.gupta70@example.com, number +91 86093 58986. steel bottle toota hua aaya.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 34, "end": 60, "type": "EMAIL"}, {"start": 69, "end": 84, "type": "PHONE"}]}
+{"text": "PAN UMTPA5387U hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Ship it to Suresh Joshi, House No. 392, Gandhi Road, Kochi, 682001. Contact 8037370281.", "spans": [{"start": 11, "end": 23, "type": "NAME"}, {"start": 25, "end": 66, "type": "ADDRESS"}, {"start": 76, "end": 86, "type": "PHONE"}]}
+{"text": "Refund of Rs 4024 should go back to manoj77@okhdfcbank.", "spans": [{"start": 36, "end": 54, "type": "UPI_ID"}]}
+{"text": "Malik Karan Gupta se 7568548109 ya anjalireddy39@example.com pe baat kar lo.", "spans": [{"start": 6, "end": 17, "type": "NAME"}, {"start": 21, "end": 31, "type": "PHONE"}, {"start": 35, "end": 60, "type": "EMAIL"}]}
+{"text": "Please send the invoice to anjaliverma@example.org for phone cover, total Rs 1278.", "spans": [{"start": 27, "end": 50, "type": "EMAIL"}]}
+{"text": "Loan form ke liye Rahul Singh ka Aadhaar 6566-2485-6946 aur PAN WNPPK5059Y laga diya.", "spans": [{"start": 18, "end": 29, "type": "NAME"}, {"start": 41, "end": 55, "type": "AADHAAR"}, {"start": 64, "end": 74, "type": "PAN"}]}
+{"text": "Mera naam Anjali Nair hai, mujhe 7779142774 pe call karo, order ORD779583 ka kya hua?", "spans": [{"start": 10, "end": 21, "type": "NAME"}, {"start": 33, "end": 43, "type": "PHONE"}]}
+{"text": "Do you have cotton bedsheet in stock in Jaipur?", "spans": []}
+{"text": "Meena Yadav ji ne order ORD176252 cancel karne ko kaha hai, unka mail vikramsharma@example.net.", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 70, "end": 94, "type": "EMAIL"}]}
+{"text": "Paisa dene se pehle desk lamp ka rate confirm kar do.", "spans": []}
+{"text": "Deliver to Flat 351, Civil Lines, Bhopal 462001. If I am out, call +917855753434.", "spans": [{"start": 11, "end": 47, "type": "ADDRESS"}, {"start": 67, "end": 80, "type": "PHONE"}]}
+{"text": "PAN KJHPM5428S is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Mera order ORD873355 kab aayega? Kal tak aana tha.", "spans": []}
+{"text": "Invoice INV-2026-68693: bill to Anjali Gupta, GSTIN 07PHKPC5216D3ZC, PAN DSXPA0056G.", "spans": [{"start": 32, "end": 44, "type": "NAME"}, {"start": 52, "end": 67, "type": "GSTIN"}, {"start": 73, "end": 83, "type": "PAN"}]}
+{"text": "मैंने UPI pooja3692@ibl से पैसे भेजे थे, ऑर्डर ORD102342 अभी भी पेंडिंग है।", "spans": [{"start": 10, "end": 23, "type": "UPI_ID"}]}
+{"text": "Reach the owner, Karan Chauhan, on 6209306690 or sunitapatel@example.org.", "spans": [{"start": 17, "end": 30, "type": "NAME"}, {"start": 35, "end": 45, "type": "PHONE"}, {"start": 49, "end": 72, "type": "EMAIL"}]}
+{"text": "ट्रैकिंग नंबर 8806550560 आउट फ़ॉर डिलीवरी दिखा रहा है।", "spans": []}
+{"text": "6 aur blue kurta bhej do, Rs 521 wale.", "spans": []}
+{"text": "Mera Aadhaar number 8638-4850-7159 hai, KYC update kar do.", "spans": [{"start": 20, "end": 34, "type": "AADHAAR"}]}
+{"text": "Checkout pe coupon FXNFL9564T lagao, 10 percent off milega.", "spans": []}
+{"text": "Loan form ke liye Neha Das ka Aadhaar 2093-9003-0064 aur PAN KGAPJ6451R laga diya.", "spans": [{"start": 18, "end": 26, "type": "NAME"}, {"start": 38, "end": 52, "type": "AADHAAR"}, {"start": 61, "end": 71, "type": "PAN"}]}
+{"text": "मेरा नाम रवि नायर है, मुझे 90604-29085 पर फ़ोन करो।", "spans": [{"start": 9, "end": 17, "type": "NAME"}, {"start": 27, "end": 38, "type": "PHONE"}]}
+{"text": "Surat me blue kurta stock me hai kya?", "spans": []}
+{"text": "Deliver to Flat 21, Model Town, Pune 411001. If I am out, call +917356552793.", "spans": [{"start": 11, "end": 43, "type": "ADDRESS"}, {"start": 63, "end": 76, "type": "PHONE"}]}
+{"text": "Hamari firm ka GSTIN 24YFCPS5239J3ZJ hai, usi pe invoice banana.", "spans": [{"start": 21, "end": 36, "type": "GSTIN"}]}
+{"text": "Invoice INV-2026-92424: bill to Ravi Joshi, GSTIN 33LWAPA4966D9ZH, PAN ZSCPV2748F.", "spans": [{"start": 32, "end": 42, "type": "NAME"}, {"start": 50, "end": 65, "type": "GSTIN"}, {"start": 71, "end": 81, "type": "PAN"}]}
+{"text": "My Aadhaar is 3112-2956-8148, please update the KYC for my account.", "spans": [{"start": 14, "end": 28, "type": "AADHAAR"}]}
+{"text": "Deepak Yadav bol raha hoon, email rohanchauhan48@example.net, number +91 87876 12988. steel bottle toota hua aaya.", "spans": [{"start": 0, "end": 12, "type": "NAME"}, {"start": 34, "end": 60, "type": "EMAIL"}, {"start": 69, "end": 84, "type": "PHONE"}]}
+{"text": "Supplier ka GSTIN 08GXLPH8066J9ZJ, mail arjun.gupta@example.com, 3 desk lamp ke Rs 525.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 63, "type": "EMAIL"}]}
+{"text": "Pune me desk lamp stock me hai kya?", "spans": []}
+{"text": "Mera Aadhaar number 7700 3147 3567 hai, KYC update kar do.", "spans": [{"start": 20, "end": 34, "type": "AADHAAR"}]}
+{"text": "My Aadhaar is 257330547599, please update the KYC for my account.", "spans": [{"start": 14, "end": 26, "type": "AADHAAR"}]}
+{"text": "Vikram Bansal here, email karan_verma15@example.net, phone 68972-70176. My leather wallet arrived damaged.", "spans": [{"start": 0, "end": 13, "type": "NAME"}, {"start": 26, "end": 51, "type": "EMAIL"}, {"start": 59, "end": 70, "type": "PHONE"}]}
+{"text": "Delivery House No. 55, Sector 14, Pune, 411001 pe karna, ghar pe na mile to +917004763634 pe call karna.", "spans": [{"start": 9, "end": 46, "type": "ADDRESS"}, {"start": 76, "end": 89, "type": "PHONE"}]}
+{"text": "I paid through UPI 2415035754@paytm, order ORD065293 still shows unpaid.", "spans": [{"start": 19, "end": 35, "type": "UPI_ID"}]}
+{"text": "Hi, my name is Vikram Reddy and my number is 68159-54115. Please call me about order ORD422495.", "spans": [{"start": 15, "end": 27, "type": "NAME"}, {"start": 45, "end": 56, "type": "PHONE"}]}
+{"text": "Mera naam Arjun Verma hai, mujhe +917919007308 pe call karo, order ORD349767 ka kya hua?", "spans": [{"start": 10, "end": 21, "type": "NAME"}, {"start": 33, "end": 46, "type": "PHONE"}]}
+{"text": "Supplier ka GSTIN 24TNCPW9089R9Z1, mail rohan.bansal@example.net, 2 steel bottle ke Rs 500.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 64, "type": "EMAIL"}]}
+{"text": "PAN RNSPV3141S is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "अमित चौहान बोल रहा हूँ, ईमेल priya.kulkarni98@example.org, फ़ोन +916384135289।", "spans": [{"start": 0, "end": 10, "type": "NAME"}, {"start": 29, "end": 57, "type": "EMAIL"}, {"start": 64, "end": 77, "type": "PHONE"}]}
+{"text": "Invoice INV-2025-94862 me Divya Reddy ka PAN SVWPJ9068V aur GSTIN 29KFEPD6591T9Z1 daal diya hai.", "spans": [{"start": 26, "end": 37, "type": "NAME"}, {"start": 45, "end": 55, "type": "PAN"}, {"start": 66, "end": 81, "type": "GSTIN"}]}
+{"text": "Rahul Gupta ji ne order ORD674105 cancel karne ko kaha hai, unka mail sunita.nair87@example.org.", "spans": [{"start": 0, "end": 11, "type": "NAME"}, {"start": 70, "end": 95, "type": "EMAIL"}]}
+{"text": "Ship it to Karan Das, House No. 396, Nehru Park, Lucknow, 226001. Contact 9030861625.", "spans": [{"start": 11, "end": 20, "type": "NAME"}, {"start": 22, "end": 64, "type": "ADDRESS"}, {"start": 74, "end": 84, "type": "PHONE"}]}
+{"text": "Bill arjunverma@example.org pe bhej do, steel bottle ka Rs 233 ka.", "spans": [{"start": 5, "end": 27, "type": "EMAIL"}]}
+{"text": "Hi, my name is Karan Joshi and my number is +919749921924. Please call me about order ORD841164.", "spans": [{"start": 15, "end": 26, "type": "NAME"}, {"start": 44, "end": 57, "type": "PHONE"}]}
+{"text": "Customer Rohan Iyer (karansharma@example.org) asked to cancel order ORD448538.", "spans": [{"start": 9, "end": 19, "type": "NAME"}, {"start": 21, "end": 44, "type": "EMAIL"}]}
+{"text": "Loan form ke liye Rohan Iyer ka Aadhaar 6438-2936-2046 aur PAN DBHPW2191S laga diya.", "spans": [{"start": 18, "end": 28, "type": "NAME"}, {"start": 40, "end": 54, "type": "AADHAAR"}, {"start": 63, "end": 73, "type": "PAN"}]}
+{"text": "पार्सल कविता नायर के नाम से भेजना, पता फ्लैट 438, शांति नगर, कोच्चि 682001।", "spans": [{"start": 7, "end": 17, "type": "NAME"}, {"start": 39, "end": 74, "type": "ADDRESS"}]}
+{"text": "Please send 4 more desk lamp for Rs 206 each.", "spans": []}
+{"text": "Hi, my name is Divya Kulkarni and my number is +917756762212. Please call me about order ORD175413.", "spans": [{"start": 15, "end": 29, "type": "NAME"}, {"start": 47, "end": 60, "type": "PHONE"}]}
+{"text": "Delivery Flat 375, Sector 14, Pune 411001 pe karna, ghar pe na mile to 9608759813 pe call karna.", "spans": [{"start": 9, "end": 41, "type": "ADDRESS"}, {"start": 71, "end": 81, "type": "PHONE"}]}
+{"text": "Use coupon EBDDS6611H at checkout to get 10 percent off.", "spans": []}
+{"text": "PAN NLPPJ3646K hai mera, GST bill me daal dena.", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Tracking number 9396695989 dikha raha hai out for delivery, 7 phone cover ka.", "spans": []}
+{"text": "Tracking number 8188897298 shows out for delivery for 10 cotton bedsheet.", "spans": []}
+{"text": "PAN TJNPE9240K is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Malik Sunita Singh se +916879739758 ya snehamehta75@example.org pe baat kar lo.", "spans": [{"start": 6, "end": 18, "type": "NAME"}, {"start": 22, "end": 35, "type": "PHONE"}, {"start": 39, "end": 63, "type": "EMAIL"}]}
+{"text": "Tracking number 8970711049 dikha raha hai out for delivery, 4 blue kurta ka.", "spans": []}
+{"text": "Please change my delivery address to House No. 49, Sector 14, Pune, 411001.", "spans": [{"start": 37, "end": 74, "type": "ADDRESS"}]}
+{"text": "Customer Amit Patel (kavita.reddy@example.net) asked to cancel order ORD263478.", "spans": [{"start": 9, "end": 19, "type": "NAME"}, {"start": 21, "end": 45, "type": "EMAIL"}]}
+{"text": "Refund Rs 383 mere UPI amit@paytm pe wapas karo.", "spans": [{"start": 23, "end": 33, "type": "UPI_ID"}]}
+{"text": "Refund of Rs 226 should go back to deepak9360@ybl.", "spans": [{"start": 35, "end": 49, "type": "UPI_ID"}]}
+{"text": "Mera naam Manoj Sharma hai, mujhe +91 86456 28406 pe call karo, order ORD077634 ka kya hua?", "spans": [{"start": 10, "end": 22, "type": "NAME"}, {"start": 34, "end": 49, "type": "PHONE"}]}
+{"text": "मेरा ऑर्डर ORD934988 कब आएगा? कल तक आना था।", "spans": []}
+{"text": "Seller GSTIN 07PJEPY2346W5ZL, contact rahulpatel@example.org, Rs 373 for 11 blue kurta.", "spans": [{"start": 13, "end": 28, "type": "GSTIN"}, {"start": 38, "end": 60, "type": "EMAIL"}]}
+{"text": "Please send the invoice to amit.sharma32@example.org for blue kurta, total Rs 362.", "spans": [{"start": 27, "end": 52, "type": "EMAIL"}]}
+{"text": "Reach the owner, Arjun Gupta, on +918292054297 or ravisingh59@example.net.", "spans": [{"start": 17, "end": 28, "type": "NAME"}, {"start": 33, "end": 46, "type": "PHONE"}, {"start": 50, "end": 73, "type": "EMAIL"}]}
+{"text": "PAN CPEPR4877V is on the GST invoice, can you confirm it?", "spans": [{"start": 4, "end": 14, "type": "PAN"}]}
+{"text": "Reference 866750863301 was issued by the courier for return pickup.", "spans": []}
+{"text": "Please change my delivery address to House No. 110, Sector 14, Nagpur, 440001.", "spans": [{"start": 37, "end": 77, "type": "ADDRESS"}]}
+{"text": "Ship it to Anjali Mehta, Flat 65, Sector 14, Jaipur 302001. Contact +916112821948.", "spans": [{"start": 11, "end": 23, "type": "NAME"}, {"start": 25, "end": 58, "type": "ADDRESS"}, {"start": 68, "end": 81, "type": "PHONE"}]}
+{"text": "blue kurta bahut badhiya hai, delivery fast thi, dobara lunga.", "spans": []}
+{"text": "My Aadhaar is 6511 9255 2472, please update the KYC for my account.", "spans": [{"start": 14, "end": 28, "type": "AADHAAR"}]}
+{"text": "Supplier ka GSTIN 08ZTPPL1279Y4ZI, mail rahul_patel@example.net, 3 cotton bedsheet ke Rs 2519.", "spans": [{"start": 18, "end": 33, "type": "GSTIN"}, {"start": 40, "end": 63, "type": "EMAIL"}]}
+{"text": "Delivery House No. 101, Sector 14, Kochi, 682001 pe karna, ghar pe na mile to 9720955981 pe call karna.", "spans": [{"start": 9, "end": 48, "type": "ADDRESS"}, {"start": 78, "end": 88, "type": "PHONE"}]}
+{"text": "Suresh Chauhan here, email priyajoshi@example.com, phone +91 61922 37109. My cotton bedsheet arrived damaged.", "spans": [{"start": 0, "end": 14, "type": "NAME"}, {"start": 27, "end": 49, "type": "EMAIL"}, {"start": 57, "end": 72, "type": "PHONE"}]}
+{"text": "Checkout pe coupon VKABM9929P lagao, 10 percent off milega.", "spans": []}
+{"text": "Pickup scheduled for order ORD647223, courier reference 8061210343.", "spans": []}
+{"text": "Aadhaar 411936211641 and PAN CWVPF3586R attached for the loan form of Kavita Singh.", "spans": [{"start": 8, "end": 20, "type": "AADHAAR"}, {"start": 29, "end": 39, "type": "PAN"}, {"start": 70, "end": 82, "type": "NAME"}]}
