@@ -1,0 +1,133 @@
+{
+  "issue": "ekido #29 baseline matrix (zero-shot base models, recipe prompts)",
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "run_at": "2026-11-17T17:14:33+00:00",
+  "recipes": {
+    "ticket-sorter-hinglish": {
+      "floor": 0.8,
+      "models": {
+        "Qwen/Qwen2.5-0.5B-Instruct": {
+          "pass_rate": 0.35,
+          "score": 0.35,
+          "base_beats_floor": false,
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "device": "cuda",
+          "seconds": 13.2,
+          "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29"
+        },
+        "Qwen/Qwen2.5-1.5B-Instruct": {
+          "pass_rate": 0.65,
+          "score": 0.65,
+          "base_beats_floor": false,
+          "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "device": "cuda",
+          "seconds": 18.9,
+          "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29"
+        }
+      },
+      "metric": "accuracy",
+      "examples": 100
+    },
+    "invoice-fields": {
+      "floor": 0.7,
+      "models": {
+        "Qwen/Qwen2.5-0.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.6960000000000001,
+          "base_beats_floor": false,
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "device": "cuda",
+          "seconds": 129.2,
+          "eval_set_hash": "9a4e56fd1354828ab0114bbb477ddc06ec4c01b747e83cfc94a8115159b8adb3"
+        },
+        "Qwen/Qwen2.5-1.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.696,
+          "base_beats_floor": false,
+          "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "device": "cuda",
+          "seconds": 207.2,
+          "eval_set_hash": "9a4e56fd1354828ab0114bbb477ddc06ec4c01b747e83cfc94a8115159b8adb3"
+        }
+      },
+      "metric": "field_f1",
+      "examples": 50
+    },
+    "product-descriptions": {
+      "floor": 0.6,
+      "models": {
+        "Qwen/Qwen2.5-0.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.09601481314218417,
+          "base_beats_floor": false,
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "device": "cuda",
+          "seconds": 226.3,
+          "eval_set_hash": "e2da2fd478f8ad25795a574c53439b7f0770e935272e1d7b0179b65d3b54b11e"
+        },
+        "Qwen/Qwen2.5-1.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.10751178946590062,
+          "base_beats_floor": false,
+          "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "device": "cuda",
+          "seconds": 279.1,
+          "eval_set_hash": "e2da2fd478f8ad25795a574c53439b7f0770e935272e1d7b0179b65d3b54b11e"
+        }
+      },
+      "metric": "rouge_l",
+      "examples": 60
+    },
+    "faq-bot-hinglish": {
+      "floor": 0.6,
+      "models": {
+        "Qwen/Qwen2.5-0.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.04325039245895778,
+          "base_beats_floor": false,
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "device": "cuda",
+          "seconds": 266.6,
+          "eval_set_hash": "9c62a5fe1095cd4f5462c0f3041ec8bf1834dfccfcbd0807bbbc4b1c134a64ea"
+        },
+        "Qwen/Qwen2.5-1.5B-Instruct": {
+          "pass_rate": 0.0,
+          "score": 0.04813127237566533,
+          "base_beats_floor": false,
+          "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "device": "cuda",
+          "seconds": 340.0,
+          "eval_set_hash": "9c62a5fe1095cd4f5462c0f3041ec8bf1834dfccfcbd0807bbbc4b1c134a64ea"
+        }
+      },
+      "metric": "rouge_l",
+      "examples": 60
+    },
+    "review-sentiment": {
+      "floor": 0.8,
+      "models": {
+        "Qwen/Qwen2.5-0.5B-Instruct": {
+          "pass_rate": 0.51,
+          "score": 0.51,
+          "base_beats_floor": false,
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "device": "cuda",
+          "seconds": 12.8,
+          "eval_set_hash": "e2ad8e2df78d665c5d6b1ed61d00c9b8aa692d729f035ffac7f2c3a2d9c82a25"
+        },
+        "Qwen/Qwen2.5-1.5B-Instruct": {
+          "pass_rate": 0.8,
+          "score": 0.8,
+          "base_beats_floor": true,
+          "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "device": "cuda",
+          "seconds": 18.0,
+          "eval_set_hash": "e2ad8e2df78d665c5d6b1ed61d00c9b8aa692d729f035ffac7f2c3a2d9c82a25"
+        }
+      },
+      "metric": "accuracy",
+      "examples": 100
+    }
+  }
+}

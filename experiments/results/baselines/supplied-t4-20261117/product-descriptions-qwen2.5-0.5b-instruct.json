@@ -1,0 +1,17 @@
+{
+  "recipe_id": "product-descriptions",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cuda",
+  "metric": "rouge_l",
+  "examples": 60,
+  "eval_set_hash": "e2da2fd478f8ad25795a574c53439b7f0770e935272e1d7b0179b65d3b54b11e",
+  "score": 0.09601481314218417,
+  "pass_rate": 0.0,
+  "seconds": 226.3,
+  "run_at": "2026-11-17T17:14:33+00:00",
+  "timestamp_scope": "aggregate_completed_at",
+  "source": "source-t4-20261117.json",
+  "source_sha256": "960c19facb958a0f95892e20bcf42917f096376c0a5a42711cd16459b0d2fd1d",
+  "record_kind": "derived_from_supplied_aggregate"
+}

@@ -1,0 +1,17 @@
+{
+  "recipe_id": "review-sentiment",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cuda",
+  "metric": "accuracy",
+  "examples": 100,
+  "eval_set_hash": "e2ad8e2df78d665c5d6b1ed61d00c9b8aa692d729f035ffac7f2c3a2d9c82a25",
+  "score": 0.51,
+  "pass_rate": 0.51,
+  "seconds": 12.8,
+  "run_at": "2026-11-17T17:14:33+00:00",
+  "timestamp_scope": "aggregate_completed_at",
+  "source": "source-t4-20261117.json",
+  "source_sha256": "960c19facb958a0f95892e20bcf42917f096376c0a5a42711cd16459b0d2fd1d",
+  "record_kind": "derived_from_supplied_aggregate"
+}

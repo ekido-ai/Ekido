@@ -1,0 +1,17 @@
+{
+  "recipe_id": "ticket-sorter-hinglish",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "device": "cuda",
+  "metric": "accuracy",
+  "examples": 100,
+  "eval_set_hash": "6cde355819a157aff27ddc281d148e14fb5fad454a2ea583076a51178f663c29",
+  "score": 0.65,
+  "pass_rate": 0.65,
+  "seconds": 18.9,
+  "run_at": "2026-11-17T17:14:33+00:00",
+  "timestamp_scope": "aggregate_completed_at",
+  "source": "source-t4-20261117.json",
+  "source_sha256": "960c19facb958a0f95892e20bcf42917f096376c0a5a42711cd16459b0d2fd1d",
+  "record_kind": "derived_from_supplied_aggregate"
+}
