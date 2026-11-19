@@ -41,8 +41,19 @@ was checked. The exact control script has SHA-256
 
 The follow-up saved the Q4 and Q8 GGUF files in the private
 [Kaggle run](https://www.kaggle.com/code/vaibhavthegoat/ekido-gguf-comparison);
-their sizes and SHA-256 hashes are in `control-run/summary.json`. A separate
-raw-prompt diagnostic is running to investigate whether conversation-mode
-formatting contributes to the inference gap. Neither quantized score is within
-the original 0.05 tolerance against the trainer; do not treat this as a passing
-export quality gate.
+their sizes and SHA-256 hashes are in `control-run/summary.json`.
+Both files were also downloaded to the workspace and their SHA-256 hashes
+matched the control-run summary; the large weights are not committed to Git.
+
+## Raw-prompt diagnostic
+
+The `raw-diagnostic/` run scored those same Q4 and Q8 files using
+`llama-completion` with conversation mode and prompt display disabled. Q4
+scored 79/100 and Q8 scored 83/100, compared with 82/100 for merged Hugging
+Face: differences of -0.03 and +0.01, both within the predeclared 0.05
+absolute tolerance. The Q4 score remains below the recipe's 0.80 floor. The
+diagnostic uses a different executable and flags from the original
+`llama-cli` run, so it establishes a better matching inference path rather than
+isolating one flag as the sole cause. All 200 stored answers and the model and
+test-set hashes were checked. Its exact executed script has SHA-256
+`5c0d3bc8a6d5936c4eb0e08d70ec406265c47da81892bd701b483cd27c6e9636`.
