@@ -27,7 +27,22 @@ differences were independently recomputed from the stored answers.
 Neither quantized result meets the stated tolerance. This comparison changes
 both representation and inference runtime, so it does not isolate quantization
 as the cause of the score loss. The test set has been reused in earlier runs.
-The first run stored the model hashes but did not retain the large GGUF files;
-a follow-up is evaluating merged Hugging Face and F16 controls and retaining
-the Q4/Q8 files. Do not treat this initial comparison as a successful export
-quality gate.
+The first run stored the model hashes but did not retain the large GGUF files.
+
+## Follow-up controls
+
+The `control-run/` directory records a second run of the same checkpoint and
+test set. The merged Hugging Face model scored 0.82, matching the trainer.
+F16 GGUF scored 0.74, Q4_K_M scored 0.71 and Q8_0 scored 0.76. Thus, a score
+gap is present even before quantization when using the llama.cpp inference
+path. All 400 stored answers were rescored and the evaluation-set identity
+was checked. The exact control script has SHA-256
+`1fa2e9ca8a2e9bed586630ba1a000e4cc157d4a02c044458f0fe6ff9cff4b39f`.
+
+The follow-up saved the Q4 and Q8 GGUF files in the private
+[Kaggle run](https://www.kaggle.com/code/vaibhavthegoat/ekido-gguf-comparison);
+their sizes and SHA-256 hashes are in `control-run/summary.json`. A separate
+raw-prompt diagnostic is running to investigate whether conversation-mode
+formatting contributes to the inference gap. Neither quantized score is within
+the original 0.05 tolerance against the trainer; do not treat this as a passing
+export quality gate.
