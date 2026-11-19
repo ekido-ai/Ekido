@@ -28,6 +28,28 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
         run: python .github/scripts/pr_report.py
+      # Commits and PRs carry no AI-tool credit lines. A squash merge copies every commit message into main, so one
+      # stray trailer in a branch ends up in the permanent history; this stops it before the merge.
+      - name: No AI tool credit in commits or description
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          pattern='co-authored-by:.*(claude|anthropic)|noreply@anthropic\.com|generated with \[?claude|claude\.ai/code'
+          found=0
+          if printf '%s' "$PR_BODY" | grep -Eiq "$pattern"; then
+            echo "::error::The PR description credits an AI tool. Remove that line."
+            found=1
+          fi
+          gh api "repos/$REPO/pulls/$PR/commits" --paginate \
+            --jq '.[] | .sha[0:7] + " " + (.commit.message | gsub("\n"; " ")) + " <" + .commit.author.email + "> <" + .commit.committer.email + ">"' > commits.txt
+          if grep -Ei "$pattern" commits.txt; then
+            echo "::error::A commit above credits an AI tool. Reword it (git commit --amend, or git rebase -i for older ones) and push again."
+            found=1
+          fi
+          exit $found
 
   title:
     name: Conventional PR title
