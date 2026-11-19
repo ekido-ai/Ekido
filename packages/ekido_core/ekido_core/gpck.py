@@ -13,7 +13,6 @@ Requires torch and safetensors.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -23,35 +22,26 @@ import torch
 from safetensors import SafetensorError, safe_open
 from safetensors.torch import save_file
 
-from . import jobkeys
 from .canonical import document_hash
+# The encrypted-file helpers live in checkpoint_crypto (no torch), so the agent and verifier can use them; re-exported here.
+from .checkpoint_crypto import (  # noqa: F401
+    CIPHERTEXT_SUFFIX,
+    DEFAULT_MAX_FILE_BYTES,
+    ENCRYPTION,
+    FORMAT_V2,
+    OPTIMIZER_FILE,
+    TRAINABLE_FILE,
+    CheckpointError,
+    check_stored_blob,
+    ciphertext_name,
+    decrypt_checkpoint_files,
+    encrypt_file,
+    sha256_file,
+)
 
 FORMAT = "GPCK/1"
-FORMAT_V2 = "GPCK/2"
-ENCRYPTION = "age-v1"
-CIPHERTEXT_SUFFIX = ".age"
-TRAINABLE_FILE = "trainable.safetensors"
-OPTIMIZER_FILE = "optimizer.safetensors"
 MANIFEST_FILE = "manifest.json"
 OPTIMIZER_FIELDS = ("exp_avg", "exp_avg_sq", "step")
-DEFAULT_MAX_FILE_BYTES = 512 * 1024 * 1024
-
-
-class CheckpointError(ValueError):
-    """The checkpoint must be refused. `code` matches the quality report's reason codes."""
-
-    def __init__(self, code: str, message: str):
-        super().__init__(f"{code}: {message}")
-        self.code = code
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with open(path, "rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
 
 def _write_durable(tensors: dict[str, torch.Tensor], path: Path) -> None:
     save_file(tensors, str(path))
@@ -81,23 +71,6 @@ def optimizer_state_to_tensors(optimizer: torch.optim.Optimizer, names: Mapping[
     return tensors
 
 
-def ciphertext_name(name: str) -> str:
-    """Where a file's encrypted copy is stored next to it: `trainable.safetensors` becomes `trainable.safetensors.age`."""
-    return name + CIPHERTEXT_SUFFIX
-
-
-def _encrypt_file(plain: Path, recipient: str) -> Path:
-    """Encrypts `plain` to `recipient` into `<name>.age`, writing a temporary file first so a crash leaves no half file."""
-    target = plain.with_name(ciphertext_name(plain.name))
-    temp = target.with_name(target.name + ".tmp")
-    with open(plain, "rb") as reader, open(temp, "wb") as writer:
-        jobkeys.encrypt_stream(reader, writer, recipient)
-        writer.flush()
-        os.fsync(writer.fileno())
-    os.replace(temp, target)
-    return target
-
-
 def write_checkpoint(directory: Path, trainable: dict[str, torch.Tensor], optimizer_tensors: dict[str, torch.Tensor], manifest: dict,
                      recipient: str | None = None) -> dict:
     """Writes tensors, then the manifest last. Returns the completed, unsigned manifest.
@@ -124,7 +97,7 @@ def write_checkpoint(directory: Path, trainable: dict[str, torch.Tensor], optimi
         completed["format"] = FORMAT_V2
         completed["files"] = {}
         for plain in (trainable_path, optimizer_path):
-            stored = _encrypt_file(plain, recipient)
+            stored = encrypt_file(plain, recipient)
             completed["files"][plain.name] = {
                 "sha256": sha256_file(stored), "bytes": stored.stat().st_size,
                 "plaintext_sha256": sha256_file(plain), "plaintext_bytes": plain.stat().st_size, "encryption": ENCRYPTION,
@@ -176,57 +149,6 @@ def _check_file(directory: Path, name: str, manifest: dict, max_bytes: int) -> P
     return path
 
 
-def check_stored_blob(path: Path, entry: dict, max_bytes: int = DEFAULT_MAX_FILE_BYTES) -> None:
-    """Check an encrypted blob against its manifest entry (`sha256` and `bytes` of the stored bytes), before decrypting it."""
-    path = Path(path)
-    if not path.is_file():
-        raise CheckpointError("MALFORMED_CHECKPOINT", f"{path.name} is missing")
-    size = path.stat().st_size
-    if size > max_bytes:
-        raise CheckpointError("MALFORMED_CHECKPOINT", f"{path.name} is {size} bytes, over the {max_bytes} limit")
-    if size != entry.get("bytes") or sha256_file(path) != entry.get("sha256"):
-        raise CheckpointError("HASH_MISMATCH", f"{path.name} differs from the manifest")
-
-
-def decrypt_checkpoint_files(source: Path, manifest: dict, identity: str, target: Path, max_bytes: int = DEFAULT_MAX_FILE_BYTES) -> dict[str, Path]:
-    """Decrypt a GPCK/2 checkpoint's blobs from `source` (`<name>.age` files) into plaintext tensor files in `target`.
-
-    Each blob is checked against the manifest before it is decrypted and each result is checked against the manifest's plaintext
-    hash after, so neither a swapped blob nor a manifest that lies about the content is accepted. A wrong key or a damaged blob is
-    refused. Nothing is left in `target` for a file that fails. The identity is used only here and never written anywhere.
-    """
-    if manifest.get("format") != FORMAT_V2:
-        raise CheckpointError("MALFORMED_CHECKPOINT", "only a GPCK/2 manifest describes encrypted files")
-    files = manifest.get("files")
-    if not isinstance(files, dict) or set(files) != {TRAINABLE_FILE, OPTIMIZER_FILE}:
-        raise CheckpointError("MALFORMED_CHECKPOINT", "a checkpoint needs exactly the trainable and optimizer files")
-    source, target = Path(source), Path(target)
-    target.mkdir(parents=True, exist_ok=True)
-    written: dict[str, Path] = {}
-    try:
-        for name in (TRAINABLE_FILE, OPTIMIZER_FILE):
-            entry = files[name]
-            if not isinstance(entry, dict) or entry.get("encryption") != ENCRYPTION:
-                raise CheckpointError("MALFORMED_CHECKPOINT", f"{name} is not marked as encrypted")
-            blob = source / ciphertext_name(name)
-            check_stored_blob(blob, entry, max_bytes)
-            temp = target / (name + ".tmp")
-            try:
-                with open(blob, "rb") as reader, open(temp, "wb") as writer:
-                    jobkeys.decrypt_stream(reader, writer, identity)
-            except jobkeys.JobKeyError as exc:
-                temp.unlink(missing_ok=True)
-                raise CheckpointError("DECRYPT_FAILED", f"{name} could not be decrypted: wrong key or damaged data") from exc
-            if temp.stat().st_size != entry.get("plaintext_bytes") or sha256_file(temp) != entry.get("plaintext_sha256"):
-                temp.unlink(missing_ok=True)
-                raise CheckpointError("HASH_MISMATCH", f"{name} decrypts to something other than the manifest describes")
-            os.replace(temp, target / name)
-            written[name] = target / name
-    except Exception:
-        for path in written.values():
-            path.unlink(missing_ok=True)
-        raise
-    return written
 
 
 def _expected_dtype(name: str, dtype: torch.dtype) -> torch.dtype:

@@ -5,8 +5,8 @@ import re
 CHECKPOINT_FILENAMES = frozenset(("trainable.safetensors", "optimizer.safetensors"))
 MAX_FILE_BYTES = 512 * 1024 * 1024
 SHA256 = re.compile(r"[0-9a-f]{64}")
-FORMAT_V1, FORMAT_V2 = "GPCK/1", "GPCK/2"
-ENCRYPTION = "age-v1"
+from .checkpoint_crypto import ENCRYPTION, FORMAT_V2
+FORMAT_V1 = "GPCK/1"
 
 
 def _sized(entry: dict, name: str, hash_key: str, size_key: str) -> None:

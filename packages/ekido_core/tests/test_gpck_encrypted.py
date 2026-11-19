@@ -84,6 +84,25 @@ class WriteTests(Base):
         self.assertEqual(SCHEMA["properties"]["format"]["enum"], ["GPCK/1", "GPCK/2"])
 
 
+class TorchFreeTests(unittest.TestCase):
+    def test_the_agent_and_verifier_helpers_do_not_import_torch(self):
+        import os
+        import subprocess
+        import sys
+
+        code = "import sys; import ekido_core.checkpoint_crypto, ekido_core.checkpoint_files, ekido_core.jobkeys; assert 'torch' not in sys.modules, 'torch was imported'"
+        env = dict(os.environ, PYTHONPATH=str(Path(__file__).resolve().parents[1]))
+        done = subprocess.run([sys.executable, "-c", code], env=env, capture_output=True, text=True)
+        self.assertEqual(done.returncode, 0, done.stderr)
+
+    def test_gpck_still_exposes_the_same_names(self):
+        for name in ("CheckpointError", "sha256_file", "ciphertext_name", "decrypt_checkpoint_files", "check_stored_blob", "write_checkpoint", "load_checkpoint"):
+            self.assertTrue(hasattr(gpck, name), name)
+        from ekido_core import checkpoint_crypto
+
+        self.assertIs(gpck.CheckpointError, checkpoint_crypto.CheckpointError)  # one error class, wherever it is imported from
+
+
 class ReadTests(Base):
     def test_checkpoint_files_reads_v1_and_v2_and_refuses_bad_entries(self):
         v2 = self.write()
