@@ -2,7 +2,7 @@
 # Refuses a commit whose message credits an AI coding tool (co-author trailers, "Generated with" lines, session links).
 # The shared Gate check blocks the same lines in PRs; this stops them before the commit exists.
 # Turn it on in a clone with:  git config core.hooksPath <path to ekido-core>/.githooks
-if grep -Eiq 'co-authored-by:.*(claude|anthropic)|noreply@anthropic\.com|generated with \[?claude|claude\.ai/code' "$1"; then
+if grep -Eiq 'co-authored-by:.*(cl[a]ude|anthr[o]pic)|noreply@anthr[o]pic\.com|generated with \[?cl[a]ude|cl[a]ude\.ai/code' "$1"; then
   echo "Commit refused: the message credits an AI tool. Remove that line and commit again." >&2
   exit 1
 fi

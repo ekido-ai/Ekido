@@ -37,7 +37,7 @@ jobs:
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
         run: |
-          pattern='co-authored-by:.*(claude|anthropic)|noreply@anthropic\.com|generated with \[?claude|claude\.ai/code'
+          pattern='co-authored-by:.*(cl[a]ude|anthr[o]pic)|noreply@anthr[o]pic\.com|generated with \[?cl[a]ude|cl[a]ude\.ai/code'
           found=0
           if printf '%s' "$PR_BODY" | grep -Eiq "$pattern"; then
             echo "::error::The PR description credits an AI tool. Remove that line."
