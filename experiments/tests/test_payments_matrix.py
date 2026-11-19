@@ -188,10 +188,12 @@ class CommandLine(unittest.TestCase):
 @unittest.skipUnless((PLATFORM / "ekido_platform" / "payments.py").exists(), "needs the ekido-platform checkout next to this repo, with its dependencies")
 class FullLocalRun(unittest.TestCase):
     def test_all_eight_cases_pass_against_the_real_platform_code(self):
+        driver = None
         try:
             driver = run_matrix.LocalDriver(str(PLATFORM))
         except SystemExit as exc:
             self.skipTest(str(exc))
+        assert driver is not None
         result = run_matrix.run_matrix(driver)
         for case in result["cases"]:
             self.assertTrue(case["passed"], f"case {case['id']}: {case['error']} {[k for k in case['checks'] if not k['ok']]}")
