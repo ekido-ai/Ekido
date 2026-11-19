@@ -5,3 +5,6 @@
 *.zip binary
 *.png binary
 *.safetensors binary
+
+# Shell hooks must keep LF endings, or sh can't run them on Linux and macOS.
+.githooks/* text eol=lf
