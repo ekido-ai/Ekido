@@ -24,15 +24,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'packages' / 'ekido_core'))
 from ekido_core.recipes import eval_set_hash, recipe  # noqa: E402
+from ekido_core.job_spec import MODEL_REVISIONS  # noqa: E402
 
 RECIPES = ('ticket-sorter-hinglish', 'invoice-fields', 'product-descriptions',
            'faq-bot-hinglish', 'review-sentiment')
-MODEL_REVISIONS = {
-    'Qwen/Qwen2.5-0.5B-Instruct': '7ae557604adf67be50417f59c2c2f167def9a775',
-    'Qwen/Qwen2.5-1.5B-Instruct': '989aa7980e4cf806f80c7fef2b1adb7bc71aa306',
-}
-
-
 def result_path(out: Path, recipe_id: str, model: str) -> Path:
     return out / f"{recipe_id}-{model.rsplit('/', 1)[-1].lower()}.json"
 

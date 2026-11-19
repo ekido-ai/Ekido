@@ -17,7 +17,13 @@ MAX_LR = 1e-2
 TEMPLATES = ("distilbert-lora-agnews/v1", "synthetic-linear/v1", "custom-python/v1", "llm-lora/v1")
 # Base models for llm-lora/v1: only ones whose licence allows commercial use, fine-tuning and derivatives (Apache-2.0).
 # Qwen2.5-3B is left out on purpose: its licence is not Apache-2.0.
-LLM_BASES = ("Qwen/Qwen2.5-0.5B-Instruct", "Qwen/Qwen2.5-1.5B-Instruct")
+MODEL_REVISIONS = {
+    "Qwen/Qwen2.5-0.5B-Instruct": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "Qwen/Qwen2.5-1.5B-Instruct": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+}
+LLM_BASES = tuple(MODEL_REVISIONS)
+MODEL_ALIASES = {model.rsplit('/', 1)[-1].lower(): (model, revision)
+                 for model, revision in MODEL_REVISIONS.items()}
 MAX_PROBATION_MARGIN = 0.15  # Wider than this, a mid-training check would stop catching real damage.
 POLICY_FIELDS = ("min_absolute", "non_inferiority_margin", "confidence", "bootstrap_resamples", "eval_set_hash", "eval_version_hash")
 
