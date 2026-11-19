@@ -14,7 +14,8 @@ uses the held-out product split introduced by #73, not the older split.
 | Review sentiment | 100 | 0.51 | 0.80 | 0.51 | 0.80 |
 
 Pass rate and mean metric are distinct: invoice uses field F1, product and FAQ
-use ROUGE-L, and the two classifiers use accuracy. The JSON files retain the
+use ROUGE-L, and the two classifiers use accuracy. The JSON files in the parent
+`experiments/results/baselines/` directory retain the
 unrounded scores, sample outputs, model revisions, timestamps, per-run timing,
 evaluation-set hashes and source hashes. A zero pass rate does not imply a
 zero mean F1 or ROUGE-L. The datasets are synthetic; these results do not
