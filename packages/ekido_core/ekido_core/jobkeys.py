@@ -132,17 +132,21 @@ def sha256_hex(data: bytes) -> str:
 class IdentityWrapper(Protocol):
     """Encrypts a job identity for storage, bound to its job id, and gets it back."""
 
-    def wrap(self, identity: str, job_id: str) -> bytes: ...
+    def wrap(self, identity: str, job_id: str) -> bytes:
+        """Return the identity encrypted for storage, bound to `job_id`."""
 
-    def unwrap(self, wrapped: bytes, job_id: str) -> str: ...
+    def unwrap(self, wrapped: bytes, job_id: str) -> str:
+        """Return the identity from `wrapped`; refuse a different `job_id`."""
 
 
 class KmsClient(Protocol):
     """The two AWS KMS calls we use (the same shape as boto3's `kms` client), so tests can pass a fake."""
 
-    def encrypt(self, **kwargs): ...
+    def encrypt(self, **kwargs):
+        """KMS Encrypt (KeyId, Plaintext, EncryptionContext) returning {"CiphertextBlob": ...}."""
 
-    def decrypt(self, **kwargs): ...
+    def decrypt(self, **kwargs):
+        """KMS Decrypt (CiphertextBlob, KeyId, EncryptionContext) returning {"Plaintext": ...}."""
 
 
 def _check_job_id(job_id: str) -> str:
