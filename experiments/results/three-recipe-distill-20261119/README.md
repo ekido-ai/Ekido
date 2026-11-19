@@ -17,6 +17,15 @@ Sentiment reached its floor on this test; invoice and FAQ did not. These are
 synthetic test sets, and teacher-generated labels were not independently
 hand-reviewed. The committed test sets have also been used in prior work.
 
+The reproducible literal audit in `audit_generated_quality.py` and
+`quality-audit.json` found at least one missing literal target value in all
+76 invoice inputs; all 76 were missing the exact invoice number and total.
+Among 90 FAQ inputs, 15 contained the complete target answer verbatim and 22
+contained a `New Question:` marker. These counts are specific checks, not a
+complete semantic label review. They expose unreliable targets and answer
+leakage and mean these generated invoice/FAQ rows should not be treated as
+clean training data.
+
 Each recipe directory retains the 30 selected seeds, the accepted generated
 rows and test rows (`student_dataset.jsonl`), student spec, generation
 settings and base/student evidence. The teacher's unfiltered/rejected text was
