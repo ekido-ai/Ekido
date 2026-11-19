@@ -38,3 +38,8 @@ fresh matrix run to record the actual worker source hash correctly. Each
 result's baseline, recipe and runtime fingerprints were independently checked
 against the exact archived source. The worker's later main revision changed
 distillation, not the inference file used by these runs.
+
+The fixed matrix runner was also run against these ten files with `--resume
+--dry-run` using the archived sources. All five dataset validators passed and
+the runner reported `0 commands planned; no model was run. 10 matching results
+reused.`
