@@ -4,7 +4,7 @@ from pathlib import Path
 
 from eth_utils import keccak
 
-from ekido_core import merkle, proofs
+from ekido_core import proofs
 from ekido_core.merkle import MerkleError, audit_path, leaf_hash, node_hash, root, verify_audit_path
 
 VECTORS = Path(__file__).resolve().parents[3] / "docs" / "schemas" / "vectors" / "proofs" / "merkle_vectors.json"
