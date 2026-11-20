@@ -98,7 +98,10 @@ def run_matrix(driver) -> dict:
             case.error = f"{type(exc).__name__}: {str(exc)[:300]}"
             recover = getattr(driver, "recover", None)
             if recover is not None:
-                recover()  # e.g. roll back a database transaction the failure left open, so the next case can run
+                try:
+                    recover()
+                except Exception:  # a recovery that fails must not stop the other cases from running
+                    pass  # e.g. roll back a database transaction the failure left open, so the next case can run
 
     held = {}
 
