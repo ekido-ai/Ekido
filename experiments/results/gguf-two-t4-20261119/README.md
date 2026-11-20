@@ -57,3 +57,22 @@ diagnostic uses a different executable and flags from the original
 isolating one flag as the sole cause. All 200 stored answers and the model and
 test-set hashes were checked. Its exact executed script has SHA-256
 `5c0d3bc8a6d5936c4eb0e08d70ec406265c47da81892bd701b483cd27c6e9636`.
+
+## Merged worker helper verification
+
+The `helper-verification/` run independently invoked the actual worker helper
+merged in [workers PR #17](https://github.com/ekido-ai/ekido-workers/pull/17)
+on both saved GGUF files and the same reused synthetic test set. Its source
+SHA-256 was `c993361d3718b4d14d2644185459c936ec69725f7de4576a674b10f5314ba556`,
+matching the merged worker source. Q4 scored 79/100 and Q8 83/100; all 200
+answers match the raw-prompt diagnostic exactly. The Q4 score is still below
+the 0.80 quality floor, even though both scores are within the predeclared
+0.05 comparison tolerance. These synthetic results do not establish accuracy
+on independent or customer data.
+
+The exact executed notebook `helper-verification/run.py` was pulled from the
+private Kaggle run and has SHA-256
+`a63d5ce13ded59fa427322b87a364f80044855a3bde3bda016f65b577f6493c7`.
+Run `python experiments/results/gguf-two-t4-20261119/helper-verification/audit.py`
+from the repository root to verify the saved predictions, scores, model and
+test-set hashes against the earlier diagnostic and current recipe scorer.
