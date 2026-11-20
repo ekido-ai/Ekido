@@ -15,5 +15,6 @@ labels are correct. The candidate needs independent human label review and an
 agreed interpretation of mixed sentiment before use in a quality gate.
 
 This is supplementary AI-written data, not the current `test.csv` and not
-customer data. Existing results do not apply to this set; no model evaluation
-is claimed here.
+customer data. Existing results do not apply to this set. A separate,
+exploratory checkpoint and base comparison is recorded in
+`experiments/results/mixed-sentiment-20261120/`.
