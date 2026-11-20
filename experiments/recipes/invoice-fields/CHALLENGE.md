@@ -24,5 +24,9 @@ This is generated from five layouts, with repetitive labels and no human-written
 or customer invoices. It is a supplementary candidate, **not** the current
 `test.csv`, a replacement quality gate, or evidence of production accuracy.
 Existing baseline and training results refer to the original test set; they
-must not be attributed to this challenge. A new evaluation and an agreed
-normalisation contract are required before considering it for a quality gate.
+must not be attributed to this challenge. An exploratory evaluation of a
+saved checkpoint and its base is recorded under
+`experiments/results/invoice-challenge-20261120/`; it uses an explicit
+normalisation instruction, which differs from the current recipe prompt.
+An agreed normalisation contract and independent human-written examples are
+needed before considering this challenge for a quality gate.
