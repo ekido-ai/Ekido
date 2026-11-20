@@ -25,7 +25,6 @@ from safetensors.torch import save_file
 from .canonical import document_hash
 # The encrypted-file helpers live in checkpoint_crypto (no torch), so the agent and verifier can use them; re-exported here.
 from .checkpoint_crypto import (  # noqa: F401
-    CIPHERTEXT_SUFFIX,
     DEFAULT_MAX_FILE_BYTES,
     ENCRYPTION,
     FORMAT_V2,
