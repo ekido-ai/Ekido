@@ -32,9 +32,9 @@ set, so the 3-point difference says nothing about which setup is better.
 | --- | --- |
 | `run_a.py`, `run_b.py` | The exact Kaggle scripts. Each embeds the same hash-checked source snapshot as `../two-t4-fault-20261119/run.py` (archive SHA-256 `cac28f7c8221f5c1e239f788a8eaa07120f7050e9acce75ee176365433a97bf9`, core `0a9db037170024a1f32748e0b5dcbe14a1a88a3a`, workers `74bf4e753ab30f4ce3b88a577a16b425c6fac923`) |
 | `run_a_summary.json` | Session A: GPU list, GPU used, kill step and time, checkpoint manifest and dataset SHA-256 |
-| `before-kill.log` | Session A's training log, steps 1 to 105 |
+| `before-kill.txt` | Session A's training log, steps 1 to 105 |
 | `fault-summary.json` | Session B: the checks against A, the two GPU UUIDs, steps lost, session-B timings, final score |
-| `after-resume.log` | Session B's log, from "resumed at logical step 80" to step 400 and the final score |
+| `after-resume.txt` | Session B's log, from "resumed at logical step 80" to step 400 and the final score |
 | `train-evidence.json` | Session B's trainer evidence, including the evaluation and its floor |
 | `spec.json`, `exec-config.json`, `dataset.jsonl` | The unchanged job, execution settings and dataset |
 
