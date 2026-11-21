@@ -33,9 +33,15 @@ longer jobs and different checkpoint frequencies may produce different rates.
 The last column is arithmetic: `1,000,000 / measured_non_padding_tokens_per_second`.
 For an independently sourced hourly rate `R` in a chosen currency, the
 corresponding training-loop amount would be `(R / 3600) * GPU_seconds_per_million`,
-before any billing minimum, taxes, loading, retries or other overhead. No
-actual hourly tariff was established for this Kaggle run, so no monetary cost
-is claimed. No RTX 3060 measurements are present; the issue is not complete.
+before any billing minimum, taxes, loading, retries or other overhead. As an
+illustration, the [Google Cloud T4 price](https://cloud.google.com/products/compute/gpus-pricing?hl=en)
+for Iowa (us-central1), retrieved 21 November 2026, was $0.35 per GPU-hour.
+Applying that rate to these measured loops gives $0.1386–$0.7274 per million
+non-padding tokens; the per-run calculations are in
+`illustrative-gcp-t4-estimate.json`. This is a GPU-only example excluding VM,
+storage, networking, taxes, loading, evaluation and retries; it is neither a
+Kaggle bill nor an Ekido provider price. No RTX 3060 measurements are present;
+the issue is not complete.
 
 The `t4-20261121/` directory retains the execution log, exact pulled notebook,
 per-run dataset, spec, evidence and checkpoint manifest. The full checkpoint

@@ -8,6 +8,7 @@ import json
 import math
 import sys
 import tarfile
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -78,7 +79,14 @@ def main():
                 assert math.isclose(metrics["non_padding_tokens_per_second"],
                                     metrics["non_padding_tokens"] / metrics["seconds"], rel_tol=1e-12)
                 print(f"{key}: {metrics['non_padding_tokens_per_second']:.2f} tokens/s; {metrics['seconds']:.2f}s")
-    print("PASS: 10 dataset identities, manifests, measurements and arithmetic")
+    estimate = load(HERE / "illustrative-gcp-t4-estimate.json")
+    assert estimate["gpu_hourly_rate"] == "0.35" and estimate["region"] == "us-central1"
+    values = estimate["estimated_gpu_only_usd_per_million_tokens"]
+    assert values.keys() == summary["runs"].keys()
+    for key, run in summary["runs"].items():
+        amount = Decimal("0.35") * Decimal(1_000_000) * Decimal(str(run["seconds"])) / (Decimal(3600) * Decimal(run["non_padding_tokens"]))
+        assert values[key] == str(amount.quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
+    print("PASS: 10 dataset identities, manifests, measurements and arithmetic, including illustrative costs")
 
 
 if __name__ == "__main__":
